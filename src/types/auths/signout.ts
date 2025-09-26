@@ -1,5 +1,6 @@
-// 로그아웃 성공 응답(200)
+// src/types/auths/signout.ts
 
-export interface SignoutSuccessResponse {
+// 로그아웃 성공 응답(200)
+export interface SignoutResponse  {
   message: string; // "로그아웃 성공"
 }

@@ -1,4 +1,5 @@
 // src/types/gatherings/leave.ts
+
 // 모임 참여 취소 성공
 export interface LeaveGatheringResponse {
   message: "모임을 참여 취소했습니다";

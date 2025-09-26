@@ -1,3 +1,5 @@
+// src/types/auths/signup.ts
+
 // ✅ 회원가입 요청
 export interface SignupRequest {
   email: string;

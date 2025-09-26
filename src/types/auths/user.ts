@@ -1,17 +1,19 @@
+// src/types/auths/user.ts
+
 // 공통: 회원 정보 모델
-export interface UserInfo {
-  id: number;
+export interface GetUserResponse  {
+  id: string;
   email: string;
   name: string;
   companyName: string;
   image: string;
   createdAt: string; // ISO 8601 날짜
   updatedAt: string; // ISO 8601 날짜
-  teamId?: number;   // GET 응답에만 포함됨
+  teamId?: string;   // GET 응답에만 포함됨
 }
 
 // GET /auths/user - 회원 정보 반환 성공 (200)
-export type UserInfoResponse = UserInfo & { teamId: number };
+export type UserInfoResponse = GetUserResponse  & { teamId: number };
 
 // PUT /auths/user - 회원 정보 수정 요청 (multipart/form-data)
 export interface UpdateUserRequest {
@@ -20,7 +22,7 @@ export interface UpdateUserRequest {
 }
 
 // PUT /auths/user - 회원 정보 수정 성공 (200)
-export type UpdateUserResponse = UserInfo;
+export type UpdateUserResponse = GetUserResponse ;
 
 // 공통 에러 응답 (401, 404, 400)
 export interface UserErrorResponse {
