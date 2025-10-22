@@ -18,22 +18,6 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: [{ from: '../public/fonts', to: '/fonts' }],
-  viteFinal: async cfg => {
-    cfg.define = {
-      ...cfg.define,
-      'process.env.NEXT_PUBLIC_API_BASE_URL': JSON.stringify(
-        process.env.NEXT_PUBLIC_API_BASE_URL || 'https://stub.example.com',
-      ),
-      'process.env.NEXT_PUBLIC_TEAM_ID': JSON.stringify(process.env.NEXT_PUBLIC_TEAM_ID || 'UPDO'),
-      'import.meta.env.NEXT_PUBLIC_API_BASE_URL': JSON.stringify(
-        process.env.NEXT_PUBLIC_API_BASE_URL || 'https://stub.example.com',
-      ),
-      'import.meta.env.NEXT_PUBLIC_TEAM_ID': JSON.stringify(
-        process.env.NEXT_PUBLIC_TEAM_ID || 'UPDO',
-      ),
-    };
-    return cfg;
-  },
 };
 
 export default config;
