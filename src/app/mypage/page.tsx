@@ -7,7 +7,7 @@ import Icon from '@/components/ui/Icon';
 import Tab, { TabItem } from '@/components/ui/Tab';
 import { ConfirmModal } from '@/components/ui/Modal';
 import { useToast } from '@/components/ui/Toast';
-import Category, { CategoryItem } from '@/components/ui/Category';
+import Category from '@/components/ui/Category';
 
 import UserProfileCard from '@/components/feature/my/UserProfileCard';
 import EditProfileModal from '@/components/feature/my/EditProfileModal';
