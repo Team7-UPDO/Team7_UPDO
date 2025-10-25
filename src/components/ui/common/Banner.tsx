@@ -8,7 +8,7 @@ interface BannerProps {
 
 export const Banner = ({ title, description, imageSrc }: BannerProps) => {
   return (
-    <section className="flex h-[150px] w-full items-center overflow-hidden rounded-3xl bg-white px-4 sm:h-[215px] sm:px-6">
+    <section className="flex h-[192px] w-full items-center rounded-3xl bg-white px-4 sm:h-[244px] sm:px-6">
       <div className="flex w-[343px] gap-3 text-nowrap sm:w-[437px] sm:gap-7">
         <div className="relative h-[57px] w-[70px] shrink-0 sm:h-[83px] sm:w-[102px]">
           <Image src={imageSrc} alt="배너 이미지" width={201} height={103} />

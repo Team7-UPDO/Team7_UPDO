@@ -38,7 +38,7 @@ function CustomNav({ onPreviousClick, onNextClick, previousMonth, nextMonth }: N
         onClick={onPreviousClick}
         disabled={!previousMonth}
         aria-label="Go to previous month"
-        className="inline-flex h-10 w-10 items-center justify-center rounded-md text-purple-500 transition-colors">
+        className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-purple-500 transition-colors">
         <svg className="h-4 w-4 fill-current" viewBox="0 0 16 16" aria-hidden="true">
           <path
             d="M11 14 5 8l6-6"
@@ -57,7 +57,7 @@ function CustomNav({ onPreviousClick, onNextClick, previousMonth, nextMonth }: N
         onClick={onNextClick}
         disabled={!nextMonth}
         aria-label="Go to next month"
-        className="inline-flex h-10 w-10 items-center justify-center rounded-md text-purple-500 transition-colors">
+        className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-md text-purple-500 transition-colors">
         <svg className="h-4 w-4 fill-current" viewBox="0 0 16 16" aria-hidden="true">
           <path
             d="M5 14l6-6-6-6"
@@ -194,13 +194,13 @@ export const Calendar = ({
             week: 'flex w-full h-8',
             day: 'flex-1 flex justify-center items-center',
             day_button:
-              'w-full h-full p-0 typo-body-sm rounded-md transition-colors hover:bg-purple-500 hover:text-white aria-selected:hover:bg-purple-500 flex items-center justify-center ',
+              'w-full h-full p-0 typo-body-sm cursor-pointer rounded-md transition-colors hover:bg-purple-500 hover:text-white aria-selected:hover:bg-purple-500 flex items-center justify-center ',
             today: 'text-purple-500',
             disabled: 'text-gray-300 opacity-50 cursor-not-allowed',
             button_previous:
-              'h-10 w-10 inline-flex items-center justify-center rounded-md text-purple-500 transition-colors',
+              'h-10 w-10 cursor-pointer inline-flex items-center justify-center rounded-md text-purple-500 transition-colors',
             button_next:
-              'h-10 w-10 inline-flex items-center justify-center rounded-md text-purple-500 transition-colors',
+              'h-10 w-10 inline-flex cursor-pointer items-center justify-center rounded-md text-purple-500 transition-colors',
             chevron: 'fill-current w-4 h-4',
             footer: 'pt-1 mt-3',
           }}
@@ -211,6 +211,7 @@ export const Calendar = ({
           footer={
             variant === 'date' ? (
               <FooterBar
+                cancelLabel={cancelLabel}
                 primaryLabel="확인"
                 onPrimary={() => onConfirm(tempDate ?? value)}
                 onCancel={onCancel}
@@ -218,6 +219,7 @@ export const Calendar = ({
               />
             ) : (
               <FooterBar
+                cancelLabel={cancelLabel}
                 primaryLabel="다음"
                 onPrimary={() => {
                   if (tempDate) onNext?.(tempDate);
