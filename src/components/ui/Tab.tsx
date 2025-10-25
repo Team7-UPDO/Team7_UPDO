@@ -31,23 +31,29 @@ const tabItem = cva(
   },
 );
 
-export interface TabItem {
-  value: string;
+export interface TabItem<T extends string> {
+  value: T;
   label: string;
   icon?: 'category_tab1' | 'category_tab2' | undefined; // 아이콘 없는 경우
   disabled?: boolean;
   content?: React.ReactNode;
 }
 
-export interface TabProps extends VariantProps<typeof tabItem> {
-  items: TabItem[];
-  value: string;
-  onChange: (value: string) => void;
+export interface TabProps<T extends string> extends VariantProps<typeof tabItem> {
+  items: readonly TabItem<T>[];
+  value: T;
+  onChange: (value: T) => void;
   fullWidth?: boolean;
   className?: string;
 }
 
-const Tab: React.FC<TabProps> = ({ items, value, onChange, fullWidth = true, className }) => {
+const Tab = <T extends string>({
+  items,
+  value,
+  onChange,
+  fullWidth = true,
+  className,
+}: TabProps<T>) => {
   const [indicatorStyle, setIndicatorStyle] = React.useState({ width: 0, left: 0 });
   const tabRefs = React.useRef<Map<number, HTMLButtonElement>>(new Map());
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -98,7 +104,7 @@ const Tab: React.FC<TabProps> = ({ items, value, onChange, fullWidth = true, cla
     };
   }, [value, items]);
 
-  const handleClick = (val: string, disabled?: boolean) => {
+  const handleClick = (val: T, disabled?: boolean) => {
     if (!disabled) onChange(val);
   };
 
