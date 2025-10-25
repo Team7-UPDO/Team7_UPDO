@@ -51,7 +51,7 @@ export const formatDeadline = (isoString: string) => {
   return `${date.diff(now, 'day')}일 후 마감`;
 };
 
-export const isClosed = (isoString?: string) => {
+export const isClosed = (isoString?: string): boolean => {
   if (!isoString) return false;
   const date = dayjs.utc(isoString).tz('Asia/Seoul');
   const now = dayjs().tz('Asia/Seoul');

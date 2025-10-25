@@ -64,7 +64,7 @@ export default function Category({
             aria-selected={isActive}
             onClick={() => onChange(category.id, category.apiType)}
             className={cn(
-              'typo-sm flex cursor-pointer items-center justify-center rounded-[16px] px-4 py-2 select-none hover:opacity-90',
+              'typo-sm flex cursor-pointer items-center justify-center rounded-[16px] px-4 py-2 select-none hover:opacity-80',
               'md:typo-body text-white transition-all duration-200',
               isActive
                 ? 'eyebrow sm:typo-body-bold bg-[var(--color-purple-500)]'

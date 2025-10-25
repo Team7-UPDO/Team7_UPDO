@@ -24,7 +24,7 @@ import {
 import ReviewCardList from '@/components/feature/review/ReviewCardList';
 
 export type TabVariant = 'myMeetings' | 'myReviews' | 'created';
-const MYPAGETABS: (TabItem & { emptyMsg: string })[] = [
+const MYPAGETABS: (TabItem<string> & { emptyMsg: string })[] = [
   {
     value: 'myMeetings',
     label: '나의 모임',

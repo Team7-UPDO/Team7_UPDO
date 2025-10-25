@@ -65,7 +65,6 @@ export function TypeToTab(type: Type): Tab {
 export const tagLabelToLocation = (label: string) =>
   TAG_OPTIONS.find(t => t.label === label)?.location;
 
-// 정렬 라벨 → sortBy, sortOrder
 export const sortLabelToParams = (
   label: string,
 ): { sortBy?: 'dateTime' | 'registrationEnd' | 'participantCount'; sortOrder?: 'asc' | 'desc' } => {

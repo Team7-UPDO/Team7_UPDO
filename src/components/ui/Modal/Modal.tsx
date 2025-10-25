@@ -55,7 +55,7 @@ function Header({ title, onClose, className, titleClassName }: HeaderProps) {
         <button
           type="button"
           onClick={onClose}
-          className="-m-1 rounded p-1 text-gray-500 hover:text-gray-700"
+          className="-m-1 cursor-pointer rounded p-1 text-gray-500 hover:text-gray-700"
           aria-label="닫기">
           <Icon name="delete" />
         </button>
