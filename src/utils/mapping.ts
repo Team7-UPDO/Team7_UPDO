@@ -142,10 +142,10 @@ export function buildReviewFilters({
     filters.date = formatDateToLocalISO(selectedDate).slice(0, 10);
   }
 
-  const sortOption = SORT_OPTIONS.find(opt => opt.label === selectedFilter);
-  if (sortOption?.value === 'participantCount') {
-    filters.sortBy = 'participantCount';
-    filters.sortOrder = 'desc';
+  const { sortBy, sortOrder } = sortLabelToParams(selectedFilter);
+  if (sortBy) {
+    filters.sortBy = sortBy;
+    if (sortOrder) filters.sortOrder = sortOrder;
   }
 
   return filters;
