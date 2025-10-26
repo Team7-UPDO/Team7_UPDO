@@ -2,6 +2,7 @@
 
 import { useReviewFilters } from '@/hooks/useReviewFilters';
 import { useReviewScoresQuery } from '@/hooks/useReviewScoreQuery';
+import type { GetReviewScoresParams } from '@/types/reviews';
 import Tab from '@/components/ui/Tab';
 import Category from '@/components/ui/Category';
 import Dropdown from '@/components/ui/Dropdown';
