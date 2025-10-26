@@ -12,7 +12,7 @@ export default function GroupTab({ activeMain, handleMainChange }: GroupTabProps
   ] as const;
 
   return (
-    <div className="sm:mt-8">
+    <div className="mt-4 sm:mt-8">
       <Tab<'성장' | '네트워킹'> items={mainTabs} value={activeMain} onChange={handleMainChange} />
     </div>
   );

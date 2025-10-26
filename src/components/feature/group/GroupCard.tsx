@@ -89,7 +89,7 @@ export default function GroupCard({ data }: GroupCardProps) {
         className="contents"
         role="link"
         aria-label={`${name} 상세 페이지로 이동`}>
-        <article className="relative flex h-[346px] w-full max-w-[460px] flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all sm:h-[219px] sm:max-w-[1280px] sm:flex-row sm:rounded-2xl sm:p-6 md:max-w-[640px]">
+        <article className="relative flex h-[346px] w-full max-w-[650px] flex-col overflow-hidden rounded-xl bg-white transition-transform duration-300 hover:scale-105 hover:shadow-md sm:h-[219px] sm:max-w-[1280px] sm:flex-row sm:rounded-2xl sm:p-6 md:max-w-[640px]">
           <div className="relative h-[160px] w-full sm:h-[170px] sm:w-[170px] md:h-auto">
             {!image ? (
               <div className="flex h-full w-full items-center justify-center bg-gray-100 text-gray-400 sm:rounded-xl"></div>

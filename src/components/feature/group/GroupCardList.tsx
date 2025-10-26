@@ -1,6 +1,7 @@
 'use client';
 
 import GroupCard from './GroupCard';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -68,9 +69,17 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
           현재 등록된 모임이 없습니다.
         </span>
       ) : (
-        <div className="mx-auto flex flex-col items-center gap-6 md:grid md:grid-cols-2">
+        <div className="mx-auto flex flex-col gap-6 md:grid md:grid-cols-2">
           {gatherings.map(item => (
-            <GroupCard key={item.id} data={item} />
+            <motion.div
+              key={item.id}
+              className="h-full w-full"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ type: 'tween', ease: 'easeOut', duration: 0.4 }}>
+              <GroupCard data={item} />
+            </motion.div>
           ))}
           <div ref={ref} className="text-gray-500">
             {isFetchingNextPage ? '불러오는 중...' : hasNextPage}
