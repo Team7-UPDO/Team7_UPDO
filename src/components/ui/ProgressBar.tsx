@@ -6,9 +6,16 @@ interface ProgressBarProps {
   max: number;
   min: number;
   height?: string;
+  showLabel?: boolean;
 }
 
-export const ProgressBar = ({ current, max, min, height = '6px' }: ProgressBarProps) => {
+export const ProgressBar = ({
+  current,
+  max,
+  min,
+  height = '6px',
+  showLabel = true,
+}: ProgressBarProps) => {
   const percent = Math.min(100, (current / max) * 100);
   const minPercent = Math.min(100, (min / max) * 100);
 
@@ -20,17 +27,19 @@ export const ProgressBar = ({ current, max, min, height = '6px' }: ProgressBarPr
           style={{ width: `${percent}%` }}
         />
       </div>
-      <div
-        className="absolute top-3.5 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-        style={{ left: `calc(${minPercent}%` }}>
-        <div className="relative flex h-3 w-3 items-center justify-center">
-          <div className="absolute inset-0 rounded-full border border-[var(--color-pink-200)] bg-white shadow-sm"></div>
-          <div className="relative z-10 h-1 w-1 animate-ping rounded-full bg-[var(--color-pink-500)]"></div>
+      {showLabel && (
+        <div
+          className="absolute top-3.5 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
+          style={{ left: `${minPercent}%` }}>
+          <div className="relative flex h-3 w-3 items-center justify-center">
+            <div className="absolute inset-0 rounded-full border border-[var(--color-pink-200)] bg-white shadow-sm"></div>
+            <div className="relative z-10 h-1 w-1 animate-ping rounded-full bg-[var(--color-pink-500)]"></div>
+          </div>
+          <span className="text-[10px] font-bold text-nowrap text-[var(--color-pink-600)]">
+            개설 확정
+          </span>
         </div>
-        <span className="text-[10px] font-bold text-nowrap text-[var(--color-pink-600)]">
-          개설 확정
-        </span>
-      </div>
+      )}
     </div>
   );
 };

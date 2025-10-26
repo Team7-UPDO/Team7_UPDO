@@ -111,6 +111,46 @@ export function buildFilters({
     limit,
   };
 }
+
+export function buildReviewFilters({
+  activeMain,
+  activeSubType,
+  selectedTag,
+  selectedDate,
+  selectedFilter,
+}: {
+  activeMain: '성장' | '네트워킹';
+  activeSubType?: string;
+  selectedTag: string;
+  selectedDate?: Date;
+  selectedFilter: string;
+}): Record<string, string> {
+  const filters: Record<string, string> = {};
+
+  if (activeSubType) {
+    filters.type = activeSubType;
+  } else if (activeMain === '네트워킹') {
+    filters.type = 'WORKATION';
+  }
+
+  const location = selectedTag === '태그 전체' ? undefined : tagLabelToLocation(selectedTag);
+  if (location) {
+    filters.location = location;
+  }
+
+  if (selectedDate) {
+    filters.date = formatDateToLocalISO(selectedDate).slice(0, 10);
+  }
+
+  const { sortBy, sortOrder } = sortLabelToParams(selectedFilter);
+  if (sortBy) {
+    filters.sortBy = sortBy;
+    if (sortOrder) filters.sortOrder = sortOrder;
+  }
+
+  return filters;
+}
+
 export function toGetGatheringsParams(
   filters: FilterState,
 ): Record<string, string | number | boolean> {
