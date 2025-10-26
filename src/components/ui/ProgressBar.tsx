@@ -30,7 +30,7 @@ export const ProgressBar = ({
       {showLabel && (
         <div
           className="absolute top-3.5 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-          style={{ left: `calc(${minPercent}%` }}>
+          style={{ left: `${minPercent}%` }}>
           <div className="relative flex h-3 w-3 items-center justify-center">
             <div className="absolute inset-0 rounded-full border border-[var(--color-pink-200)] bg-white shadow-sm"></div>
             <div className="relative z-10 h-1 w-1 animate-ping rounded-full bg-[var(--color-pink-500)]"></div>
