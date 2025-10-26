@@ -17,11 +17,17 @@ interface ReviewCardListProps {
   variants: 'my' | 'all';
   userId?: number;
   emptyMsg: string;
+  filters?: Record<string, string>;
 }
 
 type Page = { data: IReviewWithRelations[]; nextPage?: number };
 
-export default function ReviewCardList({ variants, userId, emptyMsg }: ReviewCardListProps) {
+export default function ReviewCardList({
+  variants,
+  userId,
+  emptyMsg,
+  filters,
+}: ReviewCardListProps) {
   const containerClassname = cn(
     'mx-auto flex w-full flex-col items-center gap-4 rounded-xl bg-white p-6 sm:rounded-2xl md:gap-6',
     variants === 'my' ? 'mt-4 sm:mt-8 md:mt-9' : 'mt-6',
@@ -33,12 +39,23 @@ export default function ReviewCardList({ variants, userId, emptyMsg }: ReviewCar
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
     useInfiniteQuery<Page, Error, Page, readonly unknown[], number>({
-      queryKey: ['reviews', variants, userId ?? null],
+      queryKey: ['reviews', variants, userId ?? null, JSON.stringify(filters || {})],
       initialPageParam: 1,
       queryFn: async ({ pageParam }) => {
         const page = typeof pageParam === 'number' ? pageParam : 1;
-        const params: Record<string, string | number | boolean> | undefined =
-          variants === 'my' && userId != null ? { userId } : undefined;
+
+        const params: Record<string, string | number | boolean> = {};
+
+        // filters 병합
+        if (filters) {
+          Object.assign(params, filters);
+        }
+
+        // userId 추가 (my일 때만)
+        if (variants === 'my' && userId != null) {
+          params.userId = userId;
+        }
+
         return anonReviewService.getReviewInfiniteList(page, params);
       },
       getNextPageParam: lastPage => lastPage.nextPage,
