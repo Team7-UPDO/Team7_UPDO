@@ -117,9 +117,9 @@ const Tab = <T extends string>({
         ref={containerRef}
         role="tablist"
         className={twMerge(
-          'relative flex items-center justify-start border-b border-[var(--color-gray-200)]',
-          'scrollbar-hide overflow-x-auto whitespace-nowrap',
-          fullWidth && 'w-full',
+          'relative flex items-center border-b border-[var(--color-gray-200)]',
+          'justify-center md:justify-start',
+          'w-full overflow-x-hidden',
         )}>
         {items.map((item, i) => {
           const isActive = item.value === value;
