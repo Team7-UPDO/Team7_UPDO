@@ -14,13 +14,12 @@ import ReviewCardList from '@/components/feature/review/ReviewCardList';
 export default function ReviewsPage() {
   const filter = useReviewFilters();
 
-  const statsParams = { ...filter.queryParams };
-  delete statsParams.sortBy;
-  delete statsParams.sortOrder;
-  delete statsParams.date;
+  const statsParams: GetReviewScoresParams = {};
+  if ('type' in filter.queryParams && filter.queryParams.type) {
+    statsParams.type = filter.queryParams.type;
+  }
 
   const { data, isLoading } = useReviewScoresQuery(statsParams);
-
   const mainTabs = [
     { value: '성장', label: '성장' },
     { value: '네트워킹', label: '네트워킹' },
