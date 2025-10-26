@@ -3,17 +3,12 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useUserStore } from '@/stores/useUserStore';
 
-interface HeaderProfileProps {
-  user?: {
-    id: number;
-    name: string;
-    image?: string;
-  };
-}
-
-export default function HeaderProfile({ user }: HeaderProfileProps) {
+export default function HeaderProfile() {
+  const { user } = useUserStore();
   const { isAuthenticated, checkTokenValidity } = useAuthStore();
 
   const [mounted, setMounted] = useState(false);
@@ -30,10 +25,9 @@ export default function HeaderProfile({ user }: HeaderProfileProps) {
       <Image
         src={user?.image || '/images/profile.png'}
         alt={user?.name || '프로필'}
-        width={54}
-        height={54}
-        sizes="54px"
-        className="mx-[1px] h-[34px] w-[34px] object-cover md:mx-[5px] md:h-[54px] md:w-[54px]"
+        width={43}
+        height={43}
+        className="h-8 w-8 rounded-full object-cover sm:h-11 sm:w-11 md:mx-[5px]"
       />
     </Link>
   );

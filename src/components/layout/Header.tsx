@@ -1,16 +1,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { cn } from '@/utils/cn';
 import HeaderProfile from './HeaderProfile';
 import HeaderNav from './HeaderNav';
 
+import { cn } from '@/utils/cn';
+
 interface HeaderProps {
-  user?: {
-    id: number;
-    name: string;
-    image?: string;
-  };
   favoriteCount?: number;
   className?: string;
 }
@@ -21,7 +17,7 @@ interface NavItem {
   hasBadge?: boolean;
 }
 
-export default function Header({ user, favoriteCount = 0, className }: HeaderProps) {
+export default function Header({ favoriteCount = 0, className }: HeaderProps) {
   return (
     <header className={cn('sticky top-0 z-50 w-full bg-[var(--canvas)]', className)}>
       <div className="layout-container m-auto w-full px-4 md:px-6">
@@ -47,7 +43,7 @@ export default function Header({ user, favoriteCount = 0, className }: HeaderPro
           </div>
 
           {/* Right: profile(Login or MyPage) */}
-          <HeaderProfile user={user} />
+          <HeaderProfile />
         </div>
       </div>
     </header>

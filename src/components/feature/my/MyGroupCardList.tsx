@@ -1,9 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import type { InfiniteData } from '@tanstack/react-query';
 
 import MyGroupCardSkeleton from '@/components/ui/Skeleton/MyGroupCardSkeleton';
 import MyGroupCard from './MyGroupCard';
@@ -12,6 +13,8 @@ import { TabVariant } from '@/app/mypage/page';
 import type { IJoinedGathering } from '@/types/gatherings';
 import { useMounted } from '@/hooks/useMounted';
 import { isClosed } from '@/utils/date';
+import { useToast } from '@/components/ui/Toast';
+import { leaveGathering } from '@/services/gatherings/gatheringService';
 
 interface MyGroupCardListProps {
   emptyMsg: string;
@@ -22,6 +25,8 @@ interface MyGroupCardListProps {
   enabled?: boolean;
 }
 
+type PageResponse = { data: IJoinedGathering[]; nextPage?: number };
+
 export default function MyGroupCardList({
   emptyMsg,
   queryKey,
@@ -31,6 +36,10 @@ export default function MyGroupCardList({
   enabled = true,
 }: MyGroupCardListProps) {
   const mounted = useMounted();
+
+  const queryClient = useQueryClient();
+  const toast = useToast();
+  const [leavingId, setLeavingId] = useState<number | null>(null);
 
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '100px 0px' });
 
@@ -52,6 +61,52 @@ export default function MyGroupCardList({
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+  const leaveMutation = useMutation({
+    mutationFn: (gatheringId: number) => leaveGathering(gatheringId),
+    onMutate: async (gatheringId: number) => {
+      setLeavingId(gatheringId);
+      await queryClient.cancelQueries({ queryKey });
+      const prev = queryClient.getQueryData<InfiniteData<PageResponse>>(queryKey);
+      queryClient.setQueryData<InfiniteData<PageResponse>>(queryKey, old => {
+        if (!old) return old;
+        return {
+          ...old,
+          pages: old.pages.map(page => ({
+            ...page,
+            data: page.data.map(it =>
+              it.id === gatheringId
+                ? {
+                    ...it,
+                    participantCount: Math.max(0, (it.participantCount ?? 0) - 1),
+                    isJoined: false,
+                  }
+                : it,
+            ),
+          })),
+        };
+      });
+      return { prev };
+    },
+    onError: (_err, _vars, ctx) => {
+      if (ctx?.prev) queryClient.setQueryData(queryKey, ctx.prev);
+      toast.showToast('모임 참여 취소가 실패했습니다.', 'error');
+    },
+    onSuccess: () => {
+      toast.showToast('모임 참여를 취소했습니다.', 'info');
+    },
+    onSettled: () => {
+      setLeavingId(null);
+      queryClient.invalidateQueries({ queryKey });
+      // 공통(연관) 쿼리키도 함께 무효화 (있으면 적용됨)
+      const relatedKeys = [['myGroups'], ['joinedGatherings']];
+      relatedKeys.forEach(k => queryClient.invalidateQueries({ queryKey: k }));
+    },
+  });
+
+  const handleLeave = (gatheringId: number) => {
+    leaveMutation.mutate(gatheringId);
+  };
 
   const list: IJoinedGathering[] = data?.pages?.flatMap(p => p.data) ?? [];
 
@@ -102,7 +157,12 @@ export default function MyGroupCardList({
     <div className="mx-auto mt-6 flex w-full flex-col items-center gap-4 sm:mt-8 md:gap-6">
       {filtered.map(item => (
         <div key={item.id} className="w-full">
-          <MyGroupCard variant={variant} item={item} />
+          <MyGroupCard
+            variant={variant}
+            item={item}
+            onLeave={() => handleLeave(Number(item.id))}
+            isLeaving={leavingId === Number(item.id)}
+          />
         </div>
       ))}
       {/* sentinel */}

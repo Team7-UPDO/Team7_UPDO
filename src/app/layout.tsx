@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import ScrollWrapper from '@/components/ui/ScrollVisibility';
 import QueryProvider from '@/components/providers/QueryProvider';
 import AuthSessionWatcher from '@/components/feature/auth/AuthSessionWatcher';
+import AuthProvider from './AuthProvider';
 
 export const metadata: Metadata = {
   title: {
@@ -49,11 +50,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <QueryProvider>
           {/* 전역 토큰 만료 감시 (항상 활성화됨) */}
-          <AuthSessionWatcher />
-          <ScrollWrapper />
-          <Header />
-          <Toast />
-          <main className="layout-container font-sans">{children}</main>
+          <AuthProvider>
+            <AuthSessionWatcher />
+            <ScrollWrapper />
+            <Header />
+            <Toast />
+            <main className="layout-container font-sans">{children}</main>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

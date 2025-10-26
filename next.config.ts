@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         destination: '/gathering',
         permanent: true,
       },
+      {
+        source: '/mypage',
+        destination: '/mypage/myMeeting',
+        permanent: false,
+      },
     ];
   },
   images: {
