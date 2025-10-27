@@ -7,17 +7,10 @@ import HeaderNav from './HeaderNav';
 import { cn } from '@/utils/cn';
 
 interface HeaderProps {
-  favoriteCount?: number;
   className?: string;
 }
 
-interface NavItem {
-  label: string;
-  href: string;
-  hasBadge?: boolean;
-}
-
-export default function Header({ favoriteCount = 0, className }: HeaderProps) {
+export default function Header({ className }: HeaderProps) {
   return (
     <header className={cn('sticky top-0 z-50 w-full bg-[var(--canvas)]', className)}>
       <div className="layout-container m-auto w-full px-4 md:px-6">
@@ -39,7 +32,7 @@ export default function Header({ favoriteCount = 0, className }: HeaderProps) {
             </Link>
 
             {/* Navigation */}
-            <HeaderNav favoriteCount={favoriteCount} />
+            <HeaderNav />
           </div>
 
           {/* Right: profile(Login or MyPage) */}
