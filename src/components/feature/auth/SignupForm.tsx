@@ -1,19 +1,5 @@
-// -----------------------------------------------------------------------------
-// NOTE: 팀 공용 UI Input 인터페이스(placeholder, errorMessage, inputSize, rightSlot 등)
-//       를 100% 준수하는 회원가입 폼 구현입니다.
-//       - RHF + Zod 유효성 검사 통합
-//       - 입력 중 과도한 검증 방지를 위한 디바운스 적용
-//       - 라우팅 의존성 제거(성공 시 동작을 onSignupSuccess 콜백으로 외부 주입)
-//       - Storybook(Vite) 환경에서도 Next Router 없이 안전하게 렌더링
-// NOTE: 반응형 폼 사이즈 명세 (회원가입)
-//       - 모바일: 343×668
-//       - 태블릿/데스크톱: 568×802
-//       - AuthLayout이 외곽 박스를 담당하므로 bg/rounded/shadow 없음
-// -----------------------------------------------------------------------------
-
 'use client';
 
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { z } from 'zod';
@@ -124,100 +110,94 @@ export default function SignupForm() {
   });
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full flex-col items-start gap-4" noValidate>
-      {/* 이름 */}
+    <form
+      onSubmit={onSubmit}
+      className="flex w-full flex-col items-start gap-3 p-2 sm:p-4"
+      noValidate>
       <div className="flex w-full flex-col gap-1">
-        <label
-          htmlFor="name"
-          className="w-fit pl-[2px] text-left text-sm font-medium text-gray-700">
+        <label htmlFor="name" className="w-fit pl-1 text-left text-sm font-medium text-gray-700">
           이름
         </label>
         <Input
           id="name"
           inputSize="lg"
-          placeholder="이름을 입력하세요"
+          placeholder="이름을 입력해주세요"
           {...registerWithValidation('name')}
-          errorMessage={errors.name?.message}
           disabled={isSubmitting}
         />
+        <p className="h-5 pl-1 text-sm text-red-500">{errors.name?.message ?? ''}</p>
       </div>
 
-      {/* 직업 */}
       <div className="flex w-full flex-col gap-1">
         <label
           htmlFor="companyName"
-          className="w-fit pl-[2px] text-left text-sm font-medium text-gray-700">
+          className="w-fit pl-1 text-left text-sm font-medium text-gray-700">
           직업
         </label>
         <Input
           id="companyName"
           inputSize="lg"
-          placeholder="직업을 입력하세요"
+          placeholder="직업을 입력해주세요"
           {...registerWithValidation('companyName')}
-          errorMessage={errors.companyName?.message}
           disabled={isSubmitting}
         />
+        <p className="h-5 pl-1 text-sm text-red-500">{errors.companyName?.message ?? ''}</p>
       </div>
 
-      {/* 이메일 */}
       <div className="flex w-full flex-col gap-1">
-        <label
-          htmlFor="email"
-          className="w-fit pl-[2px] text-left text-sm font-medium text-gray-700">
+        <label htmlFor="email" className="w-fit pl-1 text-left text-sm font-medium text-gray-700">
           이메일
         </label>
         <Input
           id="email"
           type="email"
           inputSize="lg"
-          placeholder="이메일 주소를 입력하세요"
+          placeholder="이메일 주소를 입력해주세요"
           {...registerWithValidation('email')}
-          errorMessage={errors.email?.message}
           disabled={isSubmitting}
         />
+        <p className="h-5 pl-1 text-sm text-red-500">{errors.email?.message ?? ''}</p>
       </div>
 
-      {/* 비밀번호 */}
       <div className="flex w-full flex-col gap-1">
         <label
           htmlFor="password"
-          className="w-fit pl-[2px] text-left text-sm font-medium text-gray-700">
+          className="w-fit pl-1 text-left text-sm font-medium text-gray-700">
           비밀번호
         </label>
         <Input
           id="password"
           type="password"
           inputSize="lg"
-          placeholder="비밀번호를 입력하세요"
+          placeholder="비밀번호를 입력해주세요"
           {...registerWithValidation('password')}
-          errorMessage={errors.password?.message}
           disabled={isSubmitting}
         />
+        <p className="h-5 pl-1 text-sm text-red-500">{errors.password?.message ?? ''}</p>
       </div>
 
-      {/* 비밀번호 확인 */}
       <div className="flex w-full flex-col gap-1">
         <label
           htmlFor="passwordConfirm"
-          className="w-fit pl-[2px] text-left text-sm font-medium text-gray-700">
+          className="w-fit pl-1 text-left text-sm font-medium text-gray-700">
           비밀번호 확인
         </label>
         <Input
           id="passwordConfirm"
           type="password"
           inputSize="lg"
-          placeholder="비밀번호를 다시 입력하세요"
+          placeholder="비밀번호를 한번 더 입력해주세요"
           {...registerWithValidation('passwordConfirm')}
-          errorMessage={errors.passwordConfirm?.message}
           disabled={isSubmitting}
         />
+        <p className="h-5 pl-1 text-sm text-red-500">{errors.passwordConfirm?.message ?? ''}</p>
       </div>
 
       <Button
         type="submit"
         variant="primary"
         disabled={isSubmitting}
-        className="mt-6 h-[48px] w-full text-base font-semibold">
+        className="h-[48px] w-full text-base font-semibold">
         {isSubmitting ? <LoadingSpinner size="xs" color="white" /> : '회원가입'}
       </Button>
     </form>
