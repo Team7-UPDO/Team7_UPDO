@@ -51,9 +51,9 @@ export default function MyGroupCard({ variant, item, onLeave, isLeaving }: MyGro
   const canWriteReview = showReviewCTA && !isReviewed;
   const hasWrittenReview = showReviewCTA && isReviewed;
 
-  const isRecruitmentClosed = registrationEnd ? isClosed(registrationEnd) : false;
+  const isRegistrationClosed = registrationEnd ? isClosed(registrationEnd) : false;
   const isOpenConfirmed = (participantCnt ?? 0) >= 5;
-  const failedToOpen = isRecruitmentClosed && !isOpenConfirmed && !isCompleted; // 모집 마감 + 미확정 + 미이용
+  const failedToOpen = isRegistrationClosed && !isOpenConfirmed && !isCompleted; // 모집 마감 + 미확정 + 미이용
 
   // 그 외 헬퍼 변수
   const [isSaved, setIsSaved] = useState<boolean>(false);

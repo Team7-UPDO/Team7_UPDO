@@ -8,14 +8,17 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import GroupDetailCard from '@/components/feature/gathering/detail/GroupDetailCard';
 import GroupDetailParticipation from '@/components/feature/gathering/detail/GroupDetailParticipationCard';
 import GroupDetailReviewList from '@/components/feature/gathering/detail/GroupDetailReviewList';
+import WriteReviewModal from '@/components/feature/review/WriteReviewModal';
 
 import { useToast } from '@/components/ui/Toast';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { authService } from '@/services/auths/authService';
+import { useUserStore } from '@/stores/useUserStore';
 import { gatheringService } from '@/services/gatherings/gatheringService';
+import { reviewService } from '@/services/reviews/reviewService';
 import { copyToClipboard } from '@/utils/clipboard';
 import { IParticipant } from '@/types/gatherings';
 import { mapGatheringToUI } from '@/utils/mapping';
+import { isClosed } from '@/utils/date';
 
 import GroupDetailCardSkeleton from '@/components/ui/Skeleton/GroupDetailCardSkeleton';
 import GroupDetailParticipationSkeleton from '@/components/ui/Skeleton/GroupDetailParticipationSkeleton';
@@ -26,26 +29,16 @@ export default function GroupDetailPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { showToast } = useToast();
-  const { token, isAuthenticated } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
+  const { user } = useUserStore();
 
-  const [userId, setUserId] = useState<number | null>(null);
+  const userId = user?.id ?? null;
+
   const [joined, setJoined] = useState(false);
   const [isJoining, setIsJoining] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
-
-  // 로그인된 사용자 정보 가져오기
-  useEffect(() => {
-    if (!token) return;
-    (async () => {
-      try {
-        const res = await authService.getUser();
-        setUserId(res.id);
-      } catch {
-        setUserId(null);
-      }
-    })();
-  }, [token]);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   // 모임 상세 조회
   const {
@@ -71,6 +64,17 @@ export default function GroupDetailPage() {
     enabled: !!id,
   });
 
+  // 내 리뷰 조회
+  const { data: myReviews } = useQuery({
+    queryKey: ['myReview', id, userId],
+    queryFn: () =>
+      reviewService.getReviews({
+        gatheringId: Number(id),
+        userId: userId!,
+      }),
+    enabled: !!id && !!userId,
+  });
+
   // 참가 여부 확인
   useEffect(() => {
     if (!participantsData || !userId) return;
@@ -78,10 +82,20 @@ export default function GroupDetailPage() {
     setJoined(found);
   }, [participantsData, userId]);
 
+  // 버튼 상태 계산
+  const currentParticipantCount = participantsData?.length ?? gathering?.participantCount ?? 0;
+  const isOpenConfirmed = currentParticipantCount >= 5;
+  const isReviewed = (myReviews?.data?.length ?? 0) > 0;
+  const isCompleted = isClosed(gathering?.dateTime);
+  const isRegistrationClosed = isClosed(gathering?.registrationEnd);
+
   // 참여하기
   const handleJoin = async () => {
     if (!isAuthenticated) {
       showToast('로그인 후 이용 가능합니다.', 'error');
+      setTimeout(() => {
+        router.push('/login');
+      }, 1000);
       return;
     }
     setIsJoining(true);
@@ -138,6 +152,18 @@ export default function GroupDetailPage() {
     );
   };
 
+  // 리뷰 작성하기
+  const handleWriteReview = () => {
+    setIsReviewModalOpen(true);
+  };
+
+  // 리뷰 작성 성공 시 콜백 추가
+  const handleReviewSuccess = () => {
+    queryClient.invalidateQueries({ queryKey: ['myReview', id, userId] });
+    queryClient.invalidateQueries({ queryKey: ['reviews', Number(id)] });
+    setIsReviewModalOpen(false);
+  };
+
   // 로딩/에러 처리
   if (isLoading)
     return (
@@ -177,17 +203,22 @@ export default function GroupDetailPage() {
             data={uiData}
             isHost={uiData.isHost}
             joined={joined}
+            isCompleted={isCompleted}
+            isReviewed={isReviewed}
+            isRegistrationClosed={isRegistrationClosed}
+            isOpenConfirmed={isOpenConfirmed}
             onJoin={handleJoin}
             onLeave={handleLeave}
             onCancel={handleCancel}
             onShare={handleShare}
+            onWriteReview={handleWriteReview}
             isJoining={isJoining}
             isLeaving={isLeaving}
             isCanceling={isCanceling}
           />
 
           <GroupDetailParticipation
-            current={participantsData ? participantsData.length : uiData.participantCount}
+            current={currentParticipantCount}
             max={uiData.capacity}
             min={uiData.minParticipants}
             participants={
@@ -205,6 +236,16 @@ export default function GroupDetailPage() {
       <section className="mt-6 sm:mt-12 md:mt-16">
         {uiData && <GroupDetailReviewList gatheringId={uiData.id} />}
       </section>
+
+      {/* 리뷰 작성 모달 */}
+      {isReviewModalOpen && (
+        <WriteReviewModal
+          open={isReviewModalOpen}
+          onOpenChange={setIsReviewModalOpen}
+          ApiRequestProps={{ gatheringId: Number(id) }}
+          onSuccess={handleReviewSuccess}
+        />
+      )}
     </main>
   );
 }
