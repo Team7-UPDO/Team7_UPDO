@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 import { cn } from '@/utils/cn';
 import IconText, { type Topic } from '@/components/ui/IconText';
 import Tag from '@/components/ui/Tag';
-import SaveButton from '@/components/ui/SaveButton';
 import Icon from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 import { isClosed } from '@/utils/date';
 import { LocationToTag } from '@/utils/mapping';
 import { TAG_OPTIONS } from '@/constants/tags';
+import FavoriteButton from '../../favorites/FavoriteButton';
 
 interface HeaderData {
   id: number;
@@ -111,12 +111,7 @@ export default function GroupDetailCard({
       {/* 하단: 버튼 영역 */}
       <div className="flex w-full items-center justify-between gap-4 sm:gap-2 md:gap-4">
         {/* 왼쪽: 찜 버튼 */}
-        <SaveButton
-          isSaved={isSaved}
-          onToggle={() => setIsSaved(s => !s)}
-          ariaLabel="찜하기"
-          size="responsive"
-        />
+        <FavoriteButton itemId={data.id} size="responsive" />
 
         {/* 오른쪽: 버튼 그룹 */}
         <div className="flex flex-1 items-center gap-2 sm:gap-3">
