@@ -32,7 +32,9 @@ export default function AuthLayout({
         <div className="flex w-full flex-col">{children}</div>
         <p className="flex w-full justify-center gap-2 text-center text-sm text-gray-600">
           {bottomText}
-          <Link href={bottomLinkHref} className="text-purple-600 hover:underline">
+          <Link
+            href={bottomLinkHref}
+            className="font-bold text-purple-600 underline hover:text-purple-700 focus:text-purple-800">
             {bottomLinkText}
           </Link>
         </p>
