@@ -1,16 +1,6 @@
-// -----------------------------------------------------------------------------
-// NOTE: 로그인 전용 폼 컴포넌트
-//       - RHF + Zod 기반 폼 검증
-//       - 이메일 / 비밀번호 입력 검증 (SignupForm과 동일한 패스워드 규칙 적용)
-//       - 입력 시 Debounce 검증 (불필요한 유효성 검사 최소화)
-//       - 로그인 성공 시: JWT 토큰 저장 + 만료시간 기록 (1시간)
-//       - 로그인 상태는 전역 Zustand 스토어(useAuthStore)로 관리
-//       - 입력 중 1초 디바운스 검증
-// -----------------------------------------------------------------------------
-
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { z } from 'zod';
@@ -51,7 +41,7 @@ export default function LoginForm() {
   // 입력 중 1초 후 검증 (과도한 트리거 방지)
   const debouncedValidate = useDebouncedCallback((field: keyof LoginFormType) => {
     void trigger(field);
-  }, 1000);
+  }, 500);
 
   // RHF register에 Debounce 검증 결합
   const registerWithValidation = (name: keyof LoginFormType) => {
@@ -121,12 +111,9 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={onSubmit}
-      // ✅ self-center 로 부모의 cross-axis 정렬을 무시하고 스스로 중앙 정렬
-      // ✅ w-full + max-w 로 반응형 중앙정렬 안정화
-      className="mx-auto flex w-full max-w-[568px] flex-col gap-5 self-center rounded-xl bg-white p-6 shadow-md"
+      className="mx-auto flex w-full max-w-[568px] min-w-[280px] flex-col gap-2 p-2 sm:p-4"
       noValidate>
-      {/* 이메일 입력 */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         <label htmlFor="email" className="pl-1 text-sm font-medium text-gray-700">
           이메일
         </label>
@@ -134,15 +121,14 @@ export default function LoginForm() {
           id="email"
           inputSize="lg"
           type="email"
-          placeholder="이메일 주소를 입력하세요"
+          placeholder="이메일 주소를 입력해주세요"
           {...registerWithValidation('email')}
-          errorMessage={errors.email?.message}
           disabled={isSubmitting}
           autoComplete="email"
         />
+        <p className="h-5 pl-1 text-sm text-red-500">{errors.email?.message ?? ''}</p>
       </div>
 
-      {/* 비밀번호 입력 */}
       <div className="flex flex-col gap-1">
         <label htmlFor="password" className="pl-1 text-sm font-medium text-gray-700">
           비밀번호
@@ -151,25 +137,23 @@ export default function LoginForm() {
           id="password"
           inputSize="lg"
           type="password"
-          placeholder="비밀번호를 입력하세요"
+          placeholder="비밀번호를 입력해주세요"
           {...registerWithValidation('password')}
-          errorMessage={errors.password?.message}
           disabled={isSubmitting}
           autoComplete="current-password"
         />
+        <p className="h-5 pl-1 text-sm text-red-500">{errors.password?.message ?? ''}</p>
       </div>
 
-      {/* 버튼 */}
       <Button
         type="submit"
         variant="primary"
         disabled={isSubmitting}
-        className="mt-4 h-[48px] w-full text-base font-semibold"
+        className="mt-2 h-[48px] w-full text-base font-semibold"
         aria-label="로그인">
         {isSubmitting ? <LoadingSpinner size="xs" color="white" /> : '로그인'}
       </Button>
 
-      {/* 전역 오류 메시지 */}
       {globalError && (
         <p role="alert" className="typo-sm mt-3 text-center text-red-500">
           {globalError}
