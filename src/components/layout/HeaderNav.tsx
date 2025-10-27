@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Badge from '@/components/ui/Badge';
 import { cn } from '@/utils/cn';
+import { useFavoriteStore } from '@/stores/useFavoriteStore';
 
 const NAV_ITEMS = [
   { label: '모임 찾기', href: '/gathering' },
@@ -12,9 +13,10 @@ const NAV_ITEMS = [
   { label: '모든 리뷰', href: '/reviews' },
 ];
 
-export default function HeaderNav({ favoriteCount = 0 }: { favoriteCount?: number }) {
+export default function HeaderNav() {
   const pathname = usePathname();
-
+  const { getFavoriteCount } = useFavoriteStore();
+  const favoriteCount = getFavoriteCount();
   const isActive = (href: string) => {
     if (href === '/gathering') return pathname === '/' || pathname?.startsWith('/gathering');
     return pathname?.startsWith(href);
@@ -39,7 +41,7 @@ export default function HeaderNav({ favoriteCount = 0 }: { favoriteCount?: numbe
             <span className="inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap md:gap-2 lg:gap-2">
               {item.label}
               {item.hasBadge && favoriteCount > 0 && (
-                <Badge value={favoriteCount} size="responsive" />
+                <Badge value={getFavoriteCount()} size="responsive" />
               )}
             </span>
           </Link>
