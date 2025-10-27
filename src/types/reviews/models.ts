@@ -2,7 +2,6 @@ import { Type, Location } from '@/utils/mapping';
 
 // Review 공통 모델
 export interface IReview {
-  teamId: string;
   id: number;
   userId: number;
   gatheringId: number;
@@ -14,7 +13,6 @@ export interface IReview {
 // Review + 연관 데이터
 export interface IReviewWithRelations extends IReview {
   Gathering: {
-    teamId: string;
     id: number;
     type: Type;
     name: string;
@@ -23,7 +21,6 @@ export interface IReviewWithRelations extends IReview {
     image?: string;
   };
   User: {
-    teamId: string;
     id: number;
     name: string;
     image?: string;
