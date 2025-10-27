@@ -23,6 +23,7 @@ type GroupFiltersProps = {
   handleDateConfirm: (date?: Date) => void;
   activeSubId?: string;
   activeSubType?: string;
+  activeMain?: string;
   handleCategoryChange: (id: string, type: string) => void;
 };
 
@@ -45,18 +46,20 @@ export default function GroupFilters({
   handleDateConfirm,
   activeSubId,
   activeSubType,
-
+  activeMain,
   handleCategoryChange,
 }: GroupFiltersProps) {
   return (
     <div className="mt-4 mb-4 flex flex-col gap-1.5 sm:mt-8 sm:flex-row sm:items-center">
       <div>
-        <Category
-          mainCategory="성장"
-          activeId={activeSubId}
-          activeType={activeSubType}
-          onChange={handleCategoryChange}
-        />
+        {activeMain === '성장' && (
+          <Category
+            mainCategory="성장"
+            activeId={activeSubId}
+            activeType={activeSubType}
+            onChange={handleCategoryChange}
+          />
+        )}
       </div>
       <div className="flex items-center font-medium text-gray-500 sm:ml-auto sm:h-[40px]">
         <div ref={tagRef} className="relative">

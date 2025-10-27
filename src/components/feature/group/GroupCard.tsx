@@ -11,7 +11,6 @@ import { formatTime, formatDate, formatDeadline, isClosed as checkClosed } from 
 import { LocationToTag } from '@/utils/mapping';
 import { TAG_OPTIONS } from '@/constants';
 import { useEffect, useState } from 'react';
-import SaveButton from '@/components/ui/SaveButton';
 import Link from 'next/link';
 import { ConfirmModal } from '@/components/ui/Modal';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -21,6 +20,8 @@ import {
   leaveGathering,
 } from '@/services/gatherings/gatheringService';
 import { useRouter } from 'next/navigation';
+import FavoriteButton from '../favorites/FavoriteButton';
+
 interface GroupCardProps {
   data: IGathering;
 }
@@ -30,11 +31,9 @@ export default function GroupCard({ data }: GroupCardProps) {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
   const [modalOpen, setModalOpen] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isJoined, setIsJoined] = useState(false);
   const [currentCount, setCurrentCount] = useState(participantCount);
-  const onToggle = () => setIsSaved(prev => !prev);
 
   const isFull = currentCount >= capacity;
   const isClosed = checkClosed(registrationEnd) || isFull;
@@ -49,9 +48,7 @@ export default function GroupCard({ data }: GroupCardProps) {
         const res = await getJoinedGatherings();
         const joined = res.some(g => g.id === data.id);
         setIsJoined(joined);
-      } catch (error) {
-        console.log('참여여부 확인에러', error);
-      }
+      } catch (error) {}
     };
     checkJoinedStatus();
   }, [isAuthenticated, data.id]);
@@ -76,7 +73,6 @@ export default function GroupCard({ data }: GroupCardProps) {
         setCurrentCount(prev => prev + 1);
       }
     } catch (error) {
-      console.log('참여변경 실패', error);
     } finally {
       setLoading(false);
     }
@@ -118,7 +114,7 @@ export default function GroupCard({ data }: GroupCardProps) {
                 <Icon name="save" size={48} />
               </div>
             ) : (
-              <SaveButton isSaved={isSaved} onToggle={onToggle} size={48} />
+              <FavoriteButton itemId={data.id} />
             )}
           </div>
           <div className="flex flex-1 flex-col justify-between p-4 sm:pt-4 sm:pl-4 md:pr-0">

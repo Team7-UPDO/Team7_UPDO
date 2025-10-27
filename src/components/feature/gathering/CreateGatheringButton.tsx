@@ -13,11 +13,13 @@ export default function CreateGatheringButton() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { isAuthenticated } = useAuthStore();
   const router = useRouter();
+
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 120);
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
   const handleClick = () => {
     if (isAuthenticated) {
       setIsCreateModalOpen(true);

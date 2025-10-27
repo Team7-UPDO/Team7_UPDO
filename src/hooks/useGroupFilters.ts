@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef } from 'react';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
 import { buildFilters } from '@/utils/mapping';
