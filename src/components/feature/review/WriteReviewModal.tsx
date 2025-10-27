@@ -24,7 +24,8 @@ export default function WriteReviewModal({
   open,
   onOpenChange,
   ApiRequestProps,
-}: ModalProps & { ApiRequestProps: ApiRequestProps }) {
+  onSuccess,
+}: ModalProps & { ApiRequestProps: ApiRequestProps; onSuccess?: () => void }) {
   const [form, setForm] = useState({
     score: 0,
     comment: '',
@@ -51,7 +52,11 @@ export default function WriteReviewModal({
 
       const toast = useToast.getState();
       toast.showToast(TOAST_MESSAGE.successReview, 'success');
-      onOpenChange(false);
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        onOpenChange(false);
+      }
     } catch (error: unknown) {
       const toast = useToast.getState();
       const rawMessage =
