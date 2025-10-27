@@ -24,14 +24,14 @@ export interface InputProps
 }
 
 export const INPUT_VARIANT = {
-  default: '',
+  default: 'border border-gray-50',
   toggle: 'border border-gray-50', // dropdown 완성 후 추가 개발
   typing: 'border-[1px] border-purple-400',
   done: 'border-[1px] border-gray-50',
 };
 
 const inputVariants = cva(
-  'flex items-center w-full rounded-md px-4 py-2.5 outline-none transition text-gray-700 bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed',
+  'flex items-center w-full rounded-md px-4 py-2.5 outline-none transition active:border-purple-400 hover:border-purple-150 text-gray-700 bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed',
   {
     variants: {
       variant: INPUT_VARIANT,
