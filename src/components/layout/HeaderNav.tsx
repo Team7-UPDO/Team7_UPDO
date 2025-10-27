@@ -40,9 +40,7 @@ export default function HeaderNav() {
             )}>
             <span className="inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap md:gap-2 lg:gap-2">
               {item.label}
-              {item.hasBadge && favoriteCount > 0 && (
-                <Badge value={getFavoriteCount()} size="responsive" />
-              )}
++             {item.hasBadge && <Badge value={favoriteCount} size="responsive" />}
             </span>
           </Link>
         );
