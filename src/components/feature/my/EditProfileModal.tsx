@@ -18,7 +18,7 @@ export default function EditProfileModal({
   user,
   onSaved,
 }: ModalProps & { user: IUser; onSaved?: (next: Partial<IUser>) => void }) {
-  const toast = useToast();
+  const { showToast } = useToast();
 
   const { image, name, companyName, email } = user;
   const DEFAULT_AVATAR_SRC = '/images/avatar-default.png';
@@ -64,13 +64,13 @@ export default function EditProfileModal({
         image: updatedUser.image ?? image ?? undefined,
       });
 
-      toast.showToast('프로필 저장에 성공했습니다.', 'success');
+      showToast('프로필 저장에 성공했습니다.', 'success');
       onOpenChange(false);
       setPreviewDataUrl(null);
       setSelectedFile(null);
     } catch (e) {
       console.error(e);
-      toast.showToast('프로필 저장에 실패했습니다. 다시 시도해주세요.', 'error');
+      showToast('프로필 저장에 실패했습니다. 다시 시도해주세요.', 'error');
     } finally {
       setIsSaving(false);
     }

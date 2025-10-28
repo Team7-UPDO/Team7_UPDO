@@ -15,7 +15,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     (async () => {
       await fetchMe();
       if (!useUserStore.getState().user) {
-        showToast('로그인이 필요한 서비스입니다.', 'error');
+        showToast('로그아웃', 'error');
         router.replace('/');
       }
     })();

@@ -1,4 +1,3 @@
-// src/components/layout/HeaderNav.tsx
 'use client';
 
 import Link from 'next/link';
@@ -6,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Badge from '@/components/ui/Badge';
 import { cn } from '@/utils/cn';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
+import { useMounted } from '@/hooks/useMounted';
 
 const NAV_ITEMS = [
   { label: '모임 찾기', href: '/gathering' },
@@ -14,8 +14,9 @@ const NAV_ITEMS = [
 ];
 
 export default function HeaderNav() {
-  const pathname = usePathname();
   const { getFavoriteCount } = useFavoriteStore();
+  const pathname = usePathname();
+  const mounted = useMounted();
   const favoriteCount = getFavoriteCount();
   const isActive = (href: string) => {
     if (href === '/gathering') return pathname === '/' || pathname?.startsWith('/gathering');
@@ -26,6 +27,7 @@ export default function HeaderNav() {
     <nav className="flex items-center sm:gap-2 md:gap-4 lg:gap-6" role="navigation">
       {NAV_ITEMS.map(item => {
         const active = isActive(item.href);
+        const showBadge = mounted && item.hasBadge;
         return (
           <Link
             key={item.href}
@@ -40,7 +42,7 @@ export default function HeaderNav() {
             )}>
             <span className="inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap md:gap-2 lg:gap-2">
               {item.label}
-             {item.hasBadge && <Badge value={favoriteCount} size="responsive" />}
+              {showBadge && <Badge value={favoriteCount} size="responsive" />}
             </span>
           </Link>
         );

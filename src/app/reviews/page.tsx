@@ -10,7 +10,7 @@ import { Calendar } from '@/components/ui/Calendar';
 import IconText from '@/components/ui/IconText';
 import { SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
 import ReviewStatsCard from '@/components/feature/review/ReviewStatsCard';
-import ReviewCardList from '@/components/feature/review/ReviewCardList';
+import AllReviewList from '@/components/feature/review/AllReviewList';
 
 export default function ReviewsPage() {
   const filter = useReviewFilters();
@@ -168,11 +168,7 @@ export default function ReviewsPage() {
       ) : (
         <>
           <ReviewStatsCard average={average} total={total} distribution={distribution} />
-          <ReviewCardList
-            variants="all"
-            emptyMsg="아직 리뷰가 없어요."
-            filters={filter.queryParams}
-          />
+          <AllReviewList filters={filter.queryParams} />
         </>
       )}
     </div>

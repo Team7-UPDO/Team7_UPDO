@@ -21,13 +21,20 @@ const firstIssueMessage = (err: z.ZodError) =>
 export default function LoginForm() {
   const router = useRouter();
 
-  // ✅ Zustand 훅 기반 접근 (리액티브)
-  // const { setToken } = useAuthStore();
-  // const { showToast } = useToast();
-  // selectors 사용으로 불필요한 리렌더링 방지
+  // ---------------------------------------------------------------------------
+  // ✅ Zustand store에서 필요한 메서드 선택 (리렌더 최소화)
+  // ---------------------------------------------------------------------------
   const setToken = useAuthStore(state => state.setToken);
+  const increaseFailedAttempts = useAuthStore(state => state.increaseFailedAttempts);
+  const resetFailedAttempts = useAuthStore(state => state.resetFailedAttempts);
+  const checkLockStatus = useAuthStore(state => state.checkLockStatus);
+  const failedAttempts = useAuthStore(state => state.failedAttempts);
+  const isLocked = useAuthStore(state => state.isLocked);
   const showToast = useToast(state => state.showToast);
 
+  // ---------------------------------------------------------------------------
+  // ✅ RHF 설정
+  // ---------------------------------------------------------------------------
   const {
     register,
     handleSubmit,
@@ -41,7 +48,7 @@ export default function LoginForm() {
 
   const [globalError, setGlobalError] = useState<string | null>(null);
 
-  // 입력 중 1초 후 검증 (과도한 트리거 방지)
+  // 입력 중 0.5초 후 검증 (과도한 트리거 방지)
   const debouncedValidate = useDebouncedCallback((field: keyof LoginFormType) => {
     void trigger(field);
   }, 500);
@@ -70,9 +77,20 @@ export default function LoginForm() {
     };
   };
 
-  // 로그인 제출 핸들러
+  // ---------------------------------------------------------------------------
+  // ✅ 로그인 제출 핸들러
+  // ---------------------------------------------------------------------------
   const onSubmit = handleSubmit(async data => {
-    // ✅ 전체 Zod 검증
+    setGlobalError(null);
+
+    // 1️⃣ 먼저 잠금 상태인지 확인
+    const isLocked = checkLockStatus();
+    if (isLocked) {
+      setGlobalError('비밀번호 5회 이상 잘못 입력하셔서 30초간 로그인할 수 없습니다.');
+      return;
+    }
+
+    // 2️⃣ 전체 Zod 검증
     const parsed = LoginFormSchema.safeParse(data);
     if (!parsed.success) {
       parsed.error.issues.forEach(issue => {
@@ -84,13 +102,38 @@ export default function LoginForm() {
       return;
     }
 
+    // 3️⃣ 로그인 시도
     try {
       const response = await authService.signin(parsed.data);
       setToken(response.token);
+      resetFailedAttempts(); // ✅ 성공 시 실패횟수 초기화
 
       showToast('로그인에 성공하였습니다. 환영합니다!', 'success');
       router.replace('/'); // 성공 시 메인으로 이동
     } catch (err: unknown) {
+      const e = err as { message?: string; status?: number };
+
+      // ✅ 서버 오류(500대 or 명시적 메시지)는 전역 에러로만 처리
+      if (e.message?.includes('서버 오류') || e.status === 500) {
+        setGlobalError('서버 오류가 발생했습니다.');
+        return; // ✅ 이 지점에서 종료! (토스트나 실패 카운트 실행 금지)
+      }
+
+      increaseFailedAttempts(); // ❌ 실패 시 실패횟수 +1 - 실제 상태 먼저 반영
+
+      // ✅ 상태 반영 후 최신 값 참조
+      const nextAttempts = failedAttempts + 1;
+      const remaining = Math.max(5 - nextAttempts, 0);
+
+      if (nextAttempts >= 5) {
+        showToast('비밀번호를 5회 이상 잘못 입력하셔서 30초간 로그인할 수 없습니다.', 'error');
+      } else {
+        showToast(
+          `비밀번호가 올바르지 않습니다. (${nextAttempts}/5회) - ${remaining}회 남았습니다.`,
+          'error',
+        );
+      }
+
       if (typeof err === 'object' && err !== null) {
         const e = err as { parameter?: keyof LoginFormType; message?: string };
 
@@ -103,7 +146,7 @@ export default function LoginForm() {
           return;
         }
 
-        // ✅ 전역 서버 오류
+        // 전역 오류 처리
         setGlobalError(e.message ?? '서버 오류가 발생했습니다.');
         return;
       }

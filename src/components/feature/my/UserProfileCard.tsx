@@ -1,51 +1,30 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-import { IUser } from '@/types/auths';
-import { cn } from '@/utils/cn';
-import Icon from '@/components/ui/Icon';
+import EditProfileControl from '@/components/feature/my/controls/EditProfileControl';
 
-interface UserProfileCardProps {
-  user: IUser;
-  onOpenChange: (value: boolean) => void;
-}
+import { useUserStore } from '@/stores/useUserStore';
+import { useShallow } from 'zustand/react/shallow';
 
-export default function UserProfileCard({ user, onOpenChange }: UserProfileCardProps) {
-  const { email, name, image, companyName } = user;
+export default function UserProfileCard() {
+  const { user, setUser } = useUserStore(useShallow(s => ({ user: s.user, setUser: s.setUser })));
+  const guaranteedUser = user!; // AuthGuard로 null이 아님을 단언
+  const { name, companyName, email } = guaranteedUser;
 
-  // default avatar in /public
   const DEFAULT_AVATAR_SRC = '/images/avatar-default.png';
-  const [avatarSrc, setAvatarSrc] = useState<string>(image ?? DEFAULT_AVATAR_SRC);
-
-  const cardPadding = 'py-6 px-4 sm:px-6 sm:py-8 md:pt-5 md:px-6 md:pb-10';
-  const backgroundBorder = 'bg-grad-100-v border border-purple-100';
-  const responsiveMargin = 'mr-7 mb-0 md:mr-0 md:mb-7';
-  const responsiveHr =
-    'border-l-[1px] md:border-t-[1px] md:border-l-0 md:pt-8 md:pl-0 sm:pl-8 pl-4';
+  const [avatarSrc, setAvatarSrc] = useState<string>(user?.image ?? DEFAULT_AVATAR_SRC);
+  useEffect(() => {
+    setAvatarSrc(user?.image ?? DEFAULT_AVATAR_SRC);
+  }, [user?.image]);
 
   return (
-    <div
-      className={cn(
-        'relative flex w-full overflow-hidden rounded-2xl shadow-xl sm:rounded-3xl md:flex-col',
-        cardPadding,
-        backgroundBorder,
-      )}>
-      {/* 프로필 수정 버튼 */}
-      <button
-        className="absolute top-6 right-3 cursor-pointer sm:top-8 md:top-auto"
-        aria-label="프로필 수정"
-        onClick={() => onOpenChange(true)}
-        type="button">
-        <Icon name="edit" />
-      </button>
+    <div className="bg-grad-100-v relative flex w-full overflow-hidden rounded-2xl border border-purple-100 px-4 py-6 shadow-xl sm:rounded-3xl sm:px-6 sm:py-8 md:flex-col md:px-6 md:pt-5 md:pb-10">
+      {/* 프로필 수정 버튼 (상단 우측 고정) */}
+      <EditProfileControl user={guaranteedUser} setUser={setUser} />
 
-      {/* 이미지, 이름 */}
-      <div
-        className={cn(
-          'flex flex-row items-center gap-3 md:mt-12 md:flex-col md:gap-5',
-          responsiveMargin,
-        )}>
+      {/* 이미지 및 이름 */}
+      <div className="mr-7 mb-0 flex flex-row items-center gap-3 md:mt-12 md:mr-0 md:mb-7 md:flex-col md:gap-5">
         <Image
           src={avatarSrc}
           alt={`${name ?? '사용자'} 프로필 이미지`}
@@ -58,12 +37,8 @@ export default function UserProfileCard({ user, onOpenChange }: UserProfileCardP
         <div className="label sm:card-title text-center text-gray-900">{name}</div>
       </div>
 
-      {/* 직업, 이메일 */}
-      <div
-        className={cn(
-          'typo-body-sm sm:typo-body grid grid-cols-[auto,1fr] items-center gap-x-4 gap-y-3 border-black/10',
-          responsiveHr,
-        )}>
+      {/* 직업 및 이메일 (설명 목록으로 의미 부여) */}
+      <div className="typo-body-sm sm:typo-body grid grid-cols-[auto,1fr] items-center gap-x-4 gap-y-3 border-l-[1px] border-black/10 pl-4 sm:pl-8 md:border-t-[1px] md:border-l-0 md:pt-8 md:pl-0">
         <div className="flex gap-5">
           <div className="text-gray-500">직업</div>
           <div className="text-gray-700">{companyName}</div>

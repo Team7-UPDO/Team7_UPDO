@@ -143,40 +143,4 @@ describe('🧩 SignupForm — 서버/라우팅 시나리오', () => {
       ).toBeInTheDocument(),
     );
   });
-
-  test.skip('회원가입 3회 실패 시 서버의 잠금 에러 메시지가 전역으로 표시된다', async () => {
-    (authService.signup as jest.Mock)
-      .mockRejectedValueOnce({ parameter: 'email', message: '이메일이 잘못되었습니다.' })
-      .mockRejectedValueOnce({ parameter: 'email', message: '이메일이 잘못되었습니다.' })
-      .mockRejectedValueOnce({
-        message: '회원가입 시도 횟수가 초과되었습니다. 잠시 후 다시 시도해주세요.',
-      });
-
-    render(<SignupForm />);
-    const submit = async () => {
-      fireEvent.change(screen.getByLabelText('이름'), { target: { value: '홍길동' } });
-      fireEvent.change(screen.getByLabelText('직업'), { target: { value: '달램' } });
-      fireEvent.change(screen.getByLabelText('이메일'), { target: { value: 'dup@test.com' } });
-      fireEvent.change(screen.getByLabelText('비밀번호'), { target: { value: 'abcd1234' } });
-      fireEvent.change(screen.getByLabelText('비밀번호 확인'), { target: { value: 'abcd1234' } });
-      fireEvent.click(screen.getByRole('button', { name: '회원가입' }));
-    };
-
-    // 세 번 시도
-    await submit();
-    await waitFor(() => screen.getByText('이메일이 잘못되었습니다.'));
-    await submit();
-    await waitFor(() => screen.getByText('이메일이 잘못되었습니다.'));
-    await submit();
-
-    await waitFor(() =>
-      expect(
-        screen.getByText(/회원가입 시도 횟수가 초과되었습니다\. 잠시 후 다시 시도해주세요\./),
-      ).toBeInTheDocument(),
-    );
-
-    expect(mockSetToken).not.toHaveBeenCalled();
-    expect(mockShowToast).not.toHaveBeenCalled();
-    expect(mockReplace).not.toHaveBeenCalled();
-  });
 });
