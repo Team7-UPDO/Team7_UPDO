@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import GroupDetailCard from '@/components/feature/gathering/detail/GroupDetailCard';
@@ -25,7 +25,6 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { useUserStore } from '@/stores/useUserStore';
 
 import { reviewService } from '@/services/reviews/reviewService';
-import { IParticipant } from '@/types/gatherings';
 import { queryKey } from '@/constants/queryKeys';
 
 export default function GroupDetailPage() {
@@ -43,7 +42,7 @@ export default function GroupDetailPage() {
 
   // Data Fetching
   const { gathering, uiData, isLoading, isError } = useGatheringDetail(id, userId);
-  const { data: participantsData } = useGatheringParticipants(id);
+  const { data: participantsData, participants } = useGatheringParticipants(id);
   const { data: joinedGatherings } = useJoinedGatherings(userId, isAuthenticated);
 
   // 내 리뷰 조회
@@ -98,7 +97,6 @@ export default function GroupDetailPage() {
     queryClient.invalidateQueries({ queryKey: ['myReview', id, userId] });
     queryClient.invalidateQueries({ queryKey: ['reviews', Number(id)] });
     queryClient.invalidateQueries({ queryKey: queryKey.myReviewsWritten(userId) });
-
     setIsReviewModalOpen(false);
   };
 
@@ -181,12 +179,7 @@ export default function GroupDetailPage() {
             current={currentParticipantCount}
             max={uiData.capacity}
             min={uiData.minParticipants}
-            participants={
-              participantsData?.map((p: IParticipant) => ({
-                id: p.User.id,
-                image: p.User.image || '/images/avatar-default.png',
-              })) ?? []
-            }
+            participants={participants}
             showConfirm
           />
         </div>
