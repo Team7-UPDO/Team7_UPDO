@@ -64,6 +64,9 @@ export default function GroupDetailCard({
   const topic = LocationToTag(location) as 'growth' | 'learn' | 'challenge' | 'connect' | 'default';
   const category = TAG_OPTIONS.find(option => option.value === topic)?.label ?? '';
 
+  // 마감 여부 계산
+  const isClosed = isRegistrationClosed || isFull || isCompleted;
+
   // 버튼 상태 계산
   const getButtonProps = () => {
     // 비로그인 사용자 - 일부 로직
@@ -101,14 +104,13 @@ export default function GroupDetailCard({
       // 4. 참여하기 (클릭 시 로그인 유도)
       return {
         text: '참여하기',
-        onClick: onJoin, // 핸들러에서 로그인 체크
+        onClick: onJoin,
         disabled: false,
         variant: 'primary' as const,
       };
     }
 
     // 로그인 사용자 - 전체 로직
-
     // 1. 모집 마감 + 개설 미확정
     if (isRegistrationClosed && !isOpenConfirmed) {
       return {
@@ -242,8 +244,17 @@ export default function GroupDetailCard({
 
       {/* 하단: 버튼 영역 */}
       <div className="flex w-full items-center justify-between gap-4 sm:gap-2 md:gap-4">
-        {/* 왼쪽: 찜 버튼 */}
-        <FavoriteButton itemId={data.id} size="responsive" />
+        {/* 왼쪽: 찜 버튼 또는 마감 아이콘 */}
+        {isClosed ? (
+          <div
+            role="img"
+            aria-label="모집 마감됨"
+            className="flex h-10 w-10 cursor-not-allowed items-center justify-center sm:h-12 sm:w-12 md:h-15 md:w-15">
+            <Icon name="save" className="h-full w-full" />
+          </div>
+        ) : (
+          <FavoriteButton itemId={data.id} size="responsive" />
+        )}
 
         {/* 오른쪽: 버튼 그룹 */}
         <div className="flex flex-1 items-center gap-2 sm:gap-3">
