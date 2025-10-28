@@ -1,12 +1,4 @@
-// -----------------------------------------------------------------------------
-// NOTE: 인증 전역 스토어 (Zustand)
-//       - token: 현재 액세스 토큰(없으면 null)
-//       - tokenExpiry: 만료 타임스탬프(ms). null이면 만료 관리 없음
-//       - isAuthenticated: 로그인 여부
-//       - setToken(token, expiryMs): 토큰/만료 등록 + localStorage 동기화
-//       - logout(): 토큰/만료 제거 + 상태 초기화
-//       - 초기화 시(localStorage → state) 복구 로직 포함
-// -----------------------------------------------------------------------------
+'use client';
 
 import { create } from 'zustand';
 

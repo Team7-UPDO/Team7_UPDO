@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  // ✅ 원본 파일 추적을 위한 소스맵 활성화
+  productionBrowserSourceMaps: true,
+
   async redirects() {
     return [
       {

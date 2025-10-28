@@ -16,9 +16,12 @@ export type JoinFormType = z.infer<typeof JoinFormSchema>;
 
 export default function SignupForm() {
   const router = useRouter();
-  const { showToast } = useToast();
 
-  const { setToken } = useAuthStore();
+  // selectors 사용으로 불필요한 리렌더링 방지
+  // const { setToken } = useAuthStore();
+  const setToken = useAuthStore(state => state.setToken);
+  // const { showToast } = useToast();
+  const showToast = useToast(state => state.showToast);
 
   const {
     register, // input에 연결(값/이벤트 바인딩)

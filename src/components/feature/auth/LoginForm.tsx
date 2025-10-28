@@ -20,10 +20,13 @@ const firstIssueMessage = (err: z.ZodError) =>
 
 export default function LoginForm() {
   const router = useRouter();
-  const { showToast } = useToast();
 
   // ✅ Zustand 훅 기반 접근 (리액티브)
-  const { setToken } = useAuthStore();
+  // const { setToken } = useAuthStore();
+  // const { showToast } = useToast();
+  // selectors 사용으로 불필요한 리렌더링 방지
+  const setToken = useAuthStore(state => state.setToken);
+  const showToast = useToast(state => state.showToast);
 
   const {
     register,

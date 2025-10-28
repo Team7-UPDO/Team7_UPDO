@@ -18,12 +18,12 @@ export const metadata: Metadata = {
     icon: '/images/favicon.png',
   },
   keywords: ['UPDO', '자기계발', '성장', '모임', '커뮤니티', '네트워킹', '챌린지'],
-  authors: [{ name: 'UP DO', url: 'https://team7-updo.vercel.app' }],
-  metadataBase: new URL('https://team7-updo.vercel.app'),
+  authors: [{ name: 'UP DO', url: 'https://updo.site' }],
+  metadataBase: new URL('https://updo.site'),
   openGraph: {
     title: 'UP DO',
     description: '자기계발에 진심인 사람들을 위한 모임 플랫폼',
-    url: 'https://team7-updo.vercel.app',
+    url: 'https://updo.site',
     siteName: 'UP DO',
     images: [
       {

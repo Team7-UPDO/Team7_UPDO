@@ -1,19 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+interface AuthLayoutProps {
+  title: string;
+  bottomText: string;
+  bottomLinkText: string;
+  bottomLinkHref: string;
+  children: React.ReactNode;
+}
+
 export default function AuthLayout({
   title,
   bottomText,
   bottomLinkText,
   bottomLinkHref,
   children,
-}: {
-  title: string;
-  bottomText: string;
-  bottomLinkText: string;
-  bottomLinkHref: string;
-  children: React.ReactNode;
-}) {
+}: AuthLayoutProps) {
   return (
     <main className="flex w-full flex-col items-center justify-center gap-6 md:flex-row md:gap-32">
       <div className="flex w-full max-w-[500px] min-w-[300px] items-center justify-center sm:w-[500px] sm:max-w-[500px] md:max-w-[530px]">
