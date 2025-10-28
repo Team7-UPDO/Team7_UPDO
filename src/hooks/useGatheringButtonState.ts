@@ -30,6 +30,10 @@ export function useGatheringButtonState({
 
   // 정원 초과 여부
   const isFull = currentParticipantCount >= capacity;
+  const capacity = gathering?.capacity ?? 20;
+
+  // 정원 초과 여부
+  const isFull = currentParticipantCount >= capacity;
 
   // 개설 확정 여부 (최소 인원 충족)
   const minRequired = minParticipants ?? 5;
