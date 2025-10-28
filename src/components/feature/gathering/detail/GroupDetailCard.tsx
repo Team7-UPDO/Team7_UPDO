@@ -30,6 +30,7 @@ interface GroupDetailCardProps {
   isReviewed?: boolean;
   isRegistrationClosed?: boolean;
   isOpenConfirmed?: boolean;
+  isCanceled?: boolean;
   onJoin?: () => void;
   onLeave?: () => void;
   onCancel?: () => void;
@@ -50,6 +51,7 @@ export default function GroupDetailCard({
   isRegistrationClosed = false,
   isOpenConfirmed = false,
   isFull = false,
+  isCanceled = false,
   onJoin,
   onLeave,
   onCancel,
@@ -65,10 +67,20 @@ export default function GroupDetailCard({
   const category = TAG_OPTIONS.find(option => option.value === topic)?.label ?? '';
 
   // 마감 여부 계산
-  const isClosed = isRegistrationClosed || isFull || isCompleted;
+  const isClosed = isRegistrationClosed || isFull || isCompleted || isCanceled;
 
   // 버튼 상태 계산
   const getButtonProps = () => {
+    // 삭제된 모임 처리
+    if (isCanceled) {
+      return {
+        text: '삭제된 모임',
+        onClick: undefined,
+        disabled: true,
+        variant: 'primary' as const,
+      };
+    }
+
     // 비로그인 사용자 - 일부 로직
     if (!isAuthenticated) {
       // 1. 모집 마감 + 개설 미확정

@@ -44,9 +44,11 @@ export function useGatheringButtonState({
   // 모집 마감 여부
   const isRegistrationClosed = isClosed(gathering?.registrationEnd);
 
+  // 삭제 여부
+  const isCanceled = !!gathering?.canceledAt;
+
   return {
     joined,
-    userId,
     currentParticipantCount,
     capacity,
     minRequired,
@@ -55,5 +57,6 @@ export function useGatheringButtonState({
     isCompleted,
     isRegistrationClosed,
     isFull,
+    isCanceled,
   };
 }
