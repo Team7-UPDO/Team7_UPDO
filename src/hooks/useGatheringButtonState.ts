@@ -49,6 +49,7 @@ export function useGatheringButtonState({
 
   return {
     joined,
+    userId,
     currentParticipantCount,
     capacity,
     minRequired,
