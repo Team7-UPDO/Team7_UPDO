@@ -38,6 +38,7 @@ interface GroupDetailCardProps {
   isJoining?: boolean;
   isLeaving?: boolean;
   isCanceling?: boolean;
+  isFull?: boolean;
 }
 
 export default function GroupDetailCard({
@@ -48,6 +49,7 @@ export default function GroupDetailCard({
   isReviewed = false,
   isRegistrationClosed = false,
   isOpenConfirmed = false,
+  isFull = false,
   onJoin,
   onLeave,
   onCancel,
@@ -59,82 +61,127 @@ export default function GroupDetailCard({
 }: GroupDetailCardProps) {
   const { name, deadlineText, dateText, timeText, location } = data;
   const { isAuthenticated } = useAuthStore();
-  const [isSaved, setIsSaved] = useState(false);
   const topic = LocationToTag(location) as 'growth' | 'learn' | 'challenge' | 'connect' | 'default';
   const category = TAG_OPTIONS.find(option => option.value === topic)?.label ?? '';
 
-  const getButtonState = () => {
-    if (!isAuthenticated) return 'JOIN';
-
-    // 모집 마감됐는데 개설 미확정인 경우
-    if (isRegistrationClosed && !isOpenConfirmed) {
-      return 'REGISTRATION_CLOSED';
-    }
-
-    // 모임 완료된 경우
-    if (isCompleted) {
-      if (!joined) {
-        return 'REGISTRATION_CLOSED';
-      }
-      return isReviewed ? 'REVIEWED' : 'WRITE_REVIEW';
-    }
-
-    // 모집 마감됐지만 모임은 아직 진행 전
-    if (isRegistrationClosed) {
-      return 'REGISTRATION_CLOSED';
-    }
-
-    // 모집 진행 중
-    return joined ? 'LEAVE' : 'JOIN';
-  };
-
-  const buttonState = getButtonState();
-
+  // 버튼 상태 계산
   const getButtonProps = () => {
-    switch (buttonState) {
-      case 'JOIN':
+    // 비로그인 사용자 - 일부 로직
+    if (!isAuthenticated) {
+      // 1. 모집 마감 + 개설 미확정
+      if (isRegistrationClosed && !isOpenConfirmed) {
         return {
-          text: '참여하기',
-          onClick: onJoin,
-          disabled: isJoining,
+          text: '개설 취소',
+          onClick: undefined,
+          disabled: true,
           variant: 'primary' as const,
         };
-      case 'LEAVE':
-        return {
-          text: '참여 취소하기',
-          onClick: onLeave,
-          disabled: isLeaving,
-          variant: 'primary' as const,
-        };
-      case 'REGISTRATION_CLOSED':
+      }
+
+      // 2. 모집 마감
+      if (isRegistrationClosed || isCompleted) {
         return {
           text: '참여 기간 만료',
           onClick: undefined,
           disabled: true,
           variant: 'primary' as const,
         };
-      case 'WRITE_REVIEW':
+      }
+
+      // 3. 정원 마감
+      if (isFull) {
         return {
-          text: '리뷰 작성하기',
-          onClick: onWriteReview,
-          disabled: false,
+          text: '정원 마감',
+          onClick: undefined,
+          disabled: true,
           variant: 'primary' as const,
         };
-      case 'REVIEWED':
+      }
+
+      // 4. 참여하기 (클릭 시 로그인 유도)
+      return {
+        text: '참여하기',
+        onClick: onJoin, // 핸들러에서 로그인 체크
+        disabled: false,
+        variant: 'primary' as const,
+      };
+    }
+
+    // 로그인 사용자 - 전체 로직
+
+    // 1. 모집 마감 + 개설 미확정
+    if (isRegistrationClosed && !isOpenConfirmed) {
+      return {
+        text: '개설 취소',
+        onClick: undefined,
+        disabled: true,
+        variant: 'primary' as const,
+      };
+    }
+
+    // 2. 모임 완료
+    if (isCompleted) {
+      if (!joined) {
+        return {
+          text: '참여 기간 만료',
+          onClick: undefined,
+          disabled: true,
+          variant: 'primary' as const,
+        };
+      }
+      if (isReviewed) {
         return {
           text: '참여 완료',
           onClick: undefined,
           disabled: true,
           variant: 'primary' as const,
         };
-      default:
-        return {
-          text: '참여하기',
-          onClick: onJoin,
-          disabled: false,
-          variant: 'primary' as const,
-        };
+      }
+      return {
+        text: '리뷰 작성하기',
+        onClick: onWriteReview,
+        disabled: false,
+        variant: 'primary' as const,
+      };
     }
+
+    // 3. 모집 마감
+    if (isRegistrationClosed) {
+      return {
+        text: '참여 기간 만료',
+        onClick: undefined,
+        disabled: true,
+        variant: 'primary' as const,
+      };
+    }
+
+    // 4. 정원 마감 (참여 안 한 경우)
+    if (isFull && !joined) {
+      return {
+        text: '정원 마감',
+        onClick: undefined,
+        disabled: true,
+        variant: 'primary' as const,
+      };
+    }
+
+    // 5. 참여 취소하기
+    if (joined) {
+      return {
+        text: '참여 취소하기',
+        onClick: onLeave,
+        disabled: isLeaving,
+        variant: 'secondary' as const,
+      };
+    }
+
+    // 6. 참여하기
+    return {
+      text: '참여하기',
+      onClick: onJoin,
+      disabled: isJoining,
+      variant: 'primary' as const,
+    };
   };
 
   const { text, onClick, disabled, variant } = getButtonProps();
@@ -229,10 +276,9 @@ export default function GroupDetailCard({
               size="responsive_full"
               className={cn(
                 'typo-xl h-10 rounded-md font-bold transition-all duration-200 sm:h-12 sm:rounded-md md:h-15 md:rounded-xl',
-                buttonState === 'LEAVE' &&
+                variant === 'secondary' &&
                   'border border-purple-600 bg-white text-purple-600 hover:bg-purple-50',
-                (disabled || buttonState === 'REGISTRATION_CLOSED') &&
-                  'pointer-events-none cursor-not-allowed opacity-50',
+                disabled && 'pointer-events-none cursor-not-allowed opacity-50',
               )}>
               {text}
             </Button>

@@ -26,6 +26,10 @@ export function useGatheringButtonState({
 
   // 참가자 수 계산
   const currentParticipantCount = participantsData?.length ?? gathering?.participantCount ?? 0;
+  const capacity = gathering?.capacity ?? 20;
+
+  // 정원 초과 여부
+  const isFull = currentParticipantCount >= capacity;
 
   // 개설 확정 여부 (최소 인원 충족)
   const minRequired = minParticipants ?? 5;
@@ -42,11 +46,14 @@ export function useGatheringButtonState({
 
   return {
     joined,
+    userId,
     currentParticipantCount,
+    capacity,
     minRequired,
     isOpenConfirmed,
     isReviewed,
     isCompleted,
     isRegistrationClosed,
+    isFull,
   };
 }

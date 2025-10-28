@@ -73,6 +73,7 @@ export default function GroupDetailPage() {
     isReviewed,
     isCompleted,
     isRegistrationClosed,
+    isFull,
   } = useGatheringButtonState({
     gathering,
     participantsData,
@@ -140,6 +141,7 @@ export default function GroupDetailPage() {
             isReviewed={isReviewed}
             isRegistrationClosed={isRegistrationClosed}
             isOpenConfirmed={isOpenConfirmed}
+            isFull={isFull}
             onJoin={handleJoin}
             onLeave={handleLeave}
             onCancel={handleCancel}
