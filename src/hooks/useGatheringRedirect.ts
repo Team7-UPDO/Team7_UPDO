@@ -13,5 +13,5 @@ export function useGatheringRedirect(isCanceled: boolean, isLoading: boolean) {
         router.push('/gathering');
       }, 1500);
     }
-  }, [isCanceled, isLoading, router]);
+  }, [isCanceled, isLoading, router, showToast]);
 }
