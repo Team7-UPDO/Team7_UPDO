@@ -163,6 +163,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
               }}
               aria-invalid={!!isError}
               aria-describedby={isError && errorId ? errorId : undefined}
+              aria-multiline="true"
               {...textareaSafeProps}
             />
           ) : (

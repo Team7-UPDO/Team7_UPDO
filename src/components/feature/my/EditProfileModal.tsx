@@ -117,6 +117,7 @@ export default function EditProfileModal({
                 accept="image/*"
                 className="hidden"
                 onChange={handleFileChange}
+                aria-label="프로필 이미지 선택"
               />
             </div>
             <span className="typo-subtitle-bold mt-2 text-gray-900">{name}</span>

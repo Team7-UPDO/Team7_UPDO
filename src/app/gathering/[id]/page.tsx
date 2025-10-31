@@ -74,7 +74,8 @@ export default function GroupDetailPage() {
   // 로딩/에러 처리
   if (isLoading)
     return (
-      <main className="space-y-8 px-0 py-10">
+      <main aria-busy="true">
+        <span className="sr-only">모임 정보 로딩 중</span>
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
           <div className="relative h-60 w-full overflow-hidden rounded-md bg-gray-100 shadow-sm sm:h-auto sm:rounded-md md:rounded-2xl" />
           <div className="flex flex-col justify-between gap-4">
@@ -90,23 +91,21 @@ export default function GroupDetailPage() {
     );
 
   if (isError || !uiData)
-    return <div className="p-10 text-red-500">모임 정보를 불러올 수 없습니다.</div>;
+    return (
+      <div className="p-10 text-red-500" role="alert">
+        모임 정보를 불러올 수 없습니다.
+      </div>
+    );
 
   // 삭제된 모임
   if (isCanceled) {
     return (
       <main className="flex min-h-screen items-center justify-center">
-        <div className="flex flex-col items-center justify-center gap-3 py-12">
-          <Image
-            src="/images/empty.png"
-            alt="삭제된 모임"
-            width={171}
-            height={115}
-            className="opacity-70"
-          />
-          <span className="text-sm text-gray-400 md:text-base">
+        <div className="flex flex-col items-center justify-center gap-3 py-12" role="alert">
+          <Image src="/images/empty.png" alt="" width={171} height={115} className="opacity-70" />
+          <p className="text-sm text-gray-400 md:text-base">
             삭제된 모임입니다. 모임 찾기 페이지로 이동합니다.
-          </span>
+          </p>
         </div>
       </main>
     );
@@ -118,7 +117,7 @@ export default function GroupDetailPage() {
         <div className="relative h-60 w-full overflow-hidden rounded-md bg-white shadow-sm sm:h-auto sm:rounded-md md:rounded-2xl">
           <Image
             src={uiData?.image || '/images/detail_empty.png'}
-            alt={'모임 대표이미지'}
+            alt={uiData?.name ? `${uiData.name} 모임 대표 이미지` : '모임 대표 이미지'}
             fill
             className="object-cover"
           />

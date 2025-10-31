@@ -25,8 +25,9 @@ export default function HeaderNav() {
     return pathname?.startsWith(href);
   };
   const favoriteCount = mounted && hasHydrated ? favoriteStore.getFavoriteCount(userId) : 0;
+
   return (
-    <nav className="flex items-center sm:gap-2 md:gap-4 lg:gap-6" role="navigation">
+    <nav className="flex items-center sm:gap-2 md:gap-4 lg:gap-6" aria-label="주 메뉴">
       {NAV_ITEMS.map(item => {
         const active = isActive(item.href);
         const showBadge = mounted && hasHydrated && item.hasBadge && favoriteCount > 0;
@@ -34,6 +35,7 @@ export default function HeaderNav() {
           <Link
             key={item.href}
             href={item.href}
+            aria-current={active ? 'page' : undefined}
             className={cn(
               'relative inline-flex items-center transition-colors',
               'px-2 py-2 md:px-3 md:py-2 lg:px-4 lg:py-2',
@@ -45,11 +47,15 @@ export default function HeaderNav() {
             <span className="relative inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap md:gap-2 lg:gap-2">
               {item.label}
               {showBadge && (
-                <Badge
-                  value={favoriteCount}
-                  size="responsive"
-                  className="absolute -right-3.5 sm:-right-4.5 md:-right-6.5"
-                />
+                <>
+                  <Badge
+                    value={favoriteCount}
+                    size="responsive"
+                    className="absolute -right-3.5 sm:-right-4.5 md:-right-6.5"
+                    aria-hidden
+                  />
+                  <span className="sr-only">{favoriteCount}개</span>
+                </>
               )}
             </span>
           </Link>

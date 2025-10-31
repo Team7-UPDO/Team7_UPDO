@@ -160,7 +160,9 @@ export default function ReviewsPage() {
       </div>
 
       {isLoading ? (
-        <div className="flex h-40 items-center justify-center text-gray-500">로딩 중...</div>
+        <div className="flex h-40 items-center justify-center text-gray-500" aria-busy="true">
+          로딩 중...
+        </div>
       ) : (
         <>
           <ReviewStatsCard average={average} total={total} distribution={distribution} />

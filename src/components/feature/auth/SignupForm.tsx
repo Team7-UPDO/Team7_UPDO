@@ -113,7 +113,8 @@ export default function SignupForm() {
     <form
       onSubmit={onSubmit}
       className="flex w-full flex-col items-start gap-3 p-2 sm:p-4"
-      noValidate>
+      noValidate
+      aria-busy={isSubmitting}>
       <div className="flex w-full flex-col gap-1">
         <label htmlFor="name" className="w-fit pl-1 text-left text-sm font-medium text-gray-700">
           이름
@@ -124,8 +125,13 @@ export default function SignupForm() {
           placeholder="이름을 입력해주세요"
           {...registerWithValidation('name')}
           disabled={isSubmitting}
+          autoComplete="name"
+          aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? 'name-error' : undefined}
         />
-        <p className="h-5 pl-1 text-sm text-red-500">{errors.name?.message ?? ''}</p>
+        <p id="name-error" className="h-5 pl-1 text-sm text-red-500">
+          {errors.name?.message ?? ''}
+        </p>
       </div>
 
       <div className="flex w-full flex-col gap-1">
@@ -140,8 +146,13 @@ export default function SignupForm() {
           placeholder="직업을 입력해주세요"
           {...registerWithValidation('companyName')}
           disabled={isSubmitting}
+          autoComplete="organization-title"
+          aria-invalid={!!errors.companyName}
+          aria-describedby={errors.companyName ? 'companyName-error' : undefined}
         />
-        <p className="h-5 pl-1 text-sm text-red-500">{errors.companyName?.message ?? ''}</p>
+        <p id="companyName-error" className="h-5 pl-1 text-sm text-red-500">
+          {errors.companyName?.message ?? ''}
+        </p>
       </div>
 
       <div className="flex w-full flex-col gap-1">
@@ -155,8 +166,13 @@ export default function SignupForm() {
           placeholder="이메일 주소를 입력해주세요"
           {...registerWithValidation('email')}
           disabled={isSubmitting}
+          autoComplete="email"
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? 'email-error' : undefined}
         />
-        <p className="h-5 pl-1 text-sm text-red-500">{errors.email?.message ?? ''}</p>
+        <p id="email-error" className="h-5 pl-1 text-sm text-red-500">
+          {errors.email?.message ?? ''}
+        </p>
       </div>
 
       <div className="flex w-full flex-col gap-1">
@@ -172,8 +188,13 @@ export default function SignupForm() {
           placeholder="비밀번호를 입력해주세요"
           {...registerWithValidation('password')}
           disabled={isSubmitting}
+          autoComplete="new-password"
+          aria-invalid={!!errors.password}
+          aria-describedby={errors.password ? 'password-error' : undefined}
         />
-        <p className="h-5 pl-1 text-sm text-red-500">{errors.password?.message ?? ''}</p>
+        <p id="password-error" className="h-5 pl-1 text-sm text-red-500">
+          {errors.password?.message ?? ''}
+        </p>
       </div>
 
       <div className="flex w-full flex-col gap-1">
@@ -189,8 +210,13 @@ export default function SignupForm() {
           placeholder="비밀번호를 한번 더 입력해주세요"
           {...registerWithValidation('passwordConfirm')}
           disabled={isSubmitting}
+          autoComplete="new-password"
+          aria-invalid={!!errors.passwordConfirm}
+          aria-describedby={errors.passwordConfirm ? 'passwordConfirm-error' : undefined}
         />
-        <p className="h-5 pl-1 text-sm text-red-500">{errors.passwordConfirm?.message ?? ''}</p>
+        <p id="passwordConfirm-error" className="h-5 pl-1 text-sm text-red-500">
+          {errors.passwordConfirm?.message ?? ''}
+        </p>
       </div>
 
       <Button

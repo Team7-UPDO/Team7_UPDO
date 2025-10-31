@@ -122,8 +122,8 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
           <div className="absolute top-5 right-5">
             {!isRegistrationClosed && <FavoriteButton itemId={id} size={48} />}
             {isRegistrationClosed && (
-              <div role="img" aria-label="모집 마감됨" className="cursor-not-allowed">
-                <Icon name="save" size={48} />
+              <div className="cursor-not-allowed">
+                <Icon name="save" size={48} aria-label="모집 마감됨" />
               </div>
             )}
           </div>
@@ -133,7 +133,7 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
         <div className="relative h-[156px] w-full overflow-hidden rounded-t-lg sm:h-[188px] sm:w-[188px] sm:rounded-xl">
           <Image
             src={image ?? '/images/header_logo.png'}
-            alt={name ? `${name} 이미지` : '모임 사진'}
+            alt={name || '모임 이미지'}
             fill
             sizes="(min-width:1280px) 188px, (min-width:650px) 188px, 100vw"
             className="object-cover"
@@ -254,7 +254,7 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
               <WriteReviewControl btnClassname={buttonClassname} gatheringId={id} />
             )}
             {BtnState === 'reviewDone' && (
-              <Button className={buttonClassname} disabled aria-disabled="true">
+              <Button className={buttonClassname} disabled>
                 리뷰 작성완료
               </Button>
             )}

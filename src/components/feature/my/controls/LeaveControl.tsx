@@ -13,7 +13,7 @@ type LeaveControlProps = {
   gatheringId: number;
   className?: string;
   disabled?: boolean;
-  onAfter?: () => void; // 선택: 화면별 후처리 필요 시 사용
+  onAfter?: () => void;
 };
 
 export function LeaveControl({ gatheringId, className, disabled, onAfter }: LeaveControlProps) {
@@ -47,8 +47,7 @@ export function LeaveControl({ gatheringId, className, disabled, onAfter }: Leav
       <Button
         className={className}
         onClick={() => setOpen(true)}
-        disabled={disabled || deleteMutation.isPending}
-        aria-disabled={disabled || deleteMutation.isPending}>
+        disabled={disabled || deleteMutation.isPending}>
         {deleteMutation.isPending ? '취소 중…' : '참여 취소하기'}
       </Button>
       {open && (

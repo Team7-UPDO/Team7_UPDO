@@ -103,7 +103,7 @@ export default function ReviewCardList({
 
   if (isLoading) {
     return (
-      <div className={containerClassname}>
+      <div className={containerClassname} aria-busy="true" aria-label="리뷰 목록 로딩 중">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="w-full">
             <ReviewCardSkeleton variant={variants} />
@@ -115,7 +115,9 @@ export default function ReviewCardList({
 
   if (isError) {
     return (
-      <div className="flex h-[300px] flex-col items-center justify-center text-gray-500">
+      <div
+        className="flex h-[300px] flex-col items-center justify-center text-gray-500"
+        role="alert">
         데이터를 불러오는 중 오류가 발생했습니다.
         {onRetry && (
           <button
@@ -131,8 +133,8 @@ export default function ReviewCardList({
   if (!items || items.length === 0) {
     return (
       <div className="flex min-h-100 flex-col items-center justify-center">
-        <Image src="/images/empty.png" alt="리뷰 빈화면 이미지" width={171} height={115} />
-        <span className="card-title text-gray-400">{emptyMsg}</span>
+        <Image src="/images/empty.png" alt="" width={171} height={115} />
+        <p className="card-title text-gray-400">{emptyMsg}</p>
       </div>
     );
   }
