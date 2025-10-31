@@ -7,6 +7,7 @@ import ScrollWrapper from '@/components/ui/ScrollVisibility';
 import QueryProvider from '@/components/providers/QueryProvider';
 import AuthSessionWatcher from '@/components/feature/auth/AuthSessionWatcher';
 import AuthProvider from './AuthProvider';
+import { LazyMotion, domAnimation } from 'framer-motion';
 
 export const metadata: Metadata = {
   title: {
@@ -49,13 +50,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className={Pretendard.variable}>
       <body>
         <QueryProvider>
-          {/* 전역 토큰 만료 감시 (항상 활성화됨) */}
           <AuthProvider>
-            <AuthSessionWatcher />
-            <ScrollWrapper />
-            <Header />
-            <Toast />
-            <main className="layout-container font-sans">{children}</main>
+            <LazyMotion features={domAnimation}>
+              <AuthSessionWatcher /> {/* 전역 토큰 만료 감시 (항상 활성화됨) */}
+              <ScrollWrapper />
+              <Header />
+              <Toast />
+              <main className="layout-container font-sans">{children}</main>
+            </LazyMotion>
           </AuthProvider>
         </QueryProvider>
       </body>
