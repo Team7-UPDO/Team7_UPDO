@@ -85,13 +85,13 @@ export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
       onOpenChange(false); // 모달 닫기
       queryClient.invalidateQueries({ queryKey: queryKey.gatherings() });
       setForm(InitialForm);
-    } catch (e: unknown) {
+    } catch (error) {
       const msg =
-        e &&
-        typeof e === 'object' &&
-        'message' in e &&
-        typeof (e as { message?: unknown }).message === 'string'
-          ? (e as { message: string }).message
+        error &&
+        typeof error === 'object' &&
+        'message' in error &&
+        typeof (error as { message?: string }).message === 'string'
+          ? (error as { message: string }).message
           : '모임 생성에 실패했습니다. 잠시 후 다시 시도해주세요.';
       toast.showToast(String(msg), 'error');
     } finally {
@@ -108,7 +108,7 @@ export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
       open={open}
       onOpenChange={onOpenChange}
       className="p-4 pb-12 sm:rounded-xl md:rounded-2xl md:p-12"
-      ResponsiveClassName="w-full h-[876px] sm:w-[570px]">
+      ResponsiveClassName="w-full sm:w-[570px] max-h-[100dvh] h-[min(876px,100dvh-32px)]">
       <Modal.Header
         title="모임 만들기"
         onClose={() => {
