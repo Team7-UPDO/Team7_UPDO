@@ -27,10 +27,6 @@ function Portal({ children }: { children: React.ReactNode }) {
   return createPortal(children, document.body);
 }
 
-function Overlay({ onClick }: { onClick?: (e: React.MouseEvent<HTMLDivElement>) => void }) {
-  return <div className="fixed inset-0 bg-black/40" onClick={onClick} />;
-}
-
 interface HeaderProps {
   title?: string;
   onClose?: () => void;
@@ -111,10 +107,10 @@ function ModalRoot({
   return (
     <Portal>
       <div className="fixed inset-0 z-[1000]">
-        <Overlay onClick={handleOutside} />
+        <div className="fixed inset-0 bg-black/40" onClick={handleOutside} />
         <div
           className={cn(
-            'pointer-events-none fixed inset-0 flex items-center justify-center overflow-y-auto',
+            'pointer-events-none fixed inset-0 flex items-center justify-center overflow-y-auto p-4',
             modalClassName,
           )}>
           <div
@@ -126,7 +122,10 @@ function ModalRoot({
             <div
               id={id}
               ref={contentRef}
-              className={cn('mx-auto flex flex-col overflow-hidden bg-white shadow-xl', className)}>
+              className={cn(
+                'mx-auto flex max-h-[100dvh] flex-col overflow-hidden bg-white shadow-xl',
+                className,
+              )}>
               {children}
             </div>
           </div>
@@ -140,7 +139,6 @@ export const Modal = Object.assign(ModalRoot, {
   Header,
   Body,
   Footer,
-  Overlay,
 });
 
 export default Modal;
