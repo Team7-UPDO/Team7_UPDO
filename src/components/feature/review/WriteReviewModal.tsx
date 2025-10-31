@@ -86,9 +86,6 @@ export default function WriteReviewModal({
         />
         <Modal.Body className="p-0">
           <div>
-            <label htmlFor="review-score" className="sr-only">
-              평점 선택
-            </label>
             <ReviewScore
               value={form.score}
               onChange={nextValue =>
@@ -97,6 +94,7 @@ export default function WriteReviewModal({
                   score: nextValue,
                 }))
               }
+              aria-label="평점 선택"
             />
           </div>
 

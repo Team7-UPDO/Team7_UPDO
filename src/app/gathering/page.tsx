@@ -5,7 +5,7 @@ export default function GatheringPage() {
   return (
     <>
       <header
-        aria-labelledby="gathering-header-title"
+        aria-label="모임 찾기"
         className="flex h-[192px] w-full items-center justify-between rounded-3xl bg-white sm:h-[244px]">
         <div className="ml-5 flex flex-col justify-center text-nowrap sm:ml-24">
           <p className="typo-body-sm sm:typo-subtitle text-[var(--purple-550)]">
