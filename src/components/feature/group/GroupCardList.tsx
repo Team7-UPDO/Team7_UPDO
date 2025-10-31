@@ -1,7 +1,7 @@
 'use client';
 
 import GroupCard from './GroupCard';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
@@ -71,7 +71,7 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
       ) : (
         <div className="mx-auto mb-8 flex flex-col gap-6 md:grid md:grid-cols-2">
           {gatherings.map(item => (
-            <motion.div
+            <m.div
               key={item.id}
               className="h-full w-full"
               initial={{ opacity: 0 }}
@@ -79,7 +79,7 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
               viewport={{ once: true, amount: 0.15 }}
               transition={{ type: 'tween', ease: 'easeOut', duration: 0.4 }}>
               <GroupCard data={item} />
-            </motion.div>
+            </m.div>
           ))}
           <div ref={ref} className="text-gray-500">
             {isFetchingNextPage ? '불러오는 중...' : hasNextPage}
