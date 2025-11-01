@@ -18,7 +18,9 @@ export default function ReviewStatsCard({
   const roundedAverage = Math.round(average);
 
   return (
-    <section className="flex w-full flex-col items-center rounded-xl bg-[var(--color-purple-10)] px-[19px] py-6 shadow-sm sm:flex-row sm:items-stretch sm:justify-center sm:gap-[28px] sm:rounded-2xl sm:px-6 sm:py-10 md:justify-between md:gap-0 md:pr-[150px] md:pl-[240px]">
+    <section
+      aria-label="리뷰 통계"
+      className="flex w-full flex-col items-center rounded-xl bg-[var(--color-purple-10)] px-[19px] py-6 shadow-sm sm:flex-row sm:items-stretch sm:justify-center sm:gap-[28px] sm:rounded-2xl sm:px-6 sm:py-10 md:justify-between md:gap-0 md:pr-[150px] md:pl-[240px]">
       <div className="flex w-full flex-col items-center justify-center gap-2 sm:flex-1 md:w-[409px] md:flex-none md:items-start md:border-r md:border-gray-100">
         <div className="flex items-baseline gap-1">
           <h3 className="text-[40px] leading-[1] font-bold text-gray-900 sm:text-[48px]">
@@ -72,7 +74,8 @@ export default function ReviewStatsCard({
                   is5Point
                     ? 'sm:typo-body-bold text-[var(--color-purple-600)]'
                     : 'sm:typo-body text-gray-500'
-                }`}>
+                }`}
+                aria-hidden>
                 {count}
               </span>
             </div>

@@ -45,7 +45,10 @@ export default function FavoriteCardList({ filters }: GroupCardListProps) {
 
   if (isLoading)
     return (
-      <div className="mx-auto mb-8 flex flex-col items-center gap-6 md:grid md:grid-cols-2">
+      <div
+        className="mx-auto mb-8 flex flex-col items-center gap-6 md:grid md:grid-cols-2"
+        aria-busy="true"
+        aria-label="찜한 모임 로딩 중">
         {Array.from({ length: 6 }).map((_, i) => (
           <GroupCardSkeleton key={i} />
         ))}
@@ -54,7 +57,9 @@ export default function FavoriteCardList({ filters }: GroupCardListProps) {
 
   if (isError)
     return (
-      <div className="flex h-[300px] flex-col items-center justify-center text-gray-500">
+      <div
+        className="flex h-[300px] flex-col items-center justify-center text-gray-500"
+        role="alert">
         데이터를 불러오는 중 오류가 발생했습니다.
         <button
           onClick={() => refetch()}
@@ -80,16 +85,16 @@ export default function FavoriteCardList({ filters }: GroupCardListProps) {
   return (
     <>
       {gatherings.length === 0 ? (
-        <span className="mt-16 flex flex-col items-center text-gray-400">
+        <div className="mt-16 flex flex-col items-center text-gray-400">
           <Image
             src="/images/empty.png"
-            alt="emptyImage"
+            alt=""
             style={{ width: 'auto', height: 'auto' }}
             width={180}
             height={100}
           />
-          현재 찜한 모임이 없습니다.
-        </span>
+          <p>현재 찜한 모임이 없습니다.</p>
+        </div>
       ) : (
         <div className="mx-auto mb-8 flex flex-col gap-6 md:grid md:grid-cols-2">
           {gatherings.map(item => (

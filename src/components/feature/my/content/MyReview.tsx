@@ -8,7 +8,6 @@ import MyReviewWritableList from '@/components/feature/my/ui/MyReviewWritableLis
 import MyReviewWrittenList from '@/components/feature/my/ui/MyReviewWrittenList';
 
 export default function MyReview() {
-  // '작성 가능한 리뷰' / '작성한 리뷰' 토글
   const [reviewFilter, setReviewFilter] = useState<'writable' | 'written'>('writable');
 
   return (
@@ -23,7 +22,6 @@ export default function MyReview() {
         defaultActiveId="writable"
         onChange={id => setReviewFilter(id as 'writable' | 'written')}
         className="mt-4 mb-3"
-        ariaLabel="리뷰 필터"
       />
 
       {/* 모임 리스트 or 리뷰 리스트 */}

@@ -10,6 +10,7 @@ import { FilterState } from '@/utils/mapping';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
 import { toGetGatheringsParams } from '@/utils/mapping';
 import GroupCardSkeleton from '@/components/ui/Skeleton/GroupCardSkeleton';
+
 interface GroupCardListProps {
   filters: FilterState;
 }
@@ -42,7 +43,10 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
 
   if (isLoading)
     return (
-      <div className="mx-auto flex flex-col items-center gap-6 md:grid md:grid-cols-2">
+      <div
+        className="mx-auto flex flex-col items-center gap-6 md:grid md:grid-cols-2"
+        aria-busy="true">
+        <span className="sr-only">모임 목록을 불러오는 중입니다</span>
         {Array.from({ length: 6 }).map((_, i) => (
           <GroupCardSkeleton key={i} />
         ))}
@@ -51,7 +55,9 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
 
   if (isError)
     return (
-      <div className="flex h-[300px] flex-col items-center justify-center text-gray-500">
+      <div
+        className="flex h-[300px] flex-col items-center justify-center text-gray-500"
+        role="alert">
         데이터를 불러오는 중 오류가 발생했습니다.
         <button
           onClick={() => refetch()}
@@ -64,10 +70,10 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
   return (
     <>
       {gatherings.length === 0 ? (
-        <span className="mt-16 flex flex-col items-center text-gray-400">
-          <Image src="/images/empty.png" alt="empty" width={180} height={100} />
-          현재 등록된 모임이 없습니다.
-        </span>
+        <div className="mt-16 flex flex-col items-center text-gray-400">
+          <Image src="/images/empty.png" alt="" width={180} height={100} />
+          <p>현재 등록된 모임이 없습니다.</p>
+        </div>
       ) : (
         <div className="mx-auto mb-8 flex flex-col gap-6 md:grid md:grid-cols-2">
           {gatherings.map(item => (
@@ -81,8 +87,8 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
               <GroupCard data={item} />
             </m.div>
           ))}
-          <div ref={ref} className="text-gray-500">
-            {isFetchingNextPage ? '불러오는 중...' : hasNextPage}
+          <div ref={ref} className="text-gray-500" aria-live="polite">
+            {isFetchingNextPage ? '불러오는 중...' : ''}
           </div>
         </div>
       )}

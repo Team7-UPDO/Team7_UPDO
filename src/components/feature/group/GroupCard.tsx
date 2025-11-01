@@ -69,7 +69,6 @@ export default function GroupCard({ data }: GroupCardProps) {
       <Link
         href={`/gathering/${data.id}`}
         className="contents"
-        role="link"
         aria-label={`${name} 상세 페이지로 이동`}>
         <article className="relative flex h-[346px] w-full max-w-[650px] flex-col overflow-hidden rounded-xl bg-white transition-transform duration-300 will-change-transform hover:scale-105 hover:shadow-md sm:h-[219px] sm:max-w-[1280px] sm:flex-row sm:rounded-2xl sm:p-6 md:max-w-[640px]">
           <div className="relative h-[160px] w-full sm:h-[170px] sm:w-[170px] md:h-auto">
@@ -104,7 +103,7 @@ export default function GroupCard({ data }: GroupCardProps) {
           </div>
           <div className="absolute top-5 right-5">
             {isAllClosed ? (
-              <div role="img" aria-label="모집 마감됨" className="cursor-not-allowed">
+              <div aria-hidden="true">
                 <Icon name="save" size={48} />
               </div>
             ) : (

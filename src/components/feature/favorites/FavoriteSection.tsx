@@ -8,7 +8,7 @@ export default function FavoriteSection() {
   const filter = useGroupFilters();
 
   return (
-    <>
+    <section>
       <FavoriteTabs
         activeMain={filter.activeMain}
         handleMainChange={filter.handleMainChange}
@@ -17,6 +17,6 @@ export default function FavoriteSection() {
         handleCategoryChange={filter.handleCategoryChange}
       />
       <FavoriteCardList filters={filter.filters} />
-    </>
+    </section>
   );
 }
