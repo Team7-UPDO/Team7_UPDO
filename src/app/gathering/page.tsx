@@ -25,9 +25,9 @@ export default function GatheringPage() {
           />
         </div>
       </header>
-      <section>
+      <main>
         <GatheringSection />
-      </section>
+      </main>
     </>
   );
 }
