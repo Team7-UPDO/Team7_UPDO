@@ -151,7 +151,7 @@ describe('UI 렌더링 확인 테스트', () => {
     await screen.findByTestId(mypageSkeleton);
 
     // 2) 로딩이 끝나면 스켈레톤이 사라진다
-    await waitForElementToBeRemoved(() => screen.queryByTestId(mypageSkeleton));
+    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
 
     // 3) 카드 타이틀이 잘 렌더링된다 (mock 데이터와 비교)
     expect(await screen.findByText('참여한 모임 A')).toBeInTheDocument();
@@ -162,7 +162,7 @@ describe('UI 렌더링 확인 테스트', () => {
     renderWithProviders(<TabsHarness />);
 
     // 1) 첫 진입 시 데이터 로드 완료
-    await waitForElementToBeRemoved(() => screen.queryByTestId(mypageSkeleton));
+    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
     await screen.findByText('참여한 모임 A');
 
     // 2) 탭 전환 → 다시 돌아왔을 때 스켈레톤이 안 뜨고 데이터가 바로 보임
@@ -177,7 +177,7 @@ describe('UI 렌더링 확인 테스트', () => {
     renderWithProviders(<TabsHarness />);
 
     // 1) myMeeting 탭: 참여한 모임 데이터 확인
-    await waitForElementToBeRemoved(() => screen.queryByTestId(mypageSkeleton));
+    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
     expect(await screen.findByText('참여한 모임 A')).toBeInTheDocument();
 
     // myMeeting 탭에서는 '참여 취소하기' 버튼이 보여야 한다
@@ -188,7 +188,7 @@ describe('UI 렌더링 확인 테스트', () => {
     fireEvent.click(screen.getByTestId('to-created'));
 
     // 스켈레톤 표시 후 데이터 로드
-    await waitForElementToBeRemoved(() => screen.queryByTestId(mypageSkeleton));
+    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
     expect(await screen.findByText('내가 만든 모임 C')).toBeInTheDocument();
 
     // myCreated 탭에서는 '참여 취소하기' 버튼이 보이면 안 된다
@@ -232,6 +232,7 @@ describe('에러 상태 유효성 검증', () => {
   });
 
   test('빈 데이터일 때 Empty 화면이 잘 렌더링되는지 확인', async () => {
+    useUserStore.getState().setUser({ id: 999 } as UserState['user']);
     // 빈 데이터인 경우
     (gatheringService.getJoinedGatherings as jest.Mock).mockResolvedValueOnce({
       data: [],
@@ -241,8 +242,9 @@ describe('에러 상태 유효성 검증', () => {
     renderWithProviders(<MyMeeting />);
 
     // 로딩 스켈레톤이 사라진 뒤, 빈 화면(이미지+문구)이 보여야 함
-    await waitForElementToBeRemoved(() => screen.queryByTestId(mypageSkeleton));
-    expect(screen.getByAltText('모임 빈화면 이미지')).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
+    expect(await screen.findByAltText('모임 빈화면 이미지')).toBeInTheDocument();
+
     // 카드 타이틀이 없어야 함
     expect(screen.queryByText('참여한 모임 A')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: '참여 취소하기' })).not.toBeInTheDocument();

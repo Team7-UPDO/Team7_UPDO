@@ -85,7 +85,7 @@ export default function MyGroupCardList({
   if (!filtered || filtered.length === 0) {
     return (
       <div className="flex min-h-100 flex-col items-center justify-center" ref={sentinelRef}>
-        <Image src="/images/empty.png" alt="" width={171} height={115} />
+        <Image src="/images/empty.png" alt="모임 빈화면 이미지" width={171} height={115} />
         <p className="card-title text-gray-400">{emptyMsg}</p>
       </div>
     );
