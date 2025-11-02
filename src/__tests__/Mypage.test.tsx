@@ -1,8 +1,8 @@
+import React from 'react';
+
 import { renderWithProviders } from './setup/renderWithProviders';
 import { fireEvent } from '@testing-library/react';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
-
-import React from 'react';
 
 import MyMeeting from '@/components/feature/my/content/MyMeeting';
 import MyCreatedGroup from '@/components/feature/my/content/MyCreatedGroup';
@@ -224,17 +224,6 @@ describe('UI 렌더링 확인 테스트', () => {
     expect(screen.queryByText('내가 만든 모임 C')).not.toBeInTheDocument();
     expect(screen.queryByText('내가 만든 모임 D')).not.toBeInTheDocument();
   });
-
-  // - Given : 카드에 ‘참여 취소’버튼이 잘 보임
-  // - When : 참여 취소 버튼 클릭 → API 200
-  // - Then : 즉시 카드가 사라지는지 + toast가 잘 뜨는지
-  test('참여 취소하기 버튼을 누르면 UI 삭제되는 낙관적 업데이트가 잘 되는지 확인', () => {});
-
-  // - Given : 카드 리스트 렌더링, 특정 카드에 ‘참여 취소’ 버튼 존재
-  // - When : 버튼 클릭 → API 200(MSW)
-  // - Then : invalidateQueries(queryKey.myMeetings())으로 해당 카드가 사라짐
-  // - And : API 500이면 toast error 메세지 출력
-  test('리뷰를 작성하면 Button의 UI가 잘 바뀌는지', () => {});
 });
 
 describe('에러 상태 유효성 검증', () => {
