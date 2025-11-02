@@ -1,18 +1,22 @@
 'use client';
 
 import { useGroupFilters } from '@/hooks/useGroupFilters';
-import GroupTab from '@/components/feature/group/GroupTab';
-import GroupFilters from '@/components/feature/group/GroupFilters';
 import FavoriteCardList from './FavoriteCardList';
+import FavoriteTabs from './FavoriteTabs';
 
 export default function FavoriteSection() {
   const filter = useGroupFilters();
 
   return (
-    <>
-      <GroupTab activeMain={filter.activeMain} handleMainChange={filter.handleMainChange} />
-      <GroupFilters {...filter} />
+    <section>
+      <FavoriteTabs
+        activeMain={filter.activeMain}
+        handleMainChange={filter.handleMainChange}
+        activeSubId={filter.activeSubId}
+        activeSubType={filter.activeSubType}
+        handleCategoryChange={filter.handleCategoryChange}
+      />
       <FavoriteCardList filters={filter.filters} />
-    </>
+    </section>
   );
 }

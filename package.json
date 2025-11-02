@@ -18,7 +18,8 @@
     "chromatic": "chromatic --project-token=chpt_0f1c5d6158c794b",
     "commitlint": "commitlint --edit",
     "icons:build": "svgr \"src/components/ui/Icon/svg/save_outline.svg\" --out-dir \"src/components/ui/Icon/Icons\" --ext tsx --filename-case pascal",
-    "icons:rebuild": "rimraf src/components/ui/Icon/Icons && pnpm icons:build"
+    "icons:rebuild": "rimraf src/components/ui/Icon/Icons && pnpm icons:build",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "pnpm": {
     "overrides": {
@@ -52,6 +53,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^16.0.1",
     "@storybook/addon-a11y": "^9.1.8",
     "@storybook/addon-docs": "^9.1.8",
     "@storybook/addon-onboarding": "^9.1.8",
@@ -70,6 +72,7 @@
     "@vitest/browser": "^3.2.4",
     "@vitest/coverage-v8": "^3.2.4",
     "chromatic": "^13.2.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
     "eslint-config-prettier": "^10.1.8",

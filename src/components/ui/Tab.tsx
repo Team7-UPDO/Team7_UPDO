@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
@@ -156,7 +156,7 @@ const Tab = <T extends string>({ items, value, onChange, className }: TabProps<T
         })}
 
         {/* ── Sliding Indicator ── */}
-        <motion.div
+        <m.div
           className="absolute bottom-0 left-0 h-[2px] bg-[var(--color-purple-350)]"
           initial={false}
           animate={{ width: indicatorStyle.width, x: indicatorStyle.left }}

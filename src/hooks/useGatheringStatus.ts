@@ -11,10 +11,10 @@ export function useGatheringStatus(
   registrationEnd?: string,
 ) {
   const isFull = participantCount >= capacity;
-  const isClosed = checkClosed(registrationEnd) || isFull;
+  const isAllClosed = checkClosed(registrationEnd) || isFull;
   const topic = LocationToTag(location) as TopicType;
   const safeCapacity = Math.max(1, capacity);
   const category = TAG_OPTIONS.find(option => option.value === topic)?.label ?? '';
 
-  return { isFull, isClosed, topic, safeCapacity, category };
+  return { isFull, isAllClosed, topic, safeCapacity, category };
 }

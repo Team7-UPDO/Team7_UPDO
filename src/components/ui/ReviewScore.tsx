@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import Heart from '@/components/ui/Icon/Icons/Heart';
 
 interface AnimatedHeartProps {
@@ -18,7 +18,7 @@ interface AnimatedHeartProps {
 const AnimatedHeart: React.FC<AnimatedHeartProps> = React.memo(
   ({ isFilled, isHovered, onClick, onHoverStart, onHoverEnd, index, disabled, size }) => {
     return (
-      <motion.button
+      <m.button
         type="button"
         onClick={onClick}
         onHoverStart={onHoverStart}
@@ -48,7 +48,7 @@ const AnimatedHeart: React.FC<AnimatedHeartProps> = React.memo(
           {/* Full 하트 (애니메이션) */}
           <AnimatePresence>
             {(isFilled || isHovered) && (
-              <motion.div
+              <m.div
                 className="absolute inset-0"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{
@@ -63,13 +63,13 @@ const AnimatedHeart: React.FC<AnimatedHeartProps> = React.memo(
                   mass: 0.5,
                 }}>
                 <Heart size={size} fill="full" />
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
 
           {/* 반짝임 효과 */}
           {isFilled && (
-            <motion.div
+            <m.div
               className="pointer-events-none absolute inset-0"
               initial={{ scale: 1, opacity: 0 }}
               animate={{ scale: 1.5, opacity: [0, 0.5, 0] }}
@@ -81,10 +81,10 @@ const AnimatedHeart: React.FC<AnimatedHeartProps> = React.memo(
                     'radial-gradient(circle, color-mix(in srgb, var(--color-purple-300) 30%, transparent) 0%, transparent 70%)',
                 }}
               />
-            </motion.div>
+            </m.div>
           )}
         </div>
-      </motion.button>
+      </m.button>
     );
   },
 );

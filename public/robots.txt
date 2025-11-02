@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
-
+Disallow: /login
+Disallow: /signup
+Disallow: /mypage
+Disallow: /mypage/*
 Sitemap: https://updo.site/sitemap.xml

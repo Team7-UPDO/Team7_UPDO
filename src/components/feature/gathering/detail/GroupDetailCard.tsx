@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { cn } from '@/utils/cn';
 import IconText from '@/components/ui/IconText';
@@ -258,10 +258,10 @@ export default function GroupDetailCard({
         {/* 왼쪽: 찜 버튼 또는 마감 아이콘 */}
         {isClosed ? (
           <div
-            role="img"
-            aria-label="모집 마감됨"
-            className="flex h-10 w-10 cursor-not-allowed items-center justify-center sm:h-12 sm:w-12 md:h-15 md:w-15">
-            <Icon name="save" className="h-full w-full" />
+            className="flex h-10 w-10 cursor-not-allowed items-center justify-center sm:h-12 sm:w-12 md:h-15 md:w-15"
+            aria-disabled="true">
+            <Icon name="save" className="h-full w-full" aria-hidden />
+            <span className="sr-only">모집 마감됨</span>
           </div>
         ) : (
           <FavoriteButton itemId={data.id} size="responsive" />

@@ -7,24 +7,25 @@ import ScrollWrapper from '@/components/ui/ScrollVisibility';
 import QueryProvider from '@/components/providers/QueryProvider';
 import AuthSessionWatcher from '@/components/feature/auth/AuthSessionWatcher';
 import AuthProvider from './AuthProvider';
+import { LazyMotion, domAnimation } from 'framer-motion';
 
 export const metadata: Metadata = {
   title: {
-    default: 'UP DO - 성장 커뮤니티',
-    template: '%s | UP DO',
+    default: 'UPDO - 성장 커뮤니티',
+    template: '%s | UPDO',
   },
-  description: '자기계발에 진심인 사람들을 위한 모임 플랫폼',
+  description: '함께 배우고 성장하는 사람들의 커뮤니티, UPDO.',
   icons: {
-    icon: '/images/favicon.png',
+    icon: '/favicon.ico',
   },
   keywords: ['UPDO', '자기계발', '성장', '모임', '커뮤니티', '네트워킹', '챌린지'],
-  authors: [{ name: 'UP DO', url: 'https://team7-updo.vercel.app' }],
-  metadataBase: new URL('https://team7-updo.vercel.app'),
+  authors: [{ name: 'UPDO', url: 'https://updo.site' }],
+  metadataBase: new URL('https://updo.site'),
   openGraph: {
-    title: 'UP DO',
-    description: '자기계발에 진심인 사람들을 위한 모임 플랫폼',
-    url: 'https://team7-updo.vercel.app',
-    siteName: 'UP DO',
+    title: 'UPDO',
+    description: '함께 배우고 성장하는 사람들의 커뮤니티, UPDO',
+    url: 'https://updo.site',
+    siteName: 'UPDO',
     images: [
       {
         url: '/images/og-default.png',
@@ -38,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'UP DO',
-    description: '자기계발에 진심인 사람들을 위한 모임 플랫폼',
+    title: 'UPDO',
+    description: '함께 배우고 성장하는 사람들의 커뮤니티, UPDO',
     images: ['/images/og-default.png'],
   },
 };
@@ -49,13 +50,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ko" className={Pretendard.variable}>
       <body>
         <QueryProvider>
-          {/* 전역 토큰 만료 감시 (항상 활성화됨) */}
           <AuthProvider>
-            <AuthSessionWatcher />
-            <ScrollWrapper />
-            <Header />
-            <Toast />
-            <main className="layout-container font-sans">{children}</main>
+            <LazyMotion features={domAnimation}>
+              <AuthSessionWatcher /> {/* 전역 토큰 만료 감시 (항상 활성화됨) */}
+              <ScrollWrapper />
+              <Header />
+              <Toast />
+              <main className="layout-container font-sans">{children}</main>
+            </LazyMotion>
           </AuthProvider>
         </QueryProvider>
       </body>

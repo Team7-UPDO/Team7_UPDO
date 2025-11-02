@@ -1,12 +1,12 @@
 import { isClosed } from '@/utils/date';
 import type { IGathering, IJoinedGathering, IParticipant } from '@/types/gatherings';
-import type { GetReviewsResponse } from '@/types/reviews';
+import type { IReviewWithRelations } from '@/types/reviews';
 
 interface UseGatheringButtonStateParams {
   gathering: IGathering | null | undefined;
   participantsData: IParticipant[] | undefined;
   joinedGatherings: IJoinedGathering[] | undefined;
-  myReviews: GetReviewsResponse | undefined;
+  myReviews: IReviewWithRelations[] | undefined;
   gatheringId: string | number;
   userId: number | null;
   minParticipants?: number;
@@ -36,7 +36,7 @@ export function useGatheringButtonState({
   const isOpenConfirmed = currentParticipantCount >= minRequired;
 
   // 리뷰 작성 여부
-  const isReviewed = (myReviews?.data?.length ?? 0) > 0;
+  const isReviewed = (myReviews?.length ?? 0) > 0;
 
   // 모임 완료 여부 (날짜 지남)
   const isCompleted = isClosed(gathering?.dateTime);

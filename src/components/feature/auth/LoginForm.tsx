@@ -116,7 +116,7 @@ export default function LoginForm() {
       // ✅ 서버 오류(500대 or 명시적 메시지)는 전역 에러로만 처리
       if (e.message?.includes('서버 오류') || e.status === 500) {
         setGlobalError('서버 오류가 발생했습니다.');
-        return; // ✅ 이 지점에서 종료! (토스트나 실패 카운트 실행 금지)
+        return; //
       }
 
       // 4️⃣ 로그인 오류 처리
@@ -158,7 +158,8 @@ export default function LoginForm() {
     <form
       onSubmit={onSubmit}
       className="mx-auto flex w-full max-w-[568px] min-w-[280px] flex-col gap-2 p-2 sm:p-4"
-      noValidate>
+      noValidate
+      aria-busy={isSubmitting}>
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="pl-1 text-sm font-medium text-gray-700">
           이메일
@@ -171,8 +172,12 @@ export default function LoginForm() {
           {...registerWithValidation('email')}
           disabled={isSubmitting}
           autoComplete="email"
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? 'email-error' : undefined}
         />
-        <p className="h-5 pl-1 text-sm text-red-500">{errors.email?.message ?? ''}</p>
+        <p id="email-error" className="h-5 pl-1 text-sm text-red-500">
+          {errors.email?.message ?? ''}
+        </p>
       </div>
 
       <div className="flex flex-col gap-1">
@@ -185,18 +190,21 @@ export default function LoginForm() {
           type="password"
           placeholder="비밀번호를 입력해주세요"
           {...registerWithValidation('password')}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isLocked}
           autoComplete="current-password"
+          aria-invalid={!!errors.password}
+          aria-describedby={errors.password ? 'password-error' : undefined}
         />
-        <p className="h-5 pl-1 text-sm text-red-500">{errors.password?.message ?? ''}</p>
+        <p id="password-error" className="h-5 pl-1 text-sm text-red-500">
+          {errors.password?.message ?? ''}
+        </p>
       </div>
 
       <Button
         type="submit"
         variant="primary"
-        disabled={isSubmitting}
-        className="mt-2 h-[48px] w-full text-base font-semibold"
-        aria-label="로그인">
+        disabled={isSubmitting || isLocked}
+        className="mt-2 h-[48px] w-full text-base font-semibold">
         {isSubmitting ? <LoadingSpinner size="xs" color="white" /> : '로그인'}
       </Button>
 

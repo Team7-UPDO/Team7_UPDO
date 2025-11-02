@@ -1,4 +1,4 @@
-import { tags, locations, TAG_OPTIONS, SORT_OPTIONS } from '@/constants/tags';
+import { tags, locations, TAG_OPTIONS, SORT_OPTIONS, REVIEW_SORT_OPTIONS } from '@/constants/tags';
 import { tabs, types, TAB_OPTIONS } from '@/constants/tabs';
 import { formatDate, formatDateToLocalISO, formatDeadline, formatTime } from './date';
 import { IGathering } from '@/types/gatherings';
@@ -8,7 +8,7 @@ export type FilterState = {
   subType?: string;
   location?: string;
   date?: string;
-  sortBy?: 'dateTime' | 'registrationEnd' | 'participantCount' | 'createdAt';
+  sortBy?: 'dateTime' | 'registrationEnd' | 'participantCount' | 'createdAt' | 'score';
   sortOrder?: 'asc' | 'desc';
   limit?: number;
 };
@@ -68,18 +68,51 @@ export const tagLabelToLocation = (label: string) =>
 export const sortLabelToParams = (
   label: string,
 ): {
-  sortBy?: 'dateTime' | 'registrationEnd' | 'participantCount' | 'createdAt';
+  sortBy?: 'dateTime' | 'registrationEnd' | 'participantCount' | 'createdAt' | 'score';
   sortOrder?: 'asc' | 'desc';
 } => {
   const found = SORT_OPTIONS.find(o => o.label === label);
   if (!found) return {};
   switch (found.value) {
-    case 'participantCount':
+    case 'ascDateTime':
+      return { sortBy: 'dateTime', sortOrder: 'asc' };
+    case 'descDateTime':
+      return { sortBy: 'dateTime', sortOrder: 'desc' };
+    case 'ascParticipantCount':
+      return { sortBy: 'participantCount', sortOrder: 'asc' };
+    case 'descParticipantCount':
       return { sortBy: 'participantCount', sortOrder: 'desc' };
-    case 'registrationEnd':
+    case 'ascRegistrationEnd':
       return { sortBy: 'registrationEnd', sortOrder: 'asc' };
-    case 'createdAt':
+    case 'descRegistrationEnd':
+      return { sortBy: 'registrationEnd', sortOrder: 'desc' };
+
+    default:
+      return {};
+  }
+};
+
+export const sortReviewLabelToParams = (
+  label: string,
+): {
+  sortBy?: 'createdAt' | 'participantCount' | 'score';
+  sortOrder?: 'asc' | 'desc';
+} => {
+  const found = REVIEW_SORT_OPTIONS.find(o => o.label === label);
+  if (!found) return {};
+  switch (found.value) {
+    case 'ascParticipantCount':
+      return { sortBy: 'participantCount', sortOrder: 'asc' };
+    case 'descParticipantCount':
+      return { sortBy: 'participantCount', sortOrder: 'desc' };
+    case 'ascCreatedAt':
+      return { sortBy: 'createdAt', sortOrder: 'asc' };
+    case 'descCreatedAt':
       return { sortBy: 'createdAt', sortOrder: 'desc' };
+    case 'ascScore':
+      return { sortBy: 'score', sortOrder: 'asc' };
+    case 'descScore':
+      return { sortBy: 'score', sortOrder: 'desc' };
     default:
       return {};
   }
@@ -122,13 +155,13 @@ export function buildReviewFilters({
   activeSubType,
   selectedTag,
   selectedDate,
-  selectedFilter,
+  selectedReviewFilter,
 }: {
   activeMain: '성장' | '네트워킹';
   activeSubType?: string;
   selectedTag: string;
   selectedDate?: Date;
-  selectedFilter: string;
+  selectedReviewFilter: string;
 }): Record<string, string> {
   const filters: Record<string, string> = {};
 
@@ -151,7 +184,7 @@ export function buildReviewFilters({
     filters.date = formatDateToLocalISO(selectedDate).slice(0, 10);
   }
 
-  const { sortBy, sortOrder } = sortLabelToParams(selectedFilter);
+  const { sortBy, sortOrder } = sortReviewLabelToParams(selectedReviewFilter);
   if (sortBy) {
     filters.sortBy = sortBy;
     if (sortOrder) filters.sortOrder = sortOrder;

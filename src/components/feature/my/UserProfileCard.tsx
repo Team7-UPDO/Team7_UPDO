@@ -39,15 +39,13 @@ export default function UserProfileCard() {
 
       {/* 직업 및 이메일 (설명 목록으로 의미 부여) */}
       <div className="typo-body-sm sm:typo-body grid grid-cols-[auto,1fr] items-center gap-x-4 gap-y-3 border-l-[1px] border-black/10 pl-4 sm:pl-8 md:border-t-[1px] md:border-l-0 md:pt-8 md:pl-0">
-        <div className="flex gap-5">
-          <div className="text-gray-500">직업</div>
-          <div className="text-gray-700">{companyName}</div>
-        </div>
+        <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-3">
+          <dt className="text-gray-500">직업</dt>
+          <dd className="text-gray-700">{companyName}</dd>
 
-        <div className="flex min-w-0 gap-2">
-          <div className="shrink-0 text-gray-500">이메일</div>
-          <div className="truncate text-gray-700">{email}</div>
-        </div>
+          <dt className="text-gray-500">이메일</dt>
+          <dd className="truncate text-gray-700">{email}</dd>
+        </dl>
       </div>
     </div>
   );

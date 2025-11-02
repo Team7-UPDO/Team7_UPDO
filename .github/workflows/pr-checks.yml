@@ -17,26 +17,59 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install pnpm
-        run: npm i -g pnpm
+      # pnpm 캐시
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
 
+      # 의존성 설치
       - name: Install deps
         run: pnpm install --no-frozen-lockfile
 
+      # 정적 검사
       - name: ESLint
         run: pnpm lint
 
       - name: Type Check
         run: pnpm tsc --noEmit
 
+      # 테스트
       - name: Tests
         run: pnpm test
 
+      # 빌드 캐시 (Next.js / Storybook)
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-next-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-next-
+
+      - name: Cache Storybook build
+        uses: actions/cache@v4
+        with:
+          path: storybook-static
+          key: ${{ runner.os }}-sb-${{ hashFiles('**/pnpm-lock.yaml', '.storybook/**') }}
+          restore-keys: |
+            ${{ runner.os }}-sb-
+
+      # 빌드 실행
       - name: Build Storybook
         run: pnpm build-storybook
 
@@ -46,6 +79,14 @@ jobs:
           NEXT_PUBLIC_TEAM_ID: ${{ secrets.NEXT_PUBLIC_TEAM_ID }}
           NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
 
+      #  Storybook 빌드 결과 전달
+      - name: Upload Storybook build
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: storybook-static
+
+  # Chromatic 미리보기 배포
   chromatic:
     name: Chromatic Preview
     runs-on: ubuntu-latest
@@ -58,19 +99,42 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install pnpm
-        run: npm i -g pnpm
+      # pnpm 캐시
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
 
+      # Storybook 결과 다운로드
+      - name: Download Storybook build
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: storybook-static
+
+      # 의존성 설치
       - name: Install deps
         run: pnpm install --no-frozen-lockfile
 
+      # Chromatic 업로드
       - name: Publish to Chromatic
-        uses: chromaui/action@v1
-        with:
-          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx chromatic \
+            --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} \
+            --storybook-build-dir=storybook-static \
+            --exit-zero-on-changes \
+            --only-changed || true

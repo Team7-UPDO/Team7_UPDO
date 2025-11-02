@@ -16,6 +16,7 @@ type BaseReturn = {
   isCalendarOpen: boolean;
   selectedTag: string;
   selectedFilter: string;
+  selectedReviewFilter: string;
   selectedDate: Date | undefined;
   tagRef: React.RefObject<HTMLDivElement>;
   filterRef: React.RefObject<HTMLDivElement>;
@@ -26,6 +27,7 @@ type BaseReturn = {
   setSelectedDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
   handleTagSelect: (value: string) => void;
   handleFilterSelect: (value: string) => void;
+  handleReviewFilterSelect: (value: string) => void;
   handleDateConfirm: (date?: Date) => void;
   handleCategoryChange: (id: string, apiType: string) => void;
   handleMainChange: (value: '성장' | '네트워킹') => void;
@@ -42,7 +44,8 @@ export function useGroupFilters(mode: FilterMode = 'gathering') {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState('태그 전체');
-  const [selectedFilter, setSelectedFilter] = useState('참여 인원순');
+  const [selectedFilter, setSelectedFilter] = useState('마감 여유순');
+  const [selectedReviewFilter, setReviewSelectedFilter] = useState('최신 등록순');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
 
   const tagRef = useRef<HTMLDivElement>(null);
@@ -60,13 +63,15 @@ export function useGroupFilters(mode: FilterMode = 'gathering') {
   };
 
   const handleFilterSelect = (value: string) => {
-    const selected =
-      SORT_OPTIONS.find(opt => opt.value === value) ||
-      REVIEW_SORT_OPTIONS.find(opt => opt.value === value);
+    const selected = SORT_OPTIONS.find(opt => opt.value === value);
     setSelectedFilter(selected?.label ?? value);
     setIsFilterOpen(false);
   };
-
+  const handleReviewFilterSelect = (value: string) => {
+    const reviewSelected = REVIEW_SORT_OPTIONS.find(opt => opt.value === value);
+    setReviewSelectedFilter(reviewSelected?.label ?? value);
+    setIsFilterOpen(false);
+  };
   const handleDateConfirm = (date?: Date) => {
     setSelectedDate(date);
     setIsCalendarOpen(false);
@@ -90,7 +95,7 @@ export function useGroupFilters(mode: FilterMode = 'gathering') {
           activeSubType,
           selectedTag,
           selectedDate,
-          selectedFilter,
+          selectedReviewFilter,
         })
       : buildFilters({
           activeMain,
@@ -109,6 +114,7 @@ export function useGroupFilters(mode: FilterMode = 'gathering') {
     isCalendarOpen,
     selectedTag,
     selectedFilter,
+    selectedReviewFilter,
     selectedDate,
 
     tagRef,
@@ -121,6 +127,7 @@ export function useGroupFilters(mode: FilterMode = 'gathering') {
     setSelectedDate,
     handleTagSelect,
     handleFilterSelect,
+    handleReviewFilterSelect,
     handleDateConfirm,
     handleCategoryChange,
     handleMainChange,

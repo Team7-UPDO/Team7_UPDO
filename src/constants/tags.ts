@@ -13,14 +13,39 @@ export const TAG_OPTIONS: Readonly<Option[]> = [
 
 export type SortOption = {
   label: string;
-  value: 'dateTime' | 'registrationEnd' | 'participantCount' | 'createdAt';
+  value:
+    | 'ascRegistrationEnd'
+    | 'descRegistrationEnd'
+    | 'ascParticipantCount'
+    | 'descParticipantCount'
+    | 'ascDateTime'
+    | 'descDateTime';
+};
+
+export type reviewSortOption = {
+  label: string;
+  value:
+    | 'ascParticipantCount'
+    | 'descParticipantCount'
+    | 'ascCreatedAt'
+    | 'descCreatedAt'
+    | 'ascScore'
+    | 'descScore';
 };
 export const SORT_OPTIONS: Readonly<SortOption[]> = [
-  { label: '참여 인원순', value: 'participantCount' },
-  { label: '마감 임박', value: 'registrationEnd' },
+  { label: '마감 여유순', value: 'descRegistrationEnd' },
+  { label: '마감 임박순', value: 'ascRegistrationEnd' },
+  { label: '모임 임박순', value: 'ascDateTime' },
+  { label: '모임 늦은순', value: 'descDateTime' },
+  { label: '참여자 적은순', value: 'ascParticipantCount' },
+  { label: '참여자 많은순', value: 'descParticipantCount' },
 ] as const;
 
-export const REVIEW_SORT_OPTIONS: Readonly<SortOption[]> = [
-  { label: '참여 인원순', value: 'participantCount' },
-  { label: '최신 등록순', value: 'createdAt' },
+export const REVIEW_SORT_OPTIONS: Readonly<reviewSortOption[]> = [
+  { label: '최신 등록순', value: 'ascCreatedAt' },
+  { label: '오래된 등록순', value: 'descCreatedAt' },
+  { label: '높은 평점순', value: 'descScore' },
+  { label: '낮은 평점순', value: 'ascScore' },
+  { label: '참여자 많은순', value: 'descParticipantCount' },
+  { label: '참여자 적은순', value: 'ascParticipantCount' },
 ] as const;

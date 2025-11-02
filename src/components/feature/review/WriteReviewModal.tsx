@@ -85,21 +85,25 @@ export default function WriteReviewModal({
           className="mb-11 p-0 sm:mb-13"
         />
         <Modal.Body className="p-0">
-          <ReviewScore
-            value={form.score}
-            onChange={nextValue =>
-              setForm(s => ({
-                ...s,
-                score: nextValue,
-              }))
-            }
-          />
+          <div>
+            <ReviewScore
+              value={form.score}
+              onChange={nextValue =>
+                setForm(s => ({
+                  ...s,
+                  score: nextValue,
+                }))
+              }
+              aria-label="평점 선택"
+            />
+          </div>
 
           <div className="mt-12 flex flex-col gap-3">
-            <label className="typo-lg indent-1 font-medium text-gray-800">
+            <label htmlFor="review-comment" className="typo-lg indent-1 font-medium text-gray-800">
               경험에 대해 남겨주세요.
             </label>
             <Input
+              id="review-comment"
               multiline
               placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
               value={form.comment}
@@ -109,6 +113,7 @@ export default function WriteReviewModal({
                   comment: e.target.value,
                 }));
               }}
+              aria-required="true"
             />
           </div>
         </Modal.Body>

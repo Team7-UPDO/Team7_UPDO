@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Badge from '@/components/ui/Badge';
 import { cn } from '@/utils/cn';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
+import { useUserStore } from '@/stores/useUserStore';
 import { useMounted } from '@/hooks/useMounted';
 
 const NAV_ITEMS = [
@@ -14,24 +15,27 @@ const NAV_ITEMS = [
 ];
 
 export default function HeaderNav() {
-  const { getFavoriteCount } = useFavoriteStore();
+  const userId = useUserStore(state => state.user?.id ?? null);
+  const favoriteStore = useFavoriteStore();
+  const hasHydrated = useFavoriteStore(state => state._hasHydrated);
   const pathname = usePathname();
   const mounted = useMounted();
-  const favoriteCount = getFavoriteCount();
   const isActive = (href: string) => {
     if (href === '/gathering') return pathname === '/' || pathname?.startsWith('/gathering');
     return pathname?.startsWith(href);
   };
+  const favoriteCount = mounted && hasHydrated ? favoriteStore.getFavoriteCount(userId) : 0;
 
   return (
-    <nav className="flex items-center sm:gap-2 md:gap-4 lg:gap-6" role="navigation">
+    <nav className="flex items-center sm:gap-2 md:gap-4 lg:gap-6" aria-label="주 메뉴">
       {NAV_ITEMS.map(item => {
         const active = isActive(item.href);
-        const showBadge = mounted && item.hasBadge;
+        const showBadge = mounted && hasHydrated && item.hasBadge && favoriteCount > 0;
         return (
           <Link
             key={item.href}
             href={item.href}
+            aria-current={active ? 'page' : undefined}
             className={cn(
               'relative inline-flex items-center transition-colors',
               'px-2 py-2 md:px-3 md:py-2 lg:px-4 lg:py-2',
@@ -43,11 +47,15 @@ export default function HeaderNav() {
             <span className="relative inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap md:gap-2 lg:gap-2">
               {item.label}
               {showBadge && (
-                <Badge
-                  value={favoriteCount}
-                  size="responsive"
-                  className="absolute -right-3.5 sm:-right-4.5 md:-right-6.5"
-                />
+                <>
+                  <Badge
+                    value={favoriteCount}
+                    size="responsive"
+                    className="absolute -right-3.5 sm:-right-4.5 md:-right-6.5"
+                    aria-hidden
+                  />
+                  <span className="sr-only">{favoriteCount}개</span>
+                </>
               )}
             </span>
           </Link>
