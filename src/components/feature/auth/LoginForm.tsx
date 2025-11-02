@@ -116,7 +116,7 @@ export default function LoginForm() {
       // ✅ 서버 오류(500대 or 명시적 메시지)는 전역 에러로만 처리
       if (e.message?.includes('서버 오류') || e.status === 500) {
         setGlobalError('서버 오류가 발생했습니다.');
-        return; // ✅ 이 지점에서 종료! (토스트나 실패 카운트 실행 금지)
+        return; //
       }
 
       // 4️⃣ 로그인 오류 처리
