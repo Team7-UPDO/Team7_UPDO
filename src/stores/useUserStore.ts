@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import type { IUser } from '@/types/auths';
 import { authService } from '@/services/auths/authService';
 
-interface UserState {
+export interface UserState {
   user: IUser | null;
   isLoading: boolean;
   error: string | null;

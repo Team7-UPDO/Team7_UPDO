@@ -12,4 +12,5 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.restoreAllMocks(); // 스파이/목 원복
+  jest.clearAllMocks(); // 목 초기화
 });
