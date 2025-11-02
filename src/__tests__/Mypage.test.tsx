@@ -1,8 +1,20 @@
+jest.mock('@/services/httpClient', () => ({
+  __esModule: true,
+  default: {
+    getInstance: jest.fn(() => ({
+      get: jest.fn(),
+      post: jest.fn(),
+      put: jest.fn(),
+      delete: jest.fn(),
+    })),
+  },
+}));
+
 import React from 'react';
 
 import { renderWithProviders } from './setup/renderWithProviders';
 import { fireEvent } from '@testing-library/react';
-import { screen, waitForElementToBeRemoved, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 
 import MyMeeting from '@/components/feature/my/content/MyMeeting';
 import MyCreatedGroup from '@/components/feature/my/content/MyCreatedGroup';
@@ -14,7 +26,7 @@ import type { UserState } from '@/stores/useUserStore';
 
 import gatheringService from '@/services/gatherings/anonGatheringService';
 
-const mypageSkeleton = 'mypage-skeleton';
+const MYPAGE_SKELETON = 'mypage-skeleton';
 
 // myMeeting 탭용 데이터 (나의 모임)
 const mockMyMeetings = [
@@ -134,7 +146,7 @@ function TabsHarness() {
   );
 }
 
-describe('UI 렌더링 확인 테스트', () => {
+describe('UI 렌더링 확인', () => {
   beforeEach(() => {
     // 각 테스트 전에 스토어 초기 상태 설정
     useUserStore.getState().setUser({ id: 1504 } as UserState['user']);
@@ -148,10 +160,10 @@ describe('UI 렌더링 확인 테스트', () => {
     renderWithProviders(<MyMeeting />);
 
     // 1) 초기 로딩 스켈레톤이 나타난다
-    await screen.findByTestId(mypageSkeleton);
+    await screen.findByTestId(MYPAGE_SKELETON);
 
     // 2) 로딩이 끝나면 스켈레톤이 사라진다
-    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByTestId(MYPAGE_SKELETON)).not.toBeInTheDocument());
 
     // 3) 카드 타이틀이 잘 렌더링된다 (mock 데이터와 비교)
     expect(await screen.findByText('참여한 모임 A')).toBeInTheDocument();
@@ -162,14 +174,14 @@ describe('UI 렌더링 확인 테스트', () => {
     renderWithProviders(<TabsHarness />);
 
     // 1) 첫 진입 시 데이터 로드 완료
-    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByTestId(MYPAGE_SKELETON)).not.toBeInTheDocument());
     await screen.findByText('참여한 모임 A');
 
     // 2) 탭 전환 → 다시 돌아왔을 때 스켈레톤이 안 뜨고 데이터가 바로 보임
     fireEvent.click(screen.getByTestId('to-created'));
     fireEvent.click(screen.getByTestId('to-meeting'));
 
-    expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(MYPAGE_SKELETON)).not.toBeInTheDocument();
     expect(await screen.findByText('참여한 모임 A')).toBeInTheDocument();
   });
 
@@ -177,7 +189,7 @@ describe('UI 렌더링 확인 테스트', () => {
     renderWithProviders(<TabsHarness />);
 
     // 1) myMeeting 탭: 참여한 모임 데이터 확인
-    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByTestId(MYPAGE_SKELETON)).not.toBeInTheDocument());
     expect(await screen.findByText('참여한 모임 A')).toBeInTheDocument();
 
     // myMeeting 탭에서는 '참여 취소하기' 버튼이 보여야 한다
@@ -188,7 +200,7 @@ describe('UI 렌더링 확인 테스트', () => {
     fireEvent.click(screen.getByTestId('to-created'));
 
     // 스켈레톤 표시 후 데이터 로드
-    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByTestId(MYPAGE_SKELETON)).not.toBeInTheDocument());
     expect(await screen.findByText('내가 만든 모임 C')).toBeInTheDocument();
 
     // myCreated 탭에서는 '참여 취소하기' 버튼이 보이면 안 된다
@@ -198,7 +210,7 @@ describe('UI 렌더링 확인 테스트', () => {
     fireEvent.click(screen.getByTestId('to-meeting'));
 
     // 캐시된 데이터가 즉시 표시되어야 함 (스켈레톤 없이)
-    expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument();
+    expect(screen.queryByTestId(MYPAGE_SKELETON)).not.toBeInTheDocument();
     expect(await screen.findByText('참여한 모임 A')).toBeInTheDocument();
 
     // 다시 myMeeting 탭으로 돌아오면 '참여 취소하기' 버튼이 다시 보여야 한다
@@ -212,25 +224,35 @@ describe('에러 상태 유효성 검증', () => {
     useUserStore.getState().setUser(null);
     useAuthStore.getState().logout();
 
-    // 2) 페이지 렌더 (myMeeting 진입 시나리오 & AuthGuard)
+    // 2) fetchMe가 사용자 상태를 바꾸지 않도록 스텁 (가드가 안정적으로 동작하게)
+    const prevFetchMe = useUserStore.getState().fetchMe;
+    useUserStore.getState().fetchMe = jest.fn(async () => {});
+
+    // 3) 페이지 렌더 (myMeeting 진입 시나리오 & AuthGuard 적용)
     renderWithProviders(
       <AuthGuard>
         <MyMeeting />
       </AuthGuard>,
     );
 
-    // 3) '/'으로 리다이렉트 되었는지 확인
-    await waitFor(() => expect(window.location.pathname).toBe('/'));
+    // 4) 라우터 호출로 리다이렉트 확인 (window.location을 기다리지 않음)
+    await waitFor(() => {
+      const pushed = mockRouter.push.mock.calls.some(([path]: [string]) => path === '/');
+      const replaced = mockRouter.replace.mock.calls.some(([path]: [string]) => path === '/');
+      expect(pushed || replaced).toBe(true);
+    });
 
-    // 4) 토스트 호출 확인 (문자열 매칭 및 타입 확인)
+    // 5) 토스트 호출 확인
     await waitFor(() =>
       expect(mockShowToast).toHaveBeenCalledWith(expect.stringMatching(/로그아웃/), 'error'),
     );
 
-    // 5) 마이페이지 본문이 보이지 않는지 확인
+    // 6) 마이페이지 본문이 보이지 않는지 확인
     expect(screen.queryByText('참여한 모임 A')).not.toBeInTheDocument();
-  });
 
+    // 7) 원복
+    useUserStore.getState().fetchMe = prevFetchMe;
+  });
   test('빈 데이터일 때 Empty 화면이 잘 렌더링되는지 확인', async () => {
     useUserStore.getState().setUser({ id: 999 } as UserState['user']);
     // 빈 데이터인 경우
@@ -238,13 +260,10 @@ describe('에러 상태 유효성 검증', () => {
       data: [],
       nextPage: undefined,
     });
-
     renderWithProviders(<MyMeeting />);
-
     // 로딩 스켈레톤이 사라진 뒤, 빈 화면(이미지+문구)이 보여야 함
-    await waitFor(() => expect(screen.queryByTestId(mypageSkeleton)).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByTestId(MYPAGE_SKELETON)).not.toBeInTheDocument());
     expect(await screen.findByAltText('모임 빈화면 이미지')).toBeInTheDocument();
-
     // 카드 타이틀이 없어야 함
     expect(screen.queryByText('참여한 모임 A')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: '참여 취소하기' })).not.toBeInTheDocument();
