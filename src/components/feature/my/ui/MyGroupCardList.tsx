@@ -54,7 +54,9 @@ export default function MyGroupCardList({
 
   if (isLoading) {
     return (
-      <div className="mx-auto mt-6 flex w-full flex-col items-center gap-6">
+      <div
+        data-testid="mypage-skeleton"
+        className="mx-auto mt-6 flex w-full flex-col items-center gap-6">
         {Array.from({ length: 6 }).map((_, i) => (
           <MyGroupCardSkeleton key={i} />
         ))}
