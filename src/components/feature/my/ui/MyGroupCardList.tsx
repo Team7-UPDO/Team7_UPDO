@@ -57,7 +57,10 @@ export default function MyGroupCardList({
     return (
       <div
         data-testid="mypage-skeleton"
-        className="mx-auto mt-6 flex w-full flex-col items-center gap-6">
+        className="mx-auto mt-6 flex w-full flex-col items-center gap-6"
+        aria-busy="true"
+        aria-live="polite"
+        aria-label="모임 목록을 불러오는 중입니다">
         {Array.from({ length: 6 }).map((_, i) => (
           <MyGroupCardSkeleton key={i} />
         ))}
