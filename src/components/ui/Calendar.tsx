@@ -1,6 +1,9 @@
 'use client';
 import React from 'react';
-import { DayPicker, type NavProps } from 'react-day-picker';
+import type { NavProps } from 'react-day-picker';
+const DayPickerLazy = React.lazy(() =>
+  import('react-day-picker').then(m => ({ default: m.DayPicker })),
+);
 import { Button } from './Button';
 
 export interface CalendarProps {
@@ -172,65 +175,68 @@ export const Calendar = ({
   return (
     <div className="rounded-md border-[1px] border-gray-200 bg-white">
       {step === 'date' && (
-        <DayPicker
-          mode="single"
-          showOutsideDays
-          selected={tempDate ?? value}
-          onSelect={handleSelect}
-          disabled={blockPast ? { before: todayStart } : undefined}
-          startMonth={effectiveStartMonth}
-          formatters={{
-            formatWeekdayName: day => day?.toLocaleDateString('en-US', { weekday: 'short' }),
-          }}
-          components={{ Nav: CustomNav }}
-          classNames={{
-            root: 'text-gray-800 flex flex-col box-border px-6 py-3',
-            nav: 'w-full',
-            month_caption: 'hidden',
-            caption_label: 'hidden',
-            month_grid: 'flex w-full flex-col',
-            weekdays: 'flex w-full mb-2',
-            weekday: 'flex-1 text-center label p-1',
-            week: 'flex w-full h-8',
-            day: 'flex-1 flex justify-center items-center',
-            day_button:
-              'w-full h-full p-0 typo-body-sm cursor-pointer rounded-md transition-colors hover:bg-purple-500 hover:text-white aria-selected:hover:bg-purple-500 flex items-center justify-center ',
-            today: 'text-purple-500',
-            disabled: 'text-gray-300 opacity-50 cursor-not-allowed',
-            button_previous:
-              'h-10 w-10 cursor-pointer inline-flex items-center justify-center rounded-md text-purple-500 transition-colors',
-            button_next:
-              'h-10 w-10 inline-flex cursor-pointer items-center justify-center rounded-md text-purple-500 transition-colors',
-            chevron: 'fill-current w-4 h-4',
-            footer: 'pt-1 mt-3',
-          }}
-          modifiersClassNames={{
-            selected: 'bg-purple-500 text-white rounded-md',
-            outside: 'text-gray-400',
-          }}
-          footer={
-            variant === 'date' ? (
-              <FooterBar
-                cancelLabel={cancelLabel}
-                primaryLabel="확인"
-                onPrimary={() => onConfirm(tempDate ?? value)}
-                onCancel={onCancel}
-                disabledPrimary={!tempDate}
-              />
-            ) : (
-              <FooterBar
-                cancelLabel={cancelLabel}
-                primaryLabel="다음"
-                onPrimary={() => {
-                  if (tempDate) onNext?.(tempDate);
-                  setStep('time');
-                }}
-                onCancel={onCancel}
-                disabledPrimary={!tempDate}
-              />
-            )
-          }
-        />
+        <React.Suspense
+          fallback={<div className="px-6 py-3 text-center text-gray-600">달력 로딩…</div>}>
+          <DayPickerLazy
+            mode="single"
+            showOutsideDays
+            selected={tempDate ?? value}
+            onSelect={handleSelect}
+            disabled={blockPast ? { before: todayStart } : undefined}
+            startMonth={effectiveStartMonth}
+            formatters={{
+              formatWeekdayName: day => day?.toLocaleDateString('en-US', { weekday: 'short' }),
+            }}
+            components={{ Nav: CustomNav }}
+            classNames={{
+              root: 'text-gray-800 flex flex-col box-border px-6 py-3',
+              nav: 'w-full',
+              month_caption: 'hidden',
+              caption_label: 'hidden',
+              month_grid: 'flex w-full flex-col',
+              weekdays: 'flex w-full mb-2',
+              weekday: 'flex-1 text-center label p-1',
+              week: 'flex w-full h-8',
+              day: 'flex-1 flex justify-center items-center',
+              day_button:
+                'w-full h-full p-0 typo-body-sm cursor-pointer rounded-md transition-colors hover:bg-purple-500 hover:text-white aria-selected:hover:bg-purple-500 flex items-center justify-center ',
+              today: 'text-purple-500',
+              disabled: 'text-gray-300 opacity-50 cursor-not-allowed',
+              button_previous:
+                'h-10 w-10 cursor-pointer inline-flex items-center justify-center rounded-md text-purple-500 transition-colors',
+              button_next:
+                'h-10 w-10 inline-flex cursor-pointer items-center justify-center rounded-md text-purple-500 transition-colors',
+              chevron: 'fill-current w-4 h-4',
+              footer: 'pt-1 mt-3',
+            }}
+            modifiersClassNames={{
+              selected: 'bg-purple-500 text-white rounded-md',
+              outside: 'text-gray-400',
+            }}
+            footer={
+              variant === 'date' ? (
+                <FooterBar
+                  cancelLabel={cancelLabel}
+                  primaryLabel="확인"
+                  onPrimary={() => onConfirm(tempDate ?? value)}
+                  onCancel={onCancel}
+                  disabledPrimary={!tempDate}
+                />
+              ) : (
+                <FooterBar
+                  cancelLabel={cancelLabel}
+                  primaryLabel="다음"
+                  onPrimary={() => {
+                    if (tempDate) onNext?.(tempDate);
+                    setStep('time');
+                  }}
+                  onCancel={onCancel}
+                  disabledPrimary={!tempDate}
+                />
+              )
+            }
+          />
+        </React.Suspense>
       )}
 
       {step === 'time' && (
