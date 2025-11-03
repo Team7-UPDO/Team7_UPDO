@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import findBanner from '@/public/images/find_banner.png';
 import GatheringSection from '@/components/feature/gathering/GatheringSection';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
 import { toGetGatheringsParams } from '@/utils/mapping';
@@ -62,7 +63,7 @@ export default async function GatheringPage() {
 
         <div className="flex h-44 w-36 items-center justify-center sm:mr-16 sm:h-auto sm:w-[275px] md:mr-24 md:w-[316px]">
           <Image
-            src="/images/find_banner.png"
+            src={findBanner}
             alt=""
             width={310}
             height={70}
