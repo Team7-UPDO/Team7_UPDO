@@ -10,19 +10,21 @@ import { FilterState } from '@/utils/mapping';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
 import { toGetGatheringsParams } from '@/utils/mapping';
 import GroupCardSkeleton from '@/components/ui/Skeleton/GroupCardSkeleton';
-
+import { prefetchInfiniteQueryKey } from '@/hooks/usePrefetchInfiniteQuery';
 interface GroupCardListProps {
   filters: FilterState;
 }
 
 export default function GroupCardList({ filters }: GroupCardListProps) {
   const { ref, inView } = useInView({ threshold: 0, rootMargin: '100px 0px' });
-
+  const queryKey = prefetchInfiniteQueryKey(filters);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, refetch } =
     useInfiniteQuery({
-      queryKey: ['gatherings', filters],
-      queryFn: ({ pageParam = 1 }) =>
-        getGatheringInfiniteList(pageParam, toGetGatheringsParams(filters)),
+      queryKey,
+      queryFn: async ({ pageParam = 1 }) => {
+        return getGatheringInfiniteList(pageParam, toGetGatheringsParams(filters));
+      },
+
       initialPageParam: 1,
       getNextPageParam: lastPage => lastPage.nextPage,
     });
@@ -76,7 +78,7 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
         </div>
       ) : (
         <div className="mx-auto mb-8 flex flex-col gap-6 md:grid md:grid-cols-2">
-          {gatherings.map(item => (
+          {gatherings.map((item, index) => (
             <m.div
               key={item.id}
               className="h-full w-full"
@@ -84,7 +86,7 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ type: 'tween', ease: 'easeOut', duration: 0.4 }}>
-              <GroupCard data={item} />
+              <GroupCard data={item} isPriority={index === 0} />
             </m.div>
           ))}
           <div ref={ref} className="text-gray-500" aria-live="polite">

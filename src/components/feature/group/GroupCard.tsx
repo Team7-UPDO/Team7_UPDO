@@ -22,15 +22,16 @@ import { useToast } from '@/components/ui/Toast';
 import { isClosed } from '@/utils/date';
 interface GroupCardProps {
   data: IGathering;
+  isPriority?: boolean;
 }
 
-export default function GroupCard({ data }: GroupCardProps) {
+export default function GroupCard({ data, isPriority }: GroupCardProps) {
   const { name, location, dateTime, registrationEnd, capacity, image } = data;
   const { isJoined } = useIsJoinedGathering(data.id);
   const { participantCount } = useParticipants(data.id);
   const [modalOpen, setModalOpen] = useState(false);
   const { joinMutation, leaveMutation } = useJoinLeaveGathering(data.id);
-  const { isFull, isAllClosed, topic, safeCapacity, category } = useGatheringStatus(
+  const { isAllClosed, topic, safeCapacity, category } = useGatheringStatus(
     location,
     capacity,
     participantCount,
@@ -77,7 +78,11 @@ export default function GroupCard({ data }: GroupCardProps) {
                 src="/images/header_logo.png"
                 alt="not_image"
                 fill
-                priority
+                priority={isPriority}
+                loading={isPriority ? undefined : 'lazy'}
+                placeholder="blur"
+                blurDataURL="/images/placeholder.webp"
+                fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover sm:rounded-xl"
               />
@@ -87,7 +92,10 @@ export default function GroupCard({ data }: GroupCardProps) {
                   src={image}
                   alt={name}
                   fill
-                  priority
+                  priority={isPriority}
+                  loading={isPriority ? undefined : 'lazy'}
+                  placeholder="blur"
+                  blurDataURL="/images/placeholder.webp"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover sm:rounded-xl"
                 />
