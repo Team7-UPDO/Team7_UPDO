@@ -9,7 +9,7 @@ export default function ReviewCard({ User, score, comment, createdAt }: IReviewW
       <div className="flex items-center gap-2">
         <div className="relative h-8 w-8 flex-shrink-0 md:h-10 md:w-10">
           <Image
-            src={User.image ?? '/images/profile.png'}
+            src={User.image ?? '/images/profile.webp'}
             alt={User.name ? `${User.name} 프로필` : ''}
             fill
             quality={80}

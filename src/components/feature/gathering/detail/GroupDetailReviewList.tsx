@@ -43,7 +43,13 @@ export default function GroupDetailReviewList({ gatheringId }: GroupDetailReview
         )}>
         {reviews.length === 0 || isError ? (
           <div className="flex flex-col items-center justify-center gap-3 py-12">
-            <Image src="/images/empty.png" alt="" width={171} height={115} className="opacity-70" />
+            <Image
+              src="/images/empty.webp"
+              alt=""
+              width={171}
+              height={115}
+              className="opacity-70"
+            />
             <p className="text-sm text-gray-400 md:text-base">
               {isError ? '리뷰를 불러올 수 없어요.' : '아직 작성된 리뷰가 없어요.'}
             </p>

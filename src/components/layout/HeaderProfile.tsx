@@ -31,7 +31,7 @@ export default function HeaderProfile() {
       className="flex-shrink-0 overflow-hidden rounded-full transition-opacity hover:opacity-80 focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:outline-none md:mx-[5px]">
       <div className="relative h-8 w-8 sm:h-11 sm:w-11">
         <Image
-          src={user?.image || '/images/profile.png'}
+          src={user?.image || '/images/profile.webp'}
           alt=""
           fill
           className="rounded-full object-cover"

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: 'UPDO',
     images: [
       {
-        url: '/images/og-default.png',
+        url: '/images/og_default.webp',
         width: 600,
         height: 315,
         alt: 'UP DO 대표 이미지',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'UPDO',
     description: '함께 배우고 성장하는 사람들의 커뮤니티, UPDO',
-    images: ['/images/og-default.png'],
+    images: ['/images/og_default.webp'],
   },
 };
 

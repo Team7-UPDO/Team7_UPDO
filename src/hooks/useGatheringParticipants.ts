@@ -21,7 +21,7 @@ export function useGatheringParticipants(gatheringId: string | number) {
     () =>
       participantsData?.map((p: IParticipant) => ({
         id: p.User.id,
-        image: p.User.image || '/images/avatar-default.png',
+        image: p.User.image || '/images/avatar_default.webp',
       })) ?? [],
     [participantsData],
   );

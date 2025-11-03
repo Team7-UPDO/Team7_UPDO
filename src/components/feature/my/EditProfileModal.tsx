@@ -21,7 +21,7 @@ export default function EditProfileModal({
   const { showToast } = useToast();
 
   const { image, name, companyName, email } = user;
-  const DEFAULT_AVATAR_SRC = '/images/avatar-default.png';
+  const DEFAULT_AVATAR_SRC = '/images/avatar_default.webp';
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isSaving, setIsSaving] = useState(false);

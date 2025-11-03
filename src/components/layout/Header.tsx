@@ -22,7 +22,7 @@ export default function Header({ className }: HeaderProps) {
               href="/gathering"
               className="relative h-[44px] w-[50px] sm:mr-2 md:h-[50px] md:w-[57px] lg:h-[70px] lg:w-[80px]">
               <Image
-                src="/images/header_logo.png"
+                src="/images/header_logo.webp"
                 alt="UPDO"
                 fill
                 sizes="(max-width: 768px) 50px, (max-width: 1024px) 57px, 80px"
