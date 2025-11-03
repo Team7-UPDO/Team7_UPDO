@@ -48,8 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <head>
+        <link rel="preconnect" href="https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com" />
+        <link rel="preconnect" href="https://updo.site" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-
         <link
           rel="preload"
           as="style"
