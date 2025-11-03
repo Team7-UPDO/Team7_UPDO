@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: 'https://updo.site/gathering',
     images: [
       {
-        url: '/images/og-gathering.png',
+        url: '/images/og-default.png',
         width: 600,
         height: 315,
         alt: 'UPDO 모임 찾기 대표 이미지',
