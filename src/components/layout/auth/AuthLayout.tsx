@@ -20,7 +20,7 @@ export default function AuthLayout({
     <main className="flex w-full flex-col items-center justify-center gap-6 md:flex-row md:gap-32">
       <div className="flex w-full max-w-[500px] min-w-[300px] items-center justify-center sm:w-[500px] sm:max-w-[500px] md:max-w-[530px]">
         <Image
-          src="/images/auth_logo.png"
+          src="/images/auth_logo.webp"
           alt="UPDO 로고"
           width={529}
           height={345}

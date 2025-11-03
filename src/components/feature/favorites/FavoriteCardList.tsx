@@ -87,7 +87,7 @@ export default function FavoriteCardList({ filters }: GroupCardListProps) {
       {gatherings.length === 0 ? (
         <div className="mt-16 flex flex-col items-center text-gray-400">
           <Image
-            src="/images/empty.png"
+            src="/images/empty.webp"
             alt=""
             style={{ width: 'auto', height: 'auto' }}
             width={180}

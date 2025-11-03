@@ -102,7 +102,7 @@ export default function GroupDetailPage() {
     return (
       <main className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center justify-center gap-3 py-12" role="alert">
-          <Image src="/images/empty.png" alt="" width={171} height={115} className="opacity-70" />
+          <Image src="/images/empty.webp" alt="" width={171} height={115} className="opacity-70" />
           <p className="text-sm text-gray-400 md:text-base">
             삭제된 모임입니다. 모임 찾기 페이지로 이동합니다.
           </p>
@@ -116,10 +116,11 @@ export default function GroupDetailPage() {
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
         <div className="relative h-60 w-full overflow-hidden rounded-md bg-white shadow-sm sm:h-auto sm:rounded-md md:rounded-2xl">
           <Image
-            src={uiData?.image || '/images/detail_empty.png'}
+            src={uiData?.image || '/images/detail_empty.webp'}
             alt={uiData?.name ? `${uiData.name} 모임 대표 이미지` : '모임 대표 이미지'}
             fill
             className="object-cover"
+            priority
           />
         </div>
 

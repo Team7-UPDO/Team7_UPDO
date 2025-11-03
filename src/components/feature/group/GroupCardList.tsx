@@ -73,7 +73,7 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
     <>
       {gatherings.length === 0 ? (
         <div className="mt-16 flex flex-col items-center text-gray-400">
-          <Image src="/images/empty.png" alt="" width={180} height={100} />
+          <Image src="/images/empty.webp" alt="" width={180} height={100} />
           <p>현재 등록된 모임이 없습니다.</p>
         </div>
       ) : (

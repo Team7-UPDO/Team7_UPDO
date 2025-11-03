@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     url: 'https://updo.site/gathering',
     images: [
       {
-        url: '/images/og-gathering.png',
+        url: '/images/og_default.webp',
         width: 600,
         height: 315,
         alt: 'UPDO 모임 찾기 대표 이미지',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: '모임 찾기 | UPDO',
     description: '함께 성장할 사람을 찾아보세요.',
-    images: ['/images/og-default.png'],
+    images: ['/images/og_default.webp'],
   },
 };
 
@@ -62,7 +62,7 @@ export default async function GatheringPage() {
 
         <div className="flex h-44 w-36 items-center justify-center sm:mr-16 sm:h-auto sm:w-[275px] md:mr-24 md:w-[316px]">
           <Image
-            src="/images/find_banner.png"
+            src="/images/find_banner.webp"
             alt=""
             width={310}
             height={70}
