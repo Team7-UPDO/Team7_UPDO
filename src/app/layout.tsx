@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Pretendard } from '../lib/font';
 import { Toast } from '@/components/ui/Toast';
 import Header from '@/components/layout/Header';
 import ScrollWrapper from '@/components/ui/ScrollVisibility';
 import QueryProvider from '@/components/providers/QueryProvider';
 import AuthSessionWatcher from '@/components/feature/auth/AuthSessionWatcher';
 import AuthProvider from './AuthProvider';
+import { LazyMotion, domAnimation } from 'framer-motion';
 
 export const metadata: Metadata = {
   title: {
@@ -46,16 +46,33 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={Pretendard.variable}>
+    <html lang="ko">
+      <head>
+        <link rel="preconnect" href="https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com" />
+        <link rel="preconnect" href="https://updo.site" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+      </head>
       <body>
         <QueryProvider>
-          {/* 전역 토큰 만료 감시 (항상 활성화됨) */}
           <AuthProvider>
-            <AuthSessionWatcher />
-            <ScrollWrapper />
-            <Header />
-            <Toast />
-            <main className="layout-container font-sans">{children}</main>
+            <LazyMotion features={domAnimation}>
+              <AuthSessionWatcher /> {/* 전역 토큰 만료 감시 (항상 활성화됨) */}
+              <ScrollWrapper />
+              <Header />
+              <Toast />
+              <main className="layout-container font-sans">{children}</main>
+            </LazyMotion>
           </AuthProvider>
         </QueryProvider>
       </body>

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
 import SaveFilled from './Icon/Icons/SaveFilled';
 import SaveOutline from './Icon/Icons/SaveOutline';
@@ -25,7 +25,7 @@ export default function SaveButton({
   const buttonSize = isResponsive ? undefined : (size as number);
 
   return (
-    <motion.button
+    <m.button
       type="button"
       onClick={e => {
         e.stopPropagation();
@@ -71,7 +71,7 @@ export default function SaveButton({
       {/* Active (Filled) */}
       <AnimatePresence>
         {isSaved && (
-          <motion.div
+          <m.div
             key="filled"
             className={cn(
               'absolute inset-0 flex items-center justify-center',
@@ -87,13 +87,13 @@ export default function SaveButton({
               mass: 0.5,
             }}>
             <SaveFilled size={isResponsive ? undefined : buttonSize} />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
       {/* 반짝임 효과 */}
       {isSaved && (
-        <motion.div
+        <m.div
           className="pointer-events-none absolute inset-0"
           initial={{ scale: 1, opacity: 0 }}
           animate={{ scale: 1.3, opacity: [0, 0.4, 0] }}
@@ -105,8 +105,8 @@ export default function SaveButton({
                 'radial-gradient(circle, color-mix(in srgb, var(--color-purple-400) 30%, transparent) 0%, transparent 70%)',
             }}
           />
-        </motion.div>
+        </m.div>
       )}
-    </motion.button>
+    </m.button>
   );
 }

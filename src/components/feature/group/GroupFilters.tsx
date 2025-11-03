@@ -94,7 +94,7 @@ export default function GroupFilters({
           </IconText>
 
           {isCalendarOpen && (
-            <div className="absolute z-10 mt-2 sm:top-full sm:right-0">
+            <div className="absolute -left-full z-10 mt-2 sm:top-full sm:-left-15 md:left-0">
               <Calendar
                 cancelLabel="초기화"
                 value={selectedDate}

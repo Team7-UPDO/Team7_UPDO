@@ -21,7 +21,7 @@ export default function AuthLayout({
       <div className="flex w-full max-w-[500px] min-w-[300px] items-center justify-center sm:w-[500px] sm:max-w-[500px] md:max-w-[530px]">
         <Image
           src="/images/auth_logo.png"
-          alt="Auth logo"
+          alt="UPDO 로고"
           width={529}
           height={345}
           priority
@@ -29,8 +29,14 @@ export default function AuthLayout({
         />
       </div>
 
-      <section className="flex w-full max-w-[630px] min-w-[343px] flex-col items-center justify-center rounded-xl bg-white px-4 py-[44px] shadow-md sm:w-[630px] sm:px-14 md:w-[568px]">
-        <h1 className="mb-6 w-full text-center text-3xl font-semibold text-gray-800">{title}</h1>
+      <section
+        aria-labelledby="auth-title"
+        className="flex w-full max-w-[630px] min-w-[343px] flex-col items-center justify-center rounded-xl bg-white px-4 py-[44px] shadow-md sm:w-[630px] sm:px-14 md:w-[568px]">
+        <h1
+          id="auth-title"
+          className="mb-6 w-full text-center text-3xl font-semibold text-gray-800">
+          {title}
+        </h1>
         <div className="flex w-full flex-col">{children}</div>
         <p className="flex w-full justify-center gap-2 text-center text-sm text-gray-600">
           {bottomText}

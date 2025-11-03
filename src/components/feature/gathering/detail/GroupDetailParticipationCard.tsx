@@ -27,11 +27,21 @@ const GroupDetailParticipation = ({
   const last4 = participants.slice(-4);
   const remain = Math.max(0, current - 4);
 
+  const statusText =
+    current >= max ? `정원 ${max}명 모두 참여 완료` : `현재 ${current}명 참여 중, 정원 ${max}명`;
+
   return (
     <section
+      aria-label="참여 현황"
       className={cn(
         'bg-purple-10 flex w-full flex-col gap-3 rounded-md px-5 pt-[14px] pb-5 shadow-sm sm:rounded-md sm:px-6 sm:py-5 sm:pt-5 sm:pb-[22px] md:rounded-2xl md:px-10 md:pt-7 md:pb-[34px] lg:mt-4 lg:rounded-2xl lg:pt-7 lg:pb-8',
       )}>
+      <p className="sr-only" aria-live="polite">
+        {statusText}
+        {remain > 0 && ` 외 ${remain}명`}
+        {confirmed && ', 최소 인원 달성으로 개설 확정'}
+      </p>
+
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="typo-body-lg font-medium text-[var(--color-gray-800)]">
@@ -48,18 +58,21 @@ const GroupDetailParticipation = ({
                 <div className="relative h-[29px] w-[29px]">
                   <Image
                     src={p.image}
-                    alt={`참여자 ${i + 1}`}
+                    alt=""
                     fill
                     quality={80}
                     sizes="58px"
                     className="rounded-full border border-[var(--surface-card)] object-cover"
+                    aria-hidden="true"
                   />
                 </div>
               </div>
             ))}
 
             {remain > 0 && (
-              <div className="caption-bold relative z-[5] -ml-[10px] flex h-[29px] w-[29px] shrink-0 items-center justify-center rounded-full bg-white font-medium text-[var(--color-gray-500)]">
+              <div
+                className="caption-bold relative z-[5] -ml-[10px] flex h-[29px] w-[29px] shrink-0 items-center justify-center rounded-full bg-white font-medium text-[var(--color-gray-500)]"
+                aria-hidden="true">
                 +{remain}
               </div>
             )}

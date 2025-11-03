@@ -18,13 +18,22 @@ export default function GroupDetailReviewList({ gatheringId }: GroupDetailReview
   const totalPages = data?.totalPages ?? 1;
 
   if (isLoading) {
-    return <div className="flex h-48 items-center justify-center text-gray-500">로딩 중...</div>;
+    return (
+      <div
+        className="flex h-48 items-center justify-center text-gray-500"
+        aria-busy="true"
+        aria-live="polite">
+        <span className="sr-only">리뷰 목록을 불러오는 중입니다</span>
+        로딩 중...
+      </div>
+    );
   }
 
-  // 에러 시 빈 리스트로 fallback
   return (
-    <section>
-      <h3 className="md:typo-title text-lg font-semibold text-[var(--color-gray-900)]">
+    <section aria-labelledby="reviews-heading">
+      <h3
+        id="reviews-heading"
+        className="md:typo-title text-lg font-semibold text-[var(--color-gray-900)]">
         리뷰 모아보기
       </h3>
 
@@ -34,16 +43,10 @@ export default function GroupDetailReviewList({ gatheringId }: GroupDetailReview
         )}>
         {reviews.length === 0 || isError ? (
           <div className="flex flex-col items-center justify-center gap-3 py-12">
-            <Image
-              src="/images/empty.png"
-              alt="리뷰 빈화면 이미지"
-              width={171}
-              height={115}
-              className="opacity-70"
-            />
-            <span className="text-sm text-gray-400 md:text-base">
+            <Image src="/images/empty.png" alt="" width={171} height={115} className="opacity-70" />
+            <p className="text-sm text-gray-400 md:text-base">
               {isError ? '리뷰를 불러올 수 없어요.' : '아직 작성된 리뷰가 없어요.'}
-            </span>
+            </p>
           </div>
         ) : (
           <ul className="divide-y divide-gray-100">

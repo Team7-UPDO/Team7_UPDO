@@ -36,7 +36,7 @@ html::-webkit-scrollbar-track {
 @theme {
   /* Fonts */
   --font-sans:
-    var(--font-pretendard), system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR',
+    'Pretendard Variable', Pretendard, system-ui, -apple-system, Segoe UI, Roboto, 'Noto Sans KR',
     'Apple SD Gothic Neo', 'Malgun Gothic', 'Helvetica Neue', Arial, 'Segoe UI Emoji',
     'Segoe UI Symbol', sans-serif;
 

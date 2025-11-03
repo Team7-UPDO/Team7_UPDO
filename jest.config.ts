@@ -6,11 +6,12 @@ const createJestConfig = nextJest({
 
 const config = {
   coverageProvider: 'v8',
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-fixed-jsdom',
 
   // 절대경로(@/...) 매핑 추가
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1', // '@/components/...' → 'src/components/...'
+    '^until-async$': '<rootDir>/__mocks__/until-async.js',
 
     // CSS, 이미지 등 비JS 파일 mock 처리
     '\\.(css|scss|sass)$': 'identity-obj-proxy',
@@ -21,9 +22,12 @@ const config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
   // transform 옵션 (ts-jest 대신 next/jest가 내부적으로 Babel 사용)
-  transformIgnorePatterns: ['/node_modules/', '^.+\\.module\\.(css|sass|scss)$'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(msw|@mswjs/interceptors|until-async)/)',
+    '^.+\\.module\\.(css|sass|scss)$',
+  ],
 
-  // 테스트 경로 (기본값으로도 충분하지만 명시해두면 명확)
+  // 테스트 경로 (기본값으로도 충분하지만 명확해두면 명확)
   testMatch: [
     '<rootDir>/src/__tests__/**/*.test.(ts|tsx)', // src/ __tests__ 폴더 배치 허용
     '<rootDir>/src/**/__tests__/**/*.(ts|tsx)', // src/폴더/ __tests__ 폴더 배치 허용

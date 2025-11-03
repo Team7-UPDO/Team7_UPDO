@@ -140,7 +140,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
               ref={setRefs}
               rows={rows ?? 3}
               className={cn(
-                'flex-1 resize-none outline-none placeholder:text-gray-400 disabled:placeholder:text-gray-400',
+                'min-w-0 flex-1 resize-none outline-none placeholder:text-gray-400 disabled:placeholder:text-gray-400',
                 inputClassName,
               )}
               onFocus={e => {
@@ -163,13 +163,14 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
               }}
               aria-invalid={!!isError}
               aria-describedby={isError && errorId ? errorId : undefined}
+              aria-multiline="true"
               {...textareaSafeProps}
             />
           ) : (
             <input
               ref={setRefs}
               className={cn(
-                'flex-1 outline-none placeholder:text-gray-400 disabled:placeholder:text-gray-400',
+                'min-w-0 flex-1 outline-none placeholder:text-gray-400 disabled:placeholder:text-gray-400',
                 inputClassName,
               )}
               type={isPasswordField ? (showPassword ? 'text' : 'password') : (type ?? 'text')}
@@ -201,7 +202,7 @@ export const Input = forwardRef<HTMLInputElement | HTMLTextAreaElement, InputPro
             </button>
           )}
           {rightSlot && (
-            <div className="flex shrink-0 items-center justify-center">{rightSlot}</div>
+            <div className="ml-2 flex shrink-0 items-center justify-center">{rightSlot}</div>
           )}
         </div>
         {isError && (

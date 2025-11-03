@@ -40,7 +40,7 @@ export default function ReviewCard({ variant, item }: ReviewCardProps) {
               <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gray-100">
                 <Image
                   src={userImage || '/images/avatar-default.png'}
-                  alt={userName || '기본 프로필'}
+                  alt={`${userName} 프로필`}
                   width={40}
                   height={40}
                   className="h-full w-full object-cover"

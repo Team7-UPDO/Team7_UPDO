@@ -46,8 +46,11 @@ export default function CreateGroupModalForm({
   return (
     <>
       <div>
-        <label className={labelClassName}>모임 이름</label>
+        <label htmlFor="gathering-name" className={labelClassName}>
+          모임 이름
+        </label>
         <Input
+          id="gathering-name"
           placeholder="모임 이름을 작성해주세요"
           value={form.name}
           onChange={e => setForm(s => ({ ...s, name: e.target.value }))}
@@ -79,6 +82,8 @@ export default function CreateGroupModalForm({
           ref={fileRef}
           onChange={handleFileChange}
           className="hidden"
+          id="image-upload"
+          aria-label="이미지 파일 선택"
         />
 
         <div className="flex items-center gap-3">

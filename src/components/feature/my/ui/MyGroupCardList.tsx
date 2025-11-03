@@ -52,9 +52,15 @@ export default function MyGroupCardList({
     }
   }, [items, variant, reviewFilter]);
 
+  // 주요 변경 부분만
   if (isLoading) {
     return (
-      <div className="mx-auto mt-6 flex w-full flex-col items-center gap-6">
+      <div
+        data-testid="mypage-skeleton"
+        className="mx-auto mt-6 flex w-full flex-col items-center gap-6"
+        aria-busy="true"
+        aria-live="polite"
+        aria-label="모임 목록을 불러오는 중입니다">
         {Array.from({ length: 6 }).map((_, i) => (
           <MyGroupCardSkeleton key={i} />
         ))}
@@ -64,7 +70,9 @@ export default function MyGroupCardList({
 
   if (isError) {
     return (
-      <div className="flex h-[300px] flex-col items-center justify-center text-gray-500">
+      <div
+        className="flex h-[300px] flex-col items-center justify-center text-gray-500"
+        role="alert">
         데이터를 불러오는 중 오류가 발생했습니다.
         {onRetry && (
           <button
@@ -81,7 +89,7 @@ export default function MyGroupCardList({
     return (
       <div className="flex min-h-100 flex-col items-center justify-center" ref={sentinelRef}>
         <Image src="/images/empty.png" alt="모임 빈화면 이미지" width={171} height={115} />
-        <span className="card-title text-gray-400">{emptyMsg}</span>
+        <p className="card-title text-gray-400">{emptyMsg}</p>
       </div>
     );
   }
@@ -95,8 +103,8 @@ export default function MyGroupCardList({
       ))}
 
       {/* sentinel + 상태 텍스트 */}
-      <div ref={sentinelRef} className="my-4 text-gray-500">
-        {isFetchingNextPage ? '불러오는 중...' : hasNextPage ? '' : ''}
+      <div ref={sentinelRef} className="my-4 text-gray-500" aria-live="polite">
+        {isFetchingNextPage && '불러오는 중...'}
       </div>
     </div>
   );

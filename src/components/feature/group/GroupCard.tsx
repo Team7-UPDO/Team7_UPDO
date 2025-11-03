@@ -22,15 +22,16 @@ import { useToast } from '@/components/ui/Toast';
 import { isClosed } from '@/utils/date';
 interface GroupCardProps {
   data: IGathering;
+  isPriority?: boolean;
 }
 
-export default function GroupCard({ data }: GroupCardProps) {
+export default function GroupCard({ data, isPriority }: GroupCardProps) {
   const { name, location, dateTime, registrationEnd, capacity, image } = data;
   const { isJoined } = useIsJoinedGathering(data.id);
   const { participantCount } = useParticipants(data.id);
   const [modalOpen, setModalOpen] = useState(false);
   const { joinMutation, leaveMutation } = useJoinLeaveGathering(data.id);
-  const { isFull, isAllClosed, topic, safeCapacity, category } = useGatheringStatus(
+  const { isAllClosed, topic, safeCapacity, category } = useGatheringStatus(
     location,
     capacity,
     participantCount,
@@ -69,7 +70,6 @@ export default function GroupCard({ data }: GroupCardProps) {
       <Link
         href={`/gathering/${data.id}`}
         className="contents"
-        role="link"
         aria-label={`${name} 상세 페이지로 이동`}>
         <article className="relative flex h-[346px] w-full max-w-[650px] flex-col overflow-hidden rounded-xl bg-white transition-transform duration-300 will-change-transform hover:scale-105 hover:shadow-md sm:h-[219px] sm:max-w-[1280px] sm:flex-row sm:rounded-2xl sm:p-6 md:max-w-[640px]">
           <div className="relative h-[160px] w-full sm:h-[170px] sm:w-[170px] md:h-auto">
@@ -78,7 +78,10 @@ export default function GroupCard({ data }: GroupCardProps) {
                 src="/images/header_logo.png"
                 alt="not_image"
                 fill
-                priority
+                priority={isPriority}
+                loading={isPriority ? undefined : 'lazy'}
+                placeholder="blur"
+                blurDataURL="/images/placeholder.webp"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover sm:rounded-xl"
               />
@@ -88,7 +91,10 @@ export default function GroupCard({ data }: GroupCardProps) {
                   src={image}
                   alt={name}
                   fill
-                  priority
+                  priority={isPriority}
+                  loading={isPriority ? undefined : 'lazy'}
+                  placeholder="blur"
+                  blurDataURL="data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAAAQAwCdASoUABQAPxGAuFWsKCUjKAgBgCIJYwDImBdvrAAA/sHxX4u2i0y7SUPnUVKS9s/kAAA="
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover sm:rounded-xl"
                 />
@@ -104,7 +110,7 @@ export default function GroupCard({ data }: GroupCardProps) {
           </div>
           <div className="absolute top-5 right-5">
             {isAllClosed ? (
-              <div role="img" aria-label="모집 마감됨" className="cursor-not-allowed">
+              <div aria-hidden="true">
                 <Icon name="save" size={48} />
               </div>
             ) : (
