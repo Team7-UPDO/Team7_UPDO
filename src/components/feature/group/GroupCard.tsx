@@ -81,7 +81,7 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
                 priority={isPriority}
                 loading={isPriority ? undefined : 'lazy'}
                 placeholder="blur"
-                blurDataURL="/images/placeholder.webp"
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlZWVlZWUiIC8+PC9zdmc+"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover sm:rounded-xl"
               />
@@ -94,7 +94,7 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
                   priority={isPriority}
                   loading={isPriority ? undefined : 'lazy'}
                   placeholder="blur"
-                  blurDataURL="data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAAAQAwCdASoUABQAPxGAuFWsKCUjKAgBgCIJYwDImBdvrAAA/sHxX4u2i0y7SUPnUVKS9s/kAAA="
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNlZWVlZWUiIC8+PC9zdmc+"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover sm:rounded-xl"
                 />
