@@ -82,7 +82,6 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
                 loading={isPriority ? undefined : 'lazy'}
                 placeholder="blur"
                 blurDataURL="/images/placeholder.webp"
-                fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover sm:rounded-xl"
               />
@@ -95,7 +94,7 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
                   priority={isPriority}
                   loading={isPriority ? undefined : 'lazy'}
                   placeholder="blur"
-                  blurDataURL="/images/placeholder.webp"
+                  blurDataURL="data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAAAQAwCdASoUABQAPxGAuFWsKCUjKAgBgCIJYwDImBdvrAAA/sHxX4u2i0y7SUPnUVKS9s/kAAA="
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover sm:rounded-xl"
                 />
