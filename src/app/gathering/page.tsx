@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import findBanner from '@/public/images/find_banner.png';
 import GatheringSection from '@/components/feature/gathering/GatheringSection';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
 import { toGetGatheringsParams } from '@/utils/mapping';
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
     url: 'https://updo.site/gathering',
     images: [
       {
-        url: '/images/og-gathering.png',
+        url: '/images/og-default.png',
         width: 600,
         height: 315,
         alt: 'UPDO 모임 찾기 대표 이미지',
@@ -63,7 +62,7 @@ export default async function GatheringPage() {
 
         <div className="flex h-44 w-36 items-center justify-center sm:mr-16 sm:h-auto sm:w-[275px] md:mr-24 md:w-[316px]">
           <Image
-            src={findBanner}
+            src="/images/find_banner.png"
             alt=""
             width={310}
             height={70}
