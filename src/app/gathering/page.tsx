@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import GatheringSection from '@/components/feature/gathering/GatheringSection';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
 import { toGetGatheringsParams } from '@/utils/mapping';
@@ -7,7 +8,30 @@ import { prefetchInfiniteQueryKey } from '@/hooks/usePrefetchInfiniteQuery';
 import Image from 'next/image';
 import { Suspense } from 'react';
 import GatheringSkeleton from '@/components/ui/Skeleton/GatheringSkeleton';
-import Head from 'next/head';
+
+export const metadata: Metadata = {
+  title: '모임 찾기',
+  description: '성장형 커뮤니티 UPDO에서 관심사 기반 모임을 찾아보세요.',
+  openGraph: {
+    title: '모임 찾기 | UPDO',
+    description: '함께 성장할 사람을 찾아보세요.',
+    url: 'https://updo.site/gathering',
+    images: [
+      {
+        url: '/images/og-gathering.png',
+        width: 600,
+        height: 315,
+        alt: 'UPDO 모임 찾기 대표 이미지',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '모임 찾기 | UPDO',
+    description: '함께 성장할 사람을 찾아보세요.',
+    images: ['/images/og-default.png'],
+  },
+};
 
 export default async function GatheringPage() {
   const queryClient = new QueryClient();
@@ -26,10 +50,6 @@ export default async function GatheringPage() {
 
   return (
     <>
-      <Head>
-        <link rel="preconnect" href="https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com" />
-        <link rel="preconnect" href="https://updo.site" />
-      </Head>
       <header
         aria-label="모임 찾기"
         className="flex h-[192px] w-full items-center justify-between rounded-3xl bg-white sm:h-[244px]">
