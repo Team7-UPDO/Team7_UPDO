@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { useOutsideClick } from '@/hooks/useOutsideClick';
 import { REVIEW_SORT_OPTIONS, SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
 import { buildFilters, buildReviewFilters, type FilterState } from '@/utils/mapping';
+import { normalizeFilters } from '@/hooks/usePrefetchInfiniteQuery';
 
 type FilterMode = 'gathering' | 'review';
 
@@ -34,11 +35,16 @@ type BaseReturn = {
 };
 
 export function useGroupFilters(mode: 'review'): BaseReturn & { params: Record<string, string> };
-export function useGroupFilters(mode?: 'gathering'): BaseReturn & { filters: FilterState };
-export function useGroupFilters(mode: FilterMode = 'gathering') {
-  const [activeMain, setActiveMain] = useState<'성장' | '네트워킹'>('성장');
+export function useGroupFilters(
+  mode?: 'gathering',
+  initialFilters?: FilterState,
+): BaseReturn & { filters: FilterState };
+export function useGroupFilters(mode: FilterMode = 'gathering', initialFilters?: FilterState) {
+  const [activeMain, setActiveMain] = useState<'성장' | '네트워킹'>(initialFilters?.main ?? '성장');
   const [activeSubId, setActiveSubId] = useState<string | undefined>(undefined);
-  const [activeSubType, setActiveSubType] = useState<string | undefined>(undefined);
+  const [activeSubType, setActiveSubType] = useState<string | undefined>(
+    initialFilters?.subType ?? undefined,
+  );
 
   const [isTagOpen, setIsTagOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -132,6 +138,6 @@ export function useGroupFilters(mode: FilterMode = 'gathering') {
     handleCategoryChange,
     handleMainChange,
 
-    ...(mode === 'review' ? { params: result } : { filters: result }),
+    ...(mode === 'review' ? { params: result } : { filters: normalizeFilters(result) }),
   };
 }

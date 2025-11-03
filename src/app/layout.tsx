@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Pretendard } from '../lib/font';
 import { Toast } from '@/components/ui/Toast';
 import Header from '@/components/layout/Header';
 import ScrollWrapper from '@/components/ui/ScrollVisibility';
@@ -47,7 +46,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko" className={Pretendard.variable}>
+    <html lang="ko">
+      <head>
+        <link rel="preconnect" href="https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com" />
+        <link rel="preconnect" href="https://updo.site" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+      </head>
       <body>
         <QueryProvider>
           <AuthProvider>

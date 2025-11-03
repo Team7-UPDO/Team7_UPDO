@@ -1,7 +1,53 @@
+import type { Metadata } from 'next';
 import GatheringSection from '@/components/feature/gathering/GatheringSection';
+import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
+import { toGetGatheringsParams } from '@/utils/mapping';
+import { normalizeFilters } from '@/hooks/usePrefetchInfiniteQuery';
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import { prefetchInfiniteQueryKey } from '@/hooks/usePrefetchInfiniteQuery';
 import Image from 'next/image';
+import { Suspense } from 'react';
+import GatheringSkeleton from '@/components/ui/Skeleton/GatheringSkeleton';
 
-export default function GatheringPage() {
+export const metadata: Metadata = {
+  title: '모임 찾기',
+  description: '성장형 커뮤니티 UPDO에서 관심사 기반 모임을 찾아보세요.',
+  openGraph: {
+    title: '모임 찾기 | UPDO',
+    description: '함께 성장할 사람을 찾아보세요.',
+    url: 'https://updo.site/gathering',
+    images: [
+      {
+        url: '/images/og-gathering.png',
+        width: 600,
+        height: 315,
+        alt: 'UPDO 모임 찾기 대표 이미지',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '모임 찾기 | UPDO',
+    description: '함께 성장할 사람을 찾아보세요.',
+    images: ['/images/og-default.png'],
+  },
+};
+
+export default async function GatheringPage() {
+  const queryClient = new QueryClient();
+
+  const defaultFilters = normalizeFilters({ main: '성장', subType: '전체' });
+  const queryKey = prefetchInfiniteQueryKey(defaultFilters);
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam = 1 }) => {
+      const data = await getGatheringInfiniteList(pageParam, toGetGatheringsParams(defaultFilters));
+      return data;
+    },
+    initialPageParam: 1,
+  });
+
   return (
     <>
       <header
@@ -20,14 +66,19 @@ export default function GatheringPage() {
             alt=""
             width={310}
             height={70}
+            fetchPriority="high"
             priority
-            style={{ width: 'auto', height: 'auto' }}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
       </header>
-      <main>
-        <GatheringSection />
-      </main>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <main>
+          <Suspense fallback={<GatheringSkeleton />}>
+            <GatheringSection defaultFilters={defaultFilters} />
+          </Suspense>
+        </main>
+      </HydrationBoundary>
     </>
   );
 }

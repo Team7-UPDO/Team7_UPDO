@@ -10,17 +10,23 @@ interface FavoriteButtonProps {
   onToggle?: (isFavorite: boolean) => void;
 }
 
-export default function FavoriteButton({ itemId, size = 48 }: FavoriteButtonProps) {
-  const { toggleFavorite, isFavorite } = useFavoriteStore();
-  const [isSaved, setIsSaved] = useState(() => isFavorite(itemId));
+export default function FavoriteButton({ itemId, size = 48, onToggle }: FavoriteButtonProps) {
+  const { toggleFavorite, isFavorite, _hasHydrated } = useFavoriteStore();
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setIsSaved(isFavorite(itemId));
-  }, [itemId]);
+    if (_hasHydrated) setHydrated(true);
+  }, [_hasHydrated]);
+
+  if (!hydrated) {
+    return <SaveButton isSaved={false} ariaLabel="찜하기" onToggle={() => {}} size={size} />;
+  }
+
+  const isSaved = isFavorite(itemId);
 
   const handleToggle = () => {
     toggleFavorite(itemId);
-    setIsSaved(isFavorite(itemId));
+    if (onToggle) onToggle(!isSaved);
   };
 
   return <SaveButton isSaved={isSaved} ariaLabel="찜하기" onToggle={handleToggle} size={size} />;
