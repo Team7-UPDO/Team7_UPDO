@@ -45,7 +45,10 @@ export default class HttpClient {
       ...(typeof window === 'undefined' ? { credentials: 'include' } : {}),
     };
 
-    const { token, checkTokenValidity } = useAuthStore.getState();
+    const { token, checkTokenValidity } =
+      typeof window === 'undefined'
+        ? { token: null, checkTokenValidity: () => true }
+        : useAuthStore.getState();
     if (token && !checkTokenValidity()) {
       throw { status: 401, code: 'UNAUTHORIZED', message: '인증이 필요합니다.' };
     }
