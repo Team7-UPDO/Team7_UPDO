@@ -220,7 +220,7 @@ export const mapGatheringToUI = (data: IGathering, userId: number | null) => ({
   participantCount: data.participantCount,
   capacity: data.capacity,
   minParticipants: 5,
-  image: data.image || '/images/detail_empty.png',
+  image: data.image || '/images/detail_empty.webp',
   location: data.location,
   type: data.type,
 });

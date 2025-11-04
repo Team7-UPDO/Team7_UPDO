@@ -75,7 +75,7 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
           <div className="relative h-[160px] w-full sm:h-[170px] sm:w-[170px] md:h-auto">
             {!image ? (
               <Image
-                src="/images/header_logo.png"
+                src="/images/header_logo.webp"
                 alt="not_image"
                 fill
                 priority={isPriority}

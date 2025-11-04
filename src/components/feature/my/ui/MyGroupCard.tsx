@@ -132,7 +132,7 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
         {/* 사진 */}
         <div className="relative h-[156px] w-full overflow-hidden rounded-t-lg sm:h-[188px] sm:w-[188px] sm:rounded-xl">
           <Image
-            src={image ?? '/images/header_logo.png'}
+            src={image ?? '/images/header_logo.webp'}
             alt={name || '모임 이미지'}
             fill
             sizes="(min-width:1280px) 188px, (min-width:650px) 188px, 100vw"

@@ -6,7 +6,7 @@ import EditProfileControl from '@/components/feature/my/controls/EditProfileCont
 
 import { useUserStore } from '@/stores/useUserStore';
 
-const DEFAULT_AVATAR_SRC = '/images/profile.png';
+const DEFAULT_AVATAR_SRC = '/images/profile.webp';
 
 export default function UserProfileCard() {
   const user = useUserStore(s => s.user);

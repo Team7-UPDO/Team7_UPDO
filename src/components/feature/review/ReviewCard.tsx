@@ -39,7 +39,7 @@ export default function ReviewCard({ variant, item }: ReviewCardProps) {
               {/* 왼쪽: 사용자 이미지 */}
               <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-gray-100">
                 <Image
-                  src={userImage || '/images/avatar-default.png'}
+                  src={userImage || '/images/avatar_default.webp'}
                   alt={`${userName} 프로필`}
                   width={40}
                   height={40}
