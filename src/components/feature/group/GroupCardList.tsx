@@ -24,8 +24,8 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
       queryFn: async ({ pageParam = 1 }) => {
         return getGatheringInfiniteList(pageParam, toGetGatheringsParams(filters));
       },
-
       initialPageParam: 1,
+      refetchOnMount: 'always',
       getNextPageParam: lastPage => lastPage.nextPage,
     });
 
