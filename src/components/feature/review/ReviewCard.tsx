@@ -69,7 +69,16 @@ export default function ReviewCard({ variant, item }: ReviewCardProps) {
 
             {/* 모임 썸네일 이미지 */}
             <figure
-              className={`relative col-start-1 row-start-3 h-[80px] overflow-hidden rounded-lg bg-gray-100 sm:row-span-2 sm:row-start-1 sm:h-[200px] md:row-span-2 md:row-start-1 md:h-[200px]`}>
+              className={`relative col-start-1 row-start-3 h-[80px] overflow-hidden rounded-lg bg-white sm:row-span-2 sm:row-start-1 sm:h-[200px] md:row-span-2 md:row-start-1 md:h-[200px]`}>
+              {!gatheringImage && (
+                <Image
+                  src="/images/header_logo.webp"
+                  alt="not_image"
+                  width={400}
+                  height={260}
+                  className="h-full w-full object-cover"
+                />
+              )}
               {gatheringImage && (
                 <Image
                   src={gatheringImage}

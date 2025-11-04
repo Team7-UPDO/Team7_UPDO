@@ -2,10 +2,10 @@ import { Banner } from '@/components/ui/common/Banner';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '모든 리뷰 | UPDO',
+  title: '모든 리뷰',
   description: 'UPDO 이용자들은 이렇게 느꼈어요 🌟',
   openGraph: {
-    title: '모든 리뷰 | UPDO',
+    title: '모든 리뷰',
     description: 'UPDO 이용자들이 남긴 생생한 리뷰를 만나보세요!',
     url: 'https://updo.site/reviews',
     siteName: 'UPDO',
