@@ -23,7 +23,7 @@
 | 참여 인원 | Frontend 4명 |
 | 배포 | [https://updo.site](https://updo.site/) |
 | Backend | [fe-adv-project-together-dallaem.vercel.app](https://fe-adv-project-together-dallaem.vercel.app/) |
-| 노션 | |
+| 노션 | [링크](https://ablaze-stage-db7.notion.site/7-UP-DO-26bcf2d3796180afb7c3eb754591ac35?source=copy_link) |
 
 ---
 
@@ -31,7 +31,7 @@
 
 | 이름 | 주요 담당 | 깃허브 |
 | --- | --- | --- |
-| 김채원 | 팀장 / 마이페이지 구현 및 테스팅, Modal 구현, 테스팅 환경 전역 설정, UserStore(Zustand), 번들 크기 경량화 | [링크]() |
+| 김채원 | 팀장 | [링크]() |
 | 김선기 |  | [링크]() |
 | 서민수 |  | [링크]() |
 | 홍성현 |  | [링크]() |

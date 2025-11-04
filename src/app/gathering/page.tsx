@@ -41,10 +41,8 @@ export default async function GatheringPage() {
 
   await queryClient.prefetchInfiniteQuery({
     queryKey,
-    queryFn: async ({ pageParam = 1 }) => {
-      const data = await getGatheringInfiniteList(pageParam, toGetGatheringsParams(defaultFilters));
-      return data;
-    },
+    queryFn: ({ pageParam = 1 }) =>
+      getGatheringInfiniteList(pageParam, toGetGatheringsParams(defaultFilters)),
     initialPageParam: 1,
   });
 
