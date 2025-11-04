@@ -7,7 +7,9 @@ const createJestConfig = nextJest({
 const config = {
   coverageProvider: 'v8',
   testEnvironment: 'jest-fixed-jsdom',
-
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov', 'html'],
   // 절대경로(@/...) 매핑 추가
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1', // '@/components/...' → 'src/components/...'
