@@ -11,19 +11,30 @@ import { Button } from '@/components/ui/Button';
 import { TAG_OPTIONS } from '@/constants/tags';
 import { TAB_OPTIONS } from '@/constants/tabs';
 
-import { CreateGroupForm } from './CreateGroupModal';
-import type { SubmitErrors } from './CreateGroupModal';
+import {
+  Control,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+  FieldErrors,
+  Controller,
+} from 'react-hook-form';
+import { CreateGatheringFormType } from '@/schemas/gatheringsSchema';
 
 type CreateGroupModalFormProps = {
-  form: CreateGroupForm;
-  setForm: React.Dispatch<React.SetStateAction<CreateGroupForm>>;
-  submitErrors?: SubmitErrors | null;
+  control: Control<CreateGatheringFormType>;
+  register: UseFormRegister<CreateGatheringFormType>;
+  setValue: UseFormSetValue<CreateGatheringFormType>;
+  watch: UseFormWatch<CreateGatheringFormType>;
+  errors: FieldErrors<CreateGatheringFormType>;
 };
 
 export default function CreateGroupModalForm({
-  form,
-  setForm,
-  submitErrors,
+  control,
+  register,
+  setValue,
+  watch,
+  errors,
 }: CreateGroupModalFormProps) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(0);
 
@@ -31,7 +42,7 @@ export default function CreateGroupModalForm({
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
@@ -40,8 +51,10 @@ export default function CreateGroupModalForm({
       return;
     }
 
-    setForm(s => ({ ...s, image: file }));
+    setValue('image', file, { shouldValidate: true });
   };
+
+  const imageFile = watch('image');
 
   return (
     <>
@@ -52,23 +65,25 @@ export default function CreateGroupModalForm({
         <Input
           id="gathering-name"
           placeholder="모임 이름을 작성해주세요"
-          value={form.name}
-          onChange={e => setForm(s => ({ ...s, name: e.target.value }))}
+          {...register('name')}
+          aria-invalid={!!errors.name}
         />
+        {errors.name && <span className="text-sm text-red-500">{errors.name.message}</span>}
       </div>
 
       <div>
         <label className={labelClassName}>태그</label>
-        <SelectInput
-          items={TAG_OPTIONS}
-          value={form.tag ?? null}
-          onChange={nextValue =>
-            setForm(s => ({
-              ...s,
-              tag: nextValue ?? null,
-            }))
-          }
-          placeholder="태그를 선택해주세요"
+        <Controller
+          control={control}
+          name="location"
+          render={({ field: { onChange, value } }) => (
+            <SelectInput
+              items={TAG_OPTIONS}
+              value={value}
+              onChange={onChange}
+              placeholder="태그를 선택해주세요"
+            />
+          )}
         />
       </div>
 
@@ -89,7 +104,7 @@ export default function CreateGroupModalForm({
         <div className="flex items-center gap-3">
           <Input
             placeholder="이미지를 첨부해주세요 ex)png, wepb, jpg, jpeg"
-            value={form.image ? form.image.name : ''}
+            value={imageFile ? imageFile.name : ''}
             readOnly
             disableFocusStyle
             onClick={() => fileRef.current?.click()}
@@ -112,35 +127,27 @@ export default function CreateGroupModalForm({
         <div>
           <label className="label mb-2 block pl-1 text-gray-800">모임 날짜</label>
 
-          <DatetimeInput
-            value={form.date ?? ''}
-            onChange={nextValue =>
-              setForm(s => ({
-                ...s,
-                date: nextValue,
-              }))
-            }
-            blockPast
+          <Controller
+            control={control}
+            name="dateTime"
+            render={({ field: { onChange, value } }) => (
+              <DatetimeInput value={value} onChange={onChange} blockPast />
+            )}
           />
         </div>
         <div>
           <div className="flex justify-between">
             <label className="label mb-2 block pl-1 text-gray-800">모집 마감 날짜</label>
           </div>
-          <DatetimeInput
-            value={form.registrationEnd ?? ''}
-            onChange={nextValue =>
-              setForm(s => ({
-                ...s,
-                registrationEnd: nextValue,
-              }))
-            }
-            blockPast
+          <Controller
+            control={control}
+            name="registrationEnd"
+            render={({ field: { onChange, value } }) => (
+              <DatetimeInput value={value} onChange={onChange} blockPast />
+            )}
           />
-          {submitErrors?.registrationEnd && (
-            <span className="typo-body-sm md:typo-caption-bold text-red-500">
-              {submitErrors.registrationEnd[0]}
-            </span>
+          {errors.registrationEnd && (
+            <span className="text-sm text-red-500">{errors.registrationEnd.message}</span>
           )}
         </div>
       </div>
@@ -156,10 +163,7 @@ export default function CreateGroupModalForm({
               isSelected={selectedIdx === idx}
               onSelect={() => {
                 setSelectedIdx(idx);
-                setForm(s => ({
-                  ...s,
-                  tab: value,
-                }));
+                setValue('type', value as CreateGatheringFormType['type']); // ✅ setValue 사용
               }}
             />
           ))}
@@ -169,22 +173,14 @@ export default function CreateGroupModalForm({
       <div>
         <div className="label flex justify-between">
           <label className={labelClassName}>모집 인원</label>
-          {submitErrors?.capacity && (
-            <span className="typo-body-sm text-red-500">{submitErrors.capacity[0]}</span>
+          {errors?.capacity && (
+            <span className="typo-body-sm text-red-500">{errors.capacity?.message}</span>
           )}
         </div>
         <Input
           type="number"
           placeholder="모집 인원을 입력해주세요"
-          value={form.capacity ? String(form.capacity) : ''}
-          onChange={e => {
-            const val = e.target.value === '' ? null : Number(e.target.value);
-            if (val !== null && val < 0) return; // prevent values above 20
-            setForm(s => ({
-              ...s,
-              capacity: val,
-            }));
-          }}
+          {...register('capacity', { valueAsNumber: true })}
         />
       </div>
     </>
