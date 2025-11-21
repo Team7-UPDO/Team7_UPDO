@@ -41,6 +41,51 @@ function getMyMeetingsState(
   return getReviewState(isReviewed); // 모집 완료 + 참여 중 + 5명 이상
 }
 
+// 헬퍼 함수 : 상태 배지 렌더링
+function getStatusBadge(failedToOpen: boolean, isCompleted?: boolean) {
+  if (failedToOpen) {
+    return (
+      <IconText tone="fill" className="typo-body-sm h-8 bg-red-50 py-[6px] text-red-500">
+        개설 실패
+      </IconText>
+    );
+  }
+
+  if (isCompleted) {
+    return (
+      <IconText tone="fill" className="typo-body-sm h-8 bg-gray-50 py-[6px] text-gray-500">
+        이용 완료
+      </IconText>
+    );
+  }
+
+  return (
+    <IconText tone="fill" className="typo-body-sm h-8 bg-purple-50 py-[6px] text-purple-600">
+      이용 예정
+    </IconText>
+  );
+}
+
+// 헬퍼 함수 : 개설 확정/대기 배지 렌더링
+function getConfirmationBadge(participantCnt: number) {
+  if (participantCnt >= 5) {
+    return (
+      <IconText
+        tone="outline"
+        icon="check"
+        className="typo-body-sm h-8 border-purple-400 py-[6px] pr-2 pl-1 text-purple-600">
+        개설 확정
+      </IconText>
+    );
+  }
+
+  return (
+    <IconText tone="outline" className="typo-body-sm h-8 border-gray-500 py-[6px] text-gray-500">
+      개설 대기
+    </IconText>
+  );
+}
+
 export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
   const { name, id, dateTime, location, participantCount: participantCnt, capacity, image } = item;
   const { isCompleted, isReviewed } = item as IJoinedGathering;
@@ -65,19 +110,20 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
   // leave : 참여 취소하기
   // reviewWrite : 리뷰 작성하기
   // reviewDone : 리뷰 작성완료
-
   const BtnState = useMemo<BtnState>(() => {
     if (isMyMeetings) {
       return getMyMeetingsState(failedToOpen, isCompleted, isReviewed);
     }
+
     if (isMyReviews) {
       return getReviewState(isReviewed);
     }
+
     return null;
   }, [isMyMeetings, isMyReviews, isCompleted, isReviewed, failedToOpen]);
 
   // 그 외 헬퍼 변수
-  const buttonClassname =
+  const FooterButtonClassname =
     'w-full h-[44px] sm:h-[48px] sm:w-[130px] md:h-[48px] md:w-[156px] rounded-lg';
 
   const router = useRouter();
@@ -127,41 +173,8 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
           <div>
             {isMyMeetings && (
               <div className="mb-4 flex items-center gap-2">
-                {failedToOpen ? (
-                  <IconText
-                    tone="fill"
-                    className="typo-body-sm h-8 bg-red-50 py-[6px] text-red-500">
-                    개설 실패
-                  </IconText>
-                ) : isCompleted ? (
-                  <IconText
-                    tone="fill"
-                    className="typo-body-sm h-8 bg-gray-50 py-[6px] text-gray-500">
-                    이용 완료
-                  </IconText>
-                ) : (
-                  <IconText
-                    tone="fill"
-                    className="typo-body-sm h-8 bg-purple-50 py-[6px] text-purple-600">
-                    이용 예정
-                  </IconText>
-                )}
-
-                {!isCompleted &&
-                  (participantCnt >= 5 ? (
-                    <IconText
-                      tone="outline"
-                      icon="check"
-                      className="typo-body-sm h-8 border-purple-400 py-[6px] pr-2 pl-1 text-purple-600">
-                      개설 확정
-                    </IconText>
-                  ) : (
-                    <IconText
-                      tone="outline"
-                      className="typo-body-sm h-8 border-gray-500 py-[6px] text-gray-500">
-                      개설 대기
-                    </IconText>
-                  ))}
+                {getStatusBadge(failedToOpen, isCompleted)}
+                {!isCompleted && getConfirmationBadge(participantCnt ?? 0)}
               </div>
             )}
 
@@ -227,15 +240,15 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
               {BtnState === 'leave' && (
                 <LeaveControl
                   gatheringId={Number(id)}
-                  className={buttonClassname}
+                  className={FooterButtonClassname}
                   disabled={!!isCompleted || failedToOpen}
                 />
               )}
               {BtnState === 'reviewWrite' && (
-                <WriteReviewControl btnClassname={buttonClassname} gatheringId={id} />
+                <WriteReviewControl btnClassname={FooterButtonClassname} gatheringId={id} />
               )}
               {BtnState === 'reviewDone' && (
-                <Button className={buttonClassname} disabled>
+                <Button className={FooterButtonClassname} disabled>
                   리뷰 작성완료
                 </Button>
               )}
