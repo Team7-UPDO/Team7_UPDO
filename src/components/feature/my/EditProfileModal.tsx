@@ -85,7 +85,7 @@ export default function EditProfileModal({
       open={open}
       onOpenChange={onOpenChange}
       className="rounded-xl p-6 pt-8 md:rounded-3xl md:p-12 md:pb-11"
-      ResponsiveClassName="w-[342px] h-[579px] md:w-[616px] md:h-[758px]">
+      responsiveClassName="w-[342px] h-[579px] md:w-[616px] md:h-[758px]">
       <Modal.Header
         title="프로필 수정하기"
         onClose={() => onOpenChange(false)}

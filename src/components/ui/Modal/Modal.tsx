@@ -14,7 +14,7 @@ export interface ModalProps {
   onOpenChange: (open: boolean) => void; // ESC 키, 바깥 클릭 등의 이벤트로 Modal 닫기 구현용
   initialFocusRef?: React.RefObject<HTMLElement>; // Modal이 열릴 때 초기에 포커스가 적용될 HTMLElement
   className?: string;
-  ResponsiveClassName?: string;
+  responsiveClassName?: string;
   modalClassName?: string; // 모달 전체 컨테이너 (화면 중앙 정렬 등)
   children?: React.ReactNode; // Modal 내부 실제 내용
 }
@@ -89,7 +89,7 @@ function ModalRoot({
   initialFocusRef,
   className,
   children,
-  ResponsiveClassName,
+  responsiveClassName,
   modalClassName,
 }: ModalProps) {
   const contentRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
@@ -114,7 +114,7 @@ function ModalRoot({
             modalClassName,
           )}>
           <div
-            className={cn('pointer-events-auto', ResponsiveClassName)}
+            className={cn('pointer-events-auto', responsiveClassName)}
             aria-modal="true"
             role="dialog"
             aria-labelledby="modal-title"

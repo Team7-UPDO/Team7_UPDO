@@ -108,7 +108,7 @@ export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
       open={open}
       onOpenChange={onOpenChange}
       className="p-4 pb-12 sm:rounded-xl md:rounded-2xl md:p-12"
-      ResponsiveClassName="w-full sm:w-[570px] max-h-[100dvh] h-[min(876px,100dvh-32px)]">
+      responsiveClassName="w-full sm:w-[570px] max-h-[100dvh] h-[min(876px,100dvh-32px)]">
       <Modal.Header
         title="모임 만들기"
         onClose={() => {

@@ -1,6 +1,9 @@
 'use client';
-import * as React from 'react';
+import { useRef, useState, RefObject } from 'react';
+
 import Modal from './Modal';
+import { Button } from '@/components/ui/Button';
+
 import { cn } from '@/utils/cn';
 
 type ConfirmTone = 'neutral' | 'brand' | 'danger';
@@ -25,11 +28,16 @@ export default function ConfirmModal({
   open,
   onOpenChange,
   content,
+  tone,
   onConfirm,
   onCancel,
+  className,
+  headerClassName,
+  bodyClassName,
+  footerClassName,
 }: ConfirmModalProps) {
-  const confirmRef = React.useRef<HTMLButtonElement>(null);
-  const [loading, setLoading] = React.useState(false);
+  const confirmRef = useRef<HTMLButtonElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleConfirm = async () => {
     if (!onConfirm) {
@@ -49,43 +57,53 @@ export default function ConfirmModal({
     <Modal
       open={open}
       onOpenChange={onOpenChange}
-      initialFocusRef={confirmRef as React.RefObject<HTMLElement>}
-      className="h-[216px] w-[342px] rounded-xl p-6 md:h-[289px] md:w-[600px] md:rounded-3xl md:p-10 md:pt-12">
+      initialFocusRef={confirmRef as RefObject<HTMLElement>}
+      className={cn(
+        'h-[216px] w-[342px] rounded-xl p-6 md:h-[289px] md:w-[600px] md:rounded-3xl md:p-10 md:pt-12',
+        className,
+      )}>
       <Modal.Header
         onClose={() => {
           onOpenChange(false);
         }}
-        className="p-0"
+        className={cn('p-0', headerClassName)}
       />
-      <Modal.Body className="card-title md:page-title flex flex-col items-center p-0 pt-6 text-center text-gray-700">
+      <Modal.Body
+        className={cn(
+          'card-title md:page-title flex flex-col items-center p-0 pt-6 text-center text-gray-700',
+          bodyClassName,
+        )}>
         <p>{content}</p>
       </Modal.Body>
 
-      <Modal.Footer className="h-12 gap-3 p-0 md:h-15">
+      <Modal.Footer className={cn('h-12 gap-3 p-0 md:h-15', footerClassName)}>
         <div className="flex h-full w-full justify-between gap-3">
-          <button
-            type="button"
-            className="typo-body md:typo-subtitle h-full w-full cursor-pointer rounded-md border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+          {/* 취소 버튼 */}
+          <Button
+            variant="secondary"
+            size="responsive_full"
+            className="typo-body md:typo-subtitle h-full rounded-md border border-gray-300 text-gray-700"
             onClick={() => {
               onCancel?.();
               onOpenChange(false);
             }}
             disabled={loading}>
             취소
-          </button>
+          </Button>
 
-          <button
+          {/* 확인 버튼 */}
+          <Button
             ref={confirmRef}
-            type="button"
+            variant="primary" // 기본은 primary (보라색)
+            size="responsive_full"
             className={cn(
-              'h-full w-full cursor-pointer rounded-md transition-colors',
-              loading && 'cursor-not-allowed opacity-70',
-              'bg-purple-450 typo-body-bold md:h5Bold md:bg-purple-250 md:hover:bg-purple-450 text-white hover:bg-purple-600',
+              'typo-body-bold md:h5Bold h-full rounded-md',
+              tone === 'danger' && 'bg-red-500 hover:bg-red-600', // tone이 danger일 때만 빨간색 덮어쓰기
             )}
             onClick={handleConfirm}
             disabled={loading}>
             {loading ? '처리 중...' : '확인'}
-          </button>
+          </Button>
         </div>
       </Modal.Footer>
     </Modal>

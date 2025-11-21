@@ -72,7 +72,7 @@ export default function WriteReviewModal({
         open={open}
         onOpenChange={onOpenChange}
         className="rounded-xl p-6 pt-8 md:rounded-3xl md:p-12 md:pb-11"
-        ResponsiveClassName="w-[342px] h-[584px] md:w-[616px] md:h-[644px]">
+        responsiveClassName="w-[342px] h-[584px] md:w-[616px] md:h-[644px]">
         <Modal.Header
           title="리뷰 쓰기"
           onClose={() => onOpenChange(false)}
