@@ -205,16 +205,18 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
           </div>
         </article>
       </Link>
-      <ConfirmModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        content="로그인 페이지로 이동할까요?"
-        onConfirm={() => {
-          setModalOpen(false);
-          router.push('/login');
-        }}
-        onCancel={() => setModalOpen(false)}
-      />
+      {modalOpen && (
+        <ConfirmModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          content="로그인 페이지로 이동할까요?"
+          onConfirm={() => {
+            setModalOpen(false);
+            router.push('/login');
+          }}
+          onCancel={() => setModalOpen(false)}
+        />
+      )}
     </>
   );
 }
