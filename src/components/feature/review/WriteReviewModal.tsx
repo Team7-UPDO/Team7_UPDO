@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal, ModalProps } from '@/components/ui/Modal/Modal';
 import ReviewScore from '@/components/ui/ReviewScore';
-import { Toast, useToast } from '@/components/ui/Toast';
+import { useToast } from '@/components/ui/Toast';
 
-import { ReviewFormSchema } from '@/schemas/reviewsSchema';
+import { ReviewFormSchema, type ReviewFormType } from '@/schemas/reviewsSchema';
 import { createReview } from '@/services/reviews/reviewService';
 
 const TOAST_MESSAGE = {
@@ -26,29 +27,26 @@ export default function WriteReviewModal({
   ApiRequestProps,
   onSuccess,
 }: ModalProps & { ApiRequestProps: ApiRequestProps; onSuccess?: () => void }) {
-  const [form, setForm] = useState({
-    score: 0,
-    comment: '',
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { isSubmitting, isValid },
+  } = useForm<ReviewFormType>({
+    resolver: zodResolver(ReviewFormSchema),
+    defaultValues: {
+      score: 0,
+      comment: '',
+      gatheringId: ApiRequestProps.gatheringId,
+    },
+    mode: 'onChange',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const buttonClassName = 'typo-body-bold h-[48px] rounded-md min-w-0 flex-1 basis-0';
+  const FooterButtonClassName = 'typo-body-bold h-[48px] rounded-md min-w-0 flex-1 basis-0';
 
-  async function handleSubmit() {
-    if (isSubmitting) return; // submit 요청 중 중복 클릭 들어오면 방지
-
-    const { gatheringId } = ApiRequestProps;
-    const validation = ReviewFormSchema.safeParse({ ...form, gatheringId });
-    if (!validation.success) {
-      const firstError = validation.error.issues[0];
-      useToast.getState().showToast(firstError.message, 'error');
-      return;
-    }
-
+  const onSubmit = async (data: ReviewFormType) => {
     try {
-      setIsSubmitting(true);
-      const validData = validation.data;
-      await createReview(validData);
+      await createReview(data);
 
       const toast = useToast.getState();
       toast.showToast(TOAST_MESSAGE.successReview, 'success');
@@ -65,12 +63,8 @@ export default function WriteReviewModal({
           : '';
       const message = rawMessage || TOAST_MESSAGE.submitError; // 서버 메시지가 없을 때만 공통 폴백 사용
       toast.showToast(message, 'error');
-    } finally {
-      setIsSubmitting(false);
     }
-  }
-
-  const isFormComplete = !!form.score && !!form.comment;
+  };
 
   return (
     <>
@@ -86,15 +80,12 @@ export default function WriteReviewModal({
         />
         <Modal.Body className="p-0">
           <div>
-            <ReviewScore
-              value={form.score}
-              onChange={nextValue =>
-                setForm(s => ({
-                  ...s,
-                  score: nextValue,
-                }))
-              }
-              aria-label="평점 선택"
+            <Controller
+              control={control}
+              name="score"
+              render={({ field: { onChange, value } }) => (
+                <ReviewScore value={value} onChange={onChange} aria-label="평점 선택" />
+              )}
             />
           </div>
 
@@ -106,13 +97,7 @@ export default function WriteReviewModal({
               id="review-comment"
               multiline
               placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
-              value={form.comment}
-              onChange={e => {
-                setForm(s => ({
-                  ...s,
-                  comment: e.target.value,
-                }));
-              }}
+              {...register('comment')}
               aria-required="true"
             />
           </div>
@@ -121,7 +106,7 @@ export default function WriteReviewModal({
           <div className="flex w-full gap-4">
             <Button
               size={'responsive_full'}
-              className={`min-w-0 flex-1 basis-0 ${buttonClassName}`}
+              className={`min-w-0 flex-1 basis-0 ${FooterButtonClassName}`}
               variant={'calendarOutline'}
               onClick={() => onOpenChange(false)}
               disabled={isSubmitting}>
@@ -129,17 +114,16 @@ export default function WriteReviewModal({
             </Button>
             <Button
               size={'responsive_full'}
-              className={`min-w-0 flex-1 basis-0 ${buttonClassName}`}
+              className={`min-w-0 flex-1 basis-0 ${FooterButtonClassName}`}
               variant={'calendarSolid'}
-              onClick={handleSubmit}
+              onClick={handleSubmit(onSubmit)}
               // 입력값이 부족하거나 이미 버튼을 눌렀다면 disabled
-              disabled={!isFormComplete || isSubmitting}>
+              disabled={!isValid || isSubmitting}>
               {isSubmitting ? '등록 중…' : '등록'}
             </Button>
           </div>
         </Modal.Footer>
       </Modal>
-      <Toast />
     </>
   );
 }

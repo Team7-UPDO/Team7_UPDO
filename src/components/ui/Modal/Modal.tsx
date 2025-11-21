@@ -5,7 +5,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/utils/cn';
 
-import { useBodyScrollLock, useEscape, useFocusTrap } from './useModal';
+import { useBodyScrollLock, useEscape, useFocusTrap } from './useModalEffects';
 import Icon from '../Icon';
 
 export interface ModalProps {
