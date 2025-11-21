@@ -90,36 +90,16 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
         tabIndex={0}
         aria-label={`${name ?? '모임'} 상세로 이동`}
         onKeyDown={e => {
-          // Modal 열림 감지
-          const anyDialogOpen =
-            typeof document !== 'undefined' &&
-            document.querySelector('[role="dialog"][aria-modal="true"]');
-          if (anyDialogOpen) return;
-
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             router.push(`/gathering/${id}`);
           }
         }}
-        onClick={e => {
-          const target = e.target as HTMLElement;
-          const isInteractive =
-            target.closest(
-              'button, [role="button"], a, input, textarea, select, [data-no-nav="true"]',
-            ) || target.closest('[role="dialog"], [aria-modal="true"]');
-
-          // Modal의 이벤트 위임 차단
-          const anyDialogOpen =
-            typeof document !== 'undefined' &&
-            document.querySelector('[role="dialog"][aria-modal="true"]');
-
-          if (isInteractive || anyDialogOpen) return;
-          router.push(`/gathering/${id}`);
-        }}
+        onClick={() => router.push(`/gathering/${id}`)}
         className="relative flex h-[390px] w-full cursor-pointer flex-col gap-4 rounded-lg bg-white hover:shadow-md sm:h-[236px] sm:flex-row sm:p-6 md:gap-6">
         {/* 찜하기 버튼 */}
         {isEditableFavorite && (
-          <div className="absolute top-5 right-5">
+          <div className="absolute top-5 right-5" onClick={e => e.stopPropagation()}>
             {!isRegistrationClosed && <FavoriteButton itemId={id} size={48} />}
             {isRegistrationClosed && (
               <div className="cursor-not-allowed">
@@ -243,21 +223,23 @@ export default function MyGroupCard({ variant, item }: MyGroupCardProps) {
             </div>
 
             {/* 버튼 (단일 액션) */}
-            {BtnState === 'leave' && (
-              <LeaveControl
-                gatheringId={Number(id)}
-                className={buttonClassname}
-                disabled={!!isCompleted || failedToOpen}
-              />
-            )}
-            {BtnState === 'reviewWrite' && (
-              <WriteReviewControl btnClassname={buttonClassname} gatheringId={id} />
-            )}
-            {BtnState === 'reviewDone' && (
-              <Button className={buttonClassname} disabled>
-                리뷰 작성완료
-              </Button>
-            )}
+            <div onClick={e => e.stopPropagation()}>
+              {BtnState === 'leave' && (
+                <LeaveControl
+                  gatheringId={Number(id)}
+                  className={buttonClassname}
+                  disabled={!!isCompleted || failedToOpen}
+                />
+              )}
+              {BtnState === 'reviewWrite' && (
+                <WriteReviewControl btnClassname={buttonClassname} gatheringId={id} />
+              )}
+              {BtnState === 'reviewDone' && (
+                <Button className={buttonClassname} disabled>
+                  리뷰 작성완료
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
