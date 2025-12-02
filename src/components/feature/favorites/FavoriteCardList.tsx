@@ -10,7 +10,7 @@ import { useFavoriteStore } from '@/stores/useFavoriteStore';
 import { useUserStore } from '@/stores/useUserStore';
 import { getFavoriteList } from '@/services/gatherings/anonGatheringService';
 import { IGathering } from '@/types/gatherings';
-import { useMounted } from '@/hooks/useMounted';
+import { useMounted } from '@/hooks/ui/useMounted';
 import { useEffect, useState } from 'react';
 
 interface GroupCardListProps {

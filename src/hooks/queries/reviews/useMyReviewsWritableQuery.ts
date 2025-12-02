@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { useInfiniteListQuery } from '@/hooks/useInfiniteListQuery';
+import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuery';
 
 import type { IJoinedGathering } from '@/types/gatherings';
 import { getJoinedGatherings } from '@/services/gatherings/anonGatheringService';

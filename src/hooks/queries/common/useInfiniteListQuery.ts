@@ -6,7 +6,7 @@ import {
   type QueryKey,
   type UseInfiniteQueryResult,
 } from '@tanstack/react-query';
-import { useMounted } from '@/hooks/useMounted';
+import { useMounted } from '@/hooks/ui/useMounted';
 
 export interface InfinitePage<TData> {
   data: TData;

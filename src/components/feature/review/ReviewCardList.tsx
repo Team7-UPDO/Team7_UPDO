@@ -9,7 +9,7 @@ import ReviewCardSkeleton from '@/components/ui/Skeleton/ReviewCardSkeleton';
 import { cn } from '@/utils/cn';
 import { IReviewWithRelations } from '@/types/reviews';
 
-import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
+import { useInfiniteScrollObserver } from '@/hooks/ui/useInfiniteScrollObserver';
 
 interface ReviewCardListProps {
   variants: 'my' | 'all';

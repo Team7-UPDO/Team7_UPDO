@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { useOutsideClick } from '@/hooks/useOutsideClick';
+import { useOutsideClick } from '@/hooks/ui/useOutsideClick';
 import { REVIEW_SORT_OPTIONS, SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
 import { buildFilters, buildReviewFilters, type FilterState } from '@/utils/mapping';
-import { normalizeFilters } from '@/hooks/usePrefetchInfiniteQuery';
+import { normalizeFilters } from '@/hooks/queries/common/usePrefetchInfiniteQuery';
 
 type FilterMode = 'gathering' | 'review';
 

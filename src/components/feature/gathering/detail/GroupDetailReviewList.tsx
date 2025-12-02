@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { cn } from '@/utils/cn';
 import ReviewCard from './GroupDetailReview';
 import { Pagination } from '@/components/ui/Pagination';
-import { useReviewsQuery } from '@/hooks/useReviewsQuery';
+import { useReviewsQuery } from '@/hooks/queries/reviews/useReviewsQuery';
 
 interface GroupDetailReviewListProps {
   gatheringId: number;
