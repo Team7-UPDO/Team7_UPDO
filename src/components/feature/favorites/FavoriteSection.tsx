@@ -1,6 +1,6 @@
 'use client';
 
-import { useGroupFilters } from '@/hooks/useGroupFilters';
+import { useGroupFilters } from '@/hooks/domain/useGroupFilters';
 import FavoriteCardList from './FavoriteCardList';
 import FavoriteTabs from './FavoriteTabs';
 

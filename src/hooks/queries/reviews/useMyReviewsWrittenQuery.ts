@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { useInfiniteListQuery } from '@/hooks/useInfiniteListQuery';
+import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuery';
 import anonReviewService from '@/services/reviews/anonReviewService';
 import type { IReviewWithRelations } from '@/types/reviews';
 

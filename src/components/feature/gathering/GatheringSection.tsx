@@ -1,6 +1,6 @@
 'use client';
 
-import { useGroupFilters } from '@/hooks/useGroupFilters';
+import { useGroupFilters } from '@/hooks/domain/useGroupFilters';
 import GroupTab from '@/components/feature/group/GroupTab';
 import GroupFilters from '@/components/feature/group/GroupFilters';
 import GroupCardList from '@/components/feature/group/GroupCardList';

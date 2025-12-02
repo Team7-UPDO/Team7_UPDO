@@ -9,7 +9,7 @@
 
 // import React from 'react';
 import { useRouter } from 'next/navigation';
-import { useTokenExpiryEffect } from '@/hooks/useTokenExpiryEffect';
+import { useTokenExpiryEffect } from '@/hooks/auth/useTokenExpiryEffect';
 
 export default function AuthSessionWatcher() {
   const router = useRouter();

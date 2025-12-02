@@ -1,5 +1,5 @@
 // utils/normalizeFilters.ts
-import { FilterState } from '../utils/mapping';
+import { FilterState } from '@/utils/mapping';
 
 export function normalizeFilters(filters: Partial<FilterState>): FilterState {
   return {

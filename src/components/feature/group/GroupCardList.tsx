@@ -10,7 +10,7 @@ import { FilterState } from '@/utils/mapping';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
 import { toGetGatheringsParams } from '@/utils/mapping';
 import GroupCardSkeleton from '@/components/ui/Skeleton/GroupCardSkeleton';
-import { prefetchInfiniteQueryKey } from '@/hooks/usePrefetchInfiniteQuery';
+import { prefetchInfiniteQueryKey } from '@/hooks/queries/common/usePrefetchInfiniteQuery';
 interface GroupCardListProps {
   filters: FilterState;
 }

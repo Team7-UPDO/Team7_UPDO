@@ -1,7 +1,7 @@
 'use client';
 
-import { useGroupFilters } from '@/hooks/useGroupFilters';
-import { useReviewScoresQuery } from '@/hooks/useReviewScoreQuery';
+import { useGroupFilters } from '@/hooks/domain/useGroupFilters';
+import { useReviewScoresQuery } from '@/hooks/queries/reviews/useReviewScoreQuery';
 import Tab from '@/components/ui/Tab';
 import Category from '@/components/ui/Category';
 import Dropdown from '@/components/ui/Dropdown';

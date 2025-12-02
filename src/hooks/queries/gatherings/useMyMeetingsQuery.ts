@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 import type { IJoinedGathering } from '@/types/gatherings';
 import { getJoinedGatherings } from '@/services/gatherings/anonGatheringService';
-import { useInfiniteListQuery } from '@/hooks/useInfiniteListQuery';
+import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuery';
 
 import { queryKey } from '@/constants/queryKeys';
 
