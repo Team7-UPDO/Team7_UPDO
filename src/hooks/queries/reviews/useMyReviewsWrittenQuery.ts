@@ -6,7 +6,7 @@ import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuer
 import anonReviewService from '@/services/reviews/anonReviewService';
 import type { IReviewWithRelations } from '@/types/reviews';
 
-import { queryKey } from '@/constants/queryKeys';
+import { queryKeys } from '@/constants/queryKeys';
 import { useUserStore } from '@/stores/useUserStore';
 
 export type MyWrittenReviewPage = {
@@ -18,7 +18,7 @@ export function useMyReviewsWrittenQuery() {
   const userId = useUserStore(state => state.user?.id);
 
   const query = useInfiniteListQuery<MyWrittenReviewPage>({
-    queryKey: queryKey.myReviewsWritten(userId ?? null),
+    queryKey: queryKeys.reviews.my.written(userId ?? null),
     queryFn: page =>
       anonReviewService.getReviewInfiniteList(page, userId != null ? { userId } : undefined),
     enabled: !!userId,

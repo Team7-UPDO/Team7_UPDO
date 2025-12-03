@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { reviewService } from '@/services/reviews/reviewService';
-import { queryKey } from '@/constants/queryKeys';
+import { queryKeys } from '@/constants/queryKeys';
 import { IReviewWithRelations } from '@/types/reviews/models';
 
 interface UseGatheringReviewParams {
@@ -36,7 +36,7 @@ export function useGatheringReview({
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['myReview', Number(gatheringId), userId],
+    queryKey: queryKeys.reviews.my.byGathering(Number(gatheringId), userId!),
     queryFn: () =>
       reviewService.getReviews({
         gatheringId: Number(gatheringId),
@@ -54,9 +54,11 @@ export function useGatheringReview({
   // 리뷰 성공 시 캐시 무효화
   const handleReviewSuccess = async () => {
     await Promise.all([
-      queryClient.invalidateQueries({ queryKey: ['myReview', Number(gatheringId), userId] }),
-      queryClient.invalidateQueries({ queryKey: ['reviews', Number(gatheringId)] }),
-      queryClient.invalidateQueries({ queryKey: queryKey.myReviewsWritten(userId) }),
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.reviews.my.byGathering(Number(gatheringId), userId!),
+      }),
+      queryClient.invalidateQueries({ queryKey: queryKeys.reviews.all() }),
+      queryClient.invalidateQueries({ queryKey: queryKeys.reviews.my.written(userId!) }),
     ]);
     setIsReviewModalOpen(false);
   };

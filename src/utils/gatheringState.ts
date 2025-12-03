@@ -1,8 +1,19 @@
 import { isClosed } from '@/utils/date';
+import { TAG_OPTIONS } from '@/constants';
+import { LocationToTag } from '@/utils/mapping';
 import type { IGathering, IJoinedGathering, IParticipant } from '@/types/gatherings';
 import type { IReviewWithRelations } from '@/types/reviews';
 
-interface UseGatheringButtonStateParams {
+type TopicType = 'growth' | 'learn' | 'challenge' | 'connect' | 'default';
+
+export function isJoinedGathering(
+  joinedGatherings: IJoinedGathering[] | undefined,
+  gatheringId: number,
+): boolean {
+  return (joinedGatherings ?? []).some(g => g.id === gatheringId);
+}
+
+interface GetGatheringDetailStateParams {
   gathering: IGathering | null | undefined;
   participantsData: IParticipant[] | undefined;
   joinedGatherings: IJoinedGathering[] | undefined;
@@ -12,7 +23,7 @@ interface UseGatheringButtonStateParams {
   minParticipants?: number;
 }
 
-export function useGatheringButtonState({
+export function getGatheringDetailState({
   gathering,
   participantsData,
   joinedGatherings,
@@ -20,9 +31,9 @@ export function useGatheringButtonState({
   gatheringId,
   userId,
   minParticipants,
-}: UseGatheringButtonStateParams) {
+}: GetGatheringDetailStateParams) {
   // 참가 여부 확인
-  const joined = joinedGatherings?.some(g => g.id === Number(gatheringId)) ?? false;
+  const joined = isJoinedGathering(joinedGatherings, Number(gatheringId));
 
   // 참가자 수 계산
   const currentParticipantCount = participantsData?.length ?? gathering?.participantCount ?? 0;
@@ -60,4 +71,19 @@ export function useGatheringButtonState({
     isFull,
     isCanceled,
   };
+}
+
+export function getGatheringCardState(
+  location: string,
+  capacity: number,
+  participantCount: number,
+  registrationEnd?: string,
+) {
+  const isFull = participantCount >= capacity;
+  const isAllClosed = isClosed(registrationEnd) || isFull;
+  const topic = LocationToTag(location) as TopicType;
+  const safeCapacity = Math.max(1, capacity);
+  const category = TAG_OPTIONS.find(option => option.value === topic)?.label ?? '';
+
+  return { isFull, isAllClosed, topic, safeCapacity, category };
 }

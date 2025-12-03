@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { reviewService } from '@/services/reviews/reviewService';
+import { queryKeys } from '@/constants/queryKeys';
 import { GetReviewsResponse } from '@/types/reviews';
 
 const REVIEWS_PER_PAGE = 4;
@@ -8,7 +9,7 @@ export const useReviewsQuery = (gatheringId: number, page: number) => {
   const offset = (page - 1) * REVIEWS_PER_PAGE;
 
   return useQuery<GetReviewsResponse>({
-    queryKey: ['reviews', gatheringId, page],
+    queryKey: queryKeys.reviews.byGathering(gatheringId, page),
     queryFn: () =>
       reviewService.getReviews({
         gatheringId,

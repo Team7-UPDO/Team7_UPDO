@@ -16,10 +16,10 @@ export const queryKeys = {
     participants: (id: number) => [...queryKeys.gatherings.detail(id), 'participants'] as const,
 
     my: {
-      all: (userId: number) => [...queryKeys.gatherings.all(), 'my', userId] as const,
+      all: (userId: number | null) => [...queryKeys.gatherings.all(), 'my', userId] as const,
 
       // 내가 참여한 모임
-      joinedGatherings: (userId: number) =>
+      joinedGatherings: (userId: number | null) =>
         [...queryKeys.gatherings.my.all(userId), 'joined'] as const,
 
       // 내가 만든 모임
@@ -48,13 +48,14 @@ export const queryKeys = {
       [...queryKeys.reviews.all(), 'scores', params || {}] as const,
 
     my: {
-      all: (userId: number) => [...queryKeys.reviews.all(), 'my', userId] as const,
+      all: (userId: number | null) => [...queryKeys.reviews.all(), 'my', userId] as const,
 
       // 작성 가능한 리뷰
-      writable: (userId: number) => [...queryKeys.reviews.my.all(userId), 'writable'] as const,
+      writable: (userId: number | null) =>
+        [...queryKeys.reviews.my.all(userId), 'writable'] as const,
 
       // 작성한 리뷰
-      written: (userId: number) => [...queryKeys.reviews.my.all(userId), 'written'] as const,
+      written: (userId: number | null) => [...queryKeys.reviews.my.all(userId), 'written'] as const,
 
       // 특정 모임에 대한 내 리뷰
       byGathering: (gatheringId: number, userId: number) =>
@@ -64,6 +65,7 @@ export const queryKeys = {
 } as const;
 
 export type ReviewSortOrder = 'asc' | 'desc';
+
 export const queryKey = {
   gatherings: () => ['gatherings'] as const,
   // 내가 참여한 모임 (MyMeeting)

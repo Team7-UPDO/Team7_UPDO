@@ -6,8 +6,8 @@ import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuer
 
 import type { IJoinedGathering } from '@/types/gatherings';
 import { getJoinedGatherings } from '@/services/gatherings/anonGatheringService';
-
-import { queryKey } from '@/constants/queryKeys';
+import { useUserStore } from '@/stores/useUserStore';
+import { queryKeys } from '@/constants/queryKeys';
 
 export type ReviewablePage = {
   data: IJoinedGathering[];
@@ -16,14 +16,17 @@ export type ReviewablePage = {
 };
 
 export function useMyReviewsWritableQuery() {
+  const userId = useUserStore(state => state.user?.id);
+
   const query = useInfiniteListQuery({
-    queryKey: queryKey.myReviewsWritable(),
+    queryKey: queryKeys.reviews.my.writable(userId ?? null),
     queryFn: page =>
       getJoinedGatherings(page, {
         reviewed: false,
         sortBy: 'dateTime',
         sortOrder: 'asc',
       }),
+    enabled: !!userId,
   });
 
   // 참여자가 5명 이상인 작성할 수 있는 모임 골라오기
