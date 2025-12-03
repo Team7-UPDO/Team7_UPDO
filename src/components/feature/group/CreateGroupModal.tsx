@@ -15,7 +15,7 @@ import {
 
 import { createGathering } from '@/services/gatherings/gatheringService';
 import { useQueryClient } from '@tanstack/react-query';
-import { queryKey } from '@/constants/queryKeys';
+import { queryKeys } from '@/constants/queryKeys';
 
 export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
   const toast = useToast();
@@ -47,7 +47,7 @@ export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
       await createGathering(data);
       toast.showToast('모임이 생성되었습니다.', 'success');
       onOpenChange(false); // 모달 닫기
-      queryClient.invalidateQueries({ queryKey: queryKey.gatherings() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.all() });
       reset(); // 폼 초기하ㅘ
     } catch (error) {
       const msg =

@@ -16,10 +16,10 @@ export const queryKeys = {
     participants: (id: number) => [...queryKeys.gatherings.detail(id), 'participants'] as const,
 
     my: {
-      all: (userId: number) => [...queryKeys.gatherings.all(), 'my', userId] as const,
+      all: (userId: number | null) => [...queryKeys.gatherings.all(), 'my', userId] as const,
 
       // 내가 참여한 모임
-      joinedGatherings: (userId: number) =>
+      joinedGatherings: (userId: number | null) =>
         [...queryKeys.gatherings.my.all(userId), 'joined'] as const,
 
       // 내가 만든 모임
@@ -64,6 +64,7 @@ export const queryKeys = {
 } as const;
 
 export type ReviewSortOrder = 'asc' | 'desc';
+
 export const queryKey = {
   gatherings: () => ['gatherings'] as const,
   // 내가 참여한 모임 (MyMeeting)

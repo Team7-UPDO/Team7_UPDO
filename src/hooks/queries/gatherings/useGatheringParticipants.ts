@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { gatheringService } from '@/services/gatherings/gatheringService';
+import { queryKeys } from '@/constants/queryKeys';
 import type { IParticipant } from '@/types/gatherings';
+
 interface ParticipantUI {
   id: number;
   image: string;
@@ -11,9 +13,10 @@ export function useGatheringParticipants(gatheringId: string | number) {
   const numericId = Number(gatheringId);
 
   const { data: participantsData, ...rest } = useQuery({
-    queryKey: ['gatheringParticipants', numericId],
+    queryKey: queryKeys.gatherings.participants(numericId),
     queryFn: () => gatheringService.getParticipants(numericId),
     enabled: Number.isFinite(numericId),
+    staleTime: 1000 * 60 * 3,
   });
 
   // UI용 데이터 변환
