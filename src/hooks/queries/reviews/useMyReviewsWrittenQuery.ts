@@ -18,7 +18,7 @@ export function useMyReviewsWrittenQuery() {
   const userId = useUserStore(state => state.user?.id);
 
   const query = useInfiniteListQuery<MyWrittenReviewPage>({
-    queryKey: userId ? queryKeys.reviews.my.written(userId) : ['reviews', 'my', null, 'written'],
+    queryKey: queryKeys.reviews.my.written(userId ?? null),
     queryFn: page =>
       anonReviewService.getReviewInfiniteList(page, userId != null ? { userId } : undefined),
     enabled: !!userId,

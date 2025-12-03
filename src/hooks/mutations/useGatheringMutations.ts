@@ -19,9 +19,7 @@ export function useGatheringMutations({ gatheringId }: UseGatheringMutationsPara
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const joinedKey = user?.id
-    ? queryKeys.gatherings.my.joinedGatherings(user.id)
-    : (['joinedGatherings', null] as const);
+  const joinedKey = queryKeys.gatherings.my.joinedGatherings(user?.id ?? null);
 
   const invalidateGatheringQueries = () => {
     queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.participants(gatheringId) });

@@ -19,7 +19,7 @@ export function useMyReviewsWritableQuery() {
   const userId = useUserStore(state => state.user?.id);
 
   const query = useInfiniteListQuery({
-    queryKey: userId ? queryKeys.reviews.my.writable(userId) : ['reviews', 'my', null, 'writable'],
+    queryKey: queryKeys.reviews.my.writable(userId ?? null),
     queryFn: page =>
       getJoinedGatherings(page, {
         reviewed: false,

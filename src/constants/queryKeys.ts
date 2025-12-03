@@ -48,13 +48,14 @@ export const queryKeys = {
       [...queryKeys.reviews.all(), 'scores', params || {}] as const,
 
     my: {
-      all: (userId: number) => [...queryKeys.reviews.all(), 'my', userId] as const,
+      all: (userId: number | null) => [...queryKeys.reviews.all(), 'my', userId] as const,
 
       // 작성 가능한 리뷰
-      writable: (userId: number) => [...queryKeys.reviews.my.all(userId), 'writable'] as const,
+      writable: (userId: number | null) =>
+        [...queryKeys.reviews.my.all(userId), 'writable'] as const,
 
       // 작성한 리뷰
-      written: (userId: number) => [...queryKeys.reviews.my.all(userId), 'written'] as const,
+      written: (userId: number | null) => [...queryKeys.reviews.my.all(userId), 'written'] as const,
 
       // 특정 모임에 대한 내 리뷰
       byGathering: (gatheringId: number, userId: number) =>

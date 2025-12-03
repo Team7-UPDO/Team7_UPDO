@@ -14,9 +14,7 @@ export function useMyMeetingsQuery() {
   const userId = useUserStore(state => state.user?.id);
 
   const query = useInfiniteListQuery({
-    queryKey: userId
-      ? queryKeys.gatherings.my.joinedGatherings(userId)
-      : ['gatherings', 'my', null, 'joined'],
+    queryKey: queryKeys.gatherings.my.joinedGatherings(userId ?? null),
     queryFn: page => getJoinedGatherings(page, { sortBy: 'dateTime', sortOrder: 'asc' }),
     enabled: !!userId,
   });
