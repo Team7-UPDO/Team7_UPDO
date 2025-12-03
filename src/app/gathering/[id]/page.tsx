@@ -15,7 +15,7 @@ import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailR
 import { useGatheringDetail } from '@/hooks/queries/gatherings/useGatheringDetail';
 import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
 import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
-import { useGatheringButtonState } from '@/hooks/domain/useGatheringButtonState';
+import { getGatheringDetailState } from '@/utils/gatheringState';
 import { useGatheringHandlers } from '@/hooks/mutations/useGatheringHandler';
 import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
 import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
@@ -32,7 +32,7 @@ export default function GroupDetailPage() {
 
   const { gathering, uiData, isLoading, isError } = useGatheringDetail(id, userId);
   const { data: participantsData, participants } = useGatheringParticipants(id);
-  const { data: joinedGatherings } = useJoinedGatherings(userId, isAuthenticated);
+  const { data: joinedGatherings } = useJoinedGatherings();
 
   const {
     myReviews,
@@ -58,7 +58,7 @@ export default function GroupDetailPage() {
     isRegistrationClosed,
     isFull,
     isCanceled,
-  } = useGatheringButtonState({
+  } = getGatheringDetailState({
     gathering,
     participantsData,
     joinedGatherings,
