@@ -8,6 +8,9 @@ export const queryKeys = {
     list: (filters?: GetGatheringsParams) =>
       [...queryKeys.gatherings.lists(), filters || {}] as const,
 
+    // 무한 스크롤 목록
+    infiniteList: (filters: Record<string, unknown>) => ['gatherings', filters] as const,
+
     // 상세
     details: () => [...queryKeys.gatherings.all(), 'detail'] as const,
     detail: (id: number | string) => [...queryKeys.gatherings.details(), Number(id)] as const,
@@ -18,18 +21,21 @@ export const queryKeys = {
     my: {
       all: (userId: number | null) => [...queryKeys.gatherings.all(), 'my', userId] as const,
 
-      // 내가 참여한 모임
+      // 내가 참여한 모임 (useQuery)
       joinedGatherings: (userId: number | null) =>
         [...queryKeys.gatherings.my.all(userId), 'joined'] as const,
+
+      // 내가 참여한 모임 (useInfiniteQuery)
+      joinedGatheringsInfinite: (userId: number | null) =>
+        [...queryKeys.gatherings.my.all(userId), 'joined', 'infinite'] as const,
 
       // 내가 만든 모임
       createdGatherings: (userId: number) =>
         [...queryKeys.gatherings.my.all(userId), 'created'] as const,
-
-      // 찜한 모임
-      favoriteGatherings: (userId: number, ids?: number[]) =>
-        [...queryKeys.gatherings.my.all(userId), 'favorites', ids || []] as const,
     },
+
+    favorites: (userId: number | null, ids?: number[] | null) =>
+      ['favoriteGatherings', userId, ids || []] as const,
   },
 
   reviews: {
