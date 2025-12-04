@@ -4,7 +4,7 @@ import { useState, useRef } from 'react';
 import { useOutsideClick } from '@/hooks/ui/useOutsideClick';
 import { REVIEW_SORT_OPTIONS, SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
 import { buildFilters, buildReviewFilters, type FilterState } from '@/utils/mapping';
-import { normalizeFilters } from '@/hooks/queries/common/usePrefetchInfiniteQuery';
+import { normalizeFilters } from '@/utils/filters';
 
 type FilterMode = 'gathering' | 'review';
 

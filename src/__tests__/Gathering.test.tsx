@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { renderWithProviders } from './setup/renderWithProviders';
 
 import GatheringSection from '@/components/feature/gathering/GatheringSection';
-import { normalizeFilters } from '@/hooks/queries/common/usePrefetchInfiniteQuery';
+import { normalizeFilters } from '@/utils/filters';
 import type { IGathering } from '@/types/gatherings/models';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
 
