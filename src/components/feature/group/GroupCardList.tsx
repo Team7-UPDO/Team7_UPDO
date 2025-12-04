@@ -100,8 +100,13 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
           <GroupCard data={item} isPriority={index === 0} />
         </m.div>
       ))}
-      <div ref={ref} className="text-gray-500" aria-live="polite">
-        {isFetchingNextPage ? '불러오는 중...' : ''}
+      <div ref={ref} aria-live="polite" aria-busy={isFetchingNextPage}>
+        {isFetchingNextPage && (
+          <>
+            <span className="sr-only">추가 모임을 불러오는 중입니다</span>
+            <GroupCardSkeleton />
+          </>
+        )}
       </div>
     </div>
   );
