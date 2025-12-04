@@ -1,15 +1,12 @@
-import type { GetGatheringsParams } from '@/types/gatherings/params';
 import type { GetReviewsParams } from '@/types/reviews/params';
 
 export const queryKeys = {
   gatherings: {
     all: () => ['gatherings'] as const,
-    lists: () => [...queryKeys.gatherings.all(), 'list'] as const,
-    list: (filters?: GetGatheringsParams) =>
-      [...queryKeys.gatherings.lists(), filters || {}] as const,
 
     // 무한 스크롤 목록
-    infiniteList: (filters: Record<string, unknown>) => ['gatherings', filters] as const,
+    infiniteList: (filters: Record<string, unknown>) =>
+      [...queryKeys.gatherings.all(), 'infinite', filters] as const,
 
     // 상세
     details: () => [...queryKeys.gatherings.all(), 'detail'] as const,
