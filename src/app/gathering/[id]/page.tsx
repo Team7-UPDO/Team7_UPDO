@@ -15,7 +15,7 @@ import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailR
 import { useGatheringDetail } from '@/hooks/queries/gatherings/useGatheringDetail';
 import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
 import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
-import { getGatheringDetailState } from '@/utils/gatheringState';
+// import { useGatheringButtonState } from '@/hooks/domain/useGatheringButtonState';
 import { useGatheringHandlers } from '@/hooks/mutations/useGatheringHandler';
 import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
 import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
@@ -36,7 +36,6 @@ export default function GroupDetailPage() {
 
   const {
     myReviews,
-    isReviewed,
     isReviewModalOpen,
     handleOpenReviewModal,
     handleReviewSuccess,
@@ -50,23 +49,11 @@ export default function GroupDetailPage() {
       isAuthenticated,
     });
 
-  const {
-    joined,
-    currentParticipantCount,
-    isOpenConfirmed,
-    isCompleted,
-    isRegistrationClosed,
-    isFull,
-    isCanceled,
-  } = getGatheringDetailState({
-    gathering,
-    participantsData,
-    joinedGatherings,
-    myReviews,
-    gatheringId: id,
-    userId,
-    minParticipants: uiData?.minParticipants,
-  });
+  // 여기서 isCanceled, currentParticipantCount만 직접 계산
+  const isCanceled = !!gathering?.canceledAt;
+
+  const currentParticipantCount =
+    participantsData?.length ?? gathering?.participantCount ?? uiData?.participantCount ?? 0;
 
   // 삭제된 모임 리다이렉트
   useGatheringRedirect(isCanceled, isLoading);
@@ -129,13 +116,10 @@ export default function GroupDetailPage() {
           <GroupDetailCard
             data={uiData}
             isHost={uiData.isHost}
-            joined={joined}
-            isCompleted={isCompleted}
-            isReviewed={isReviewed}
-            isRegistrationClosed={isRegistrationClosed}
-            isOpenConfirmed={isOpenConfirmed}
-            isFull={isFull}
-            isCanceled={isCanceled}
+            userId={userId}
+            participantsData={participantsData}
+            joinedGatherings={joinedGatherings}
+            myReviews={myReviews}
             onJoin={handleJoin}
             onLeave={handleLeave}
             onCancel={handleCancel}
