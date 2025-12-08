@@ -12,7 +12,8 @@ export function useJoinedGatherings() {
     queryKey: queryKeys.gatherings.my.joinedGatherings(user?.id ?? null),
     queryFn: () => gatheringService.getJoinedGatherings(),
     enabled: !!user?.id && isAuthenticated,
-    staleTime: 1000 * 60 * 3,
+    staleTime: 0,
+    refetchOnMount: 'always',
     gcTime: 1000 * 60 * 30,
   });
 }
