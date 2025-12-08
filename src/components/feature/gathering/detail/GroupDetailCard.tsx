@@ -4,7 +4,6 @@ import { cn } from '@/utils/cn';
 import { LocationToTag } from '@/utils/mapping';
 import { TAG_OPTIONS } from '@/constants/tags';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useGatheringButtonState } from '@/hooks/domain/useGatheringButtonState';
 
 import GroupDetailCardHeader from './GroupDetailCardHeader';
 import GroupDetailCardTopic from './GroupDetailCardTopic';
@@ -12,6 +11,7 @@ import GroupDetailCardAction from './GroupDetailCardAction';
 
 import type { IGathering, IJoinedGathering, IParticipant } from '@/types/gatherings';
 import type { IReviewWithRelations } from '@/types/reviews';
+import { getGatheringDetailState } from '@/utils/gatheringState';
 
 interface HeaderData {
   id: number;
@@ -68,7 +68,7 @@ export default function GroupDetailCard({
   const category = TAG_OPTIONS.find(option => option.value === topic)?.label ?? '';
 
   const { isCompleted, isRegistrationClosed, isFull, isCanceled, buttonState } =
-    useGatheringButtonState({
+    getGatheringDetailState({
       gathering: data,
       participantsData,
       joinedGatherings,

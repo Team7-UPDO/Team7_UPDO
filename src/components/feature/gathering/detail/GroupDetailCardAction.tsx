@@ -4,7 +4,7 @@ import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/Button';
 import Icon from '@/components/ui/Icon';
 import FavoriteButton from '../../favorites/FavoriteButton';
-import type { ButtonState } from '@/hooks/domain/useGatheringButtonState';
+import { ButtonState } from '@/utils/gatheringState';
 
 interface ActionProps {
   isHost?: boolean;
