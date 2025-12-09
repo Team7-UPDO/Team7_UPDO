@@ -55,7 +55,12 @@ export function getGatheringDetailState({
   isLeaving = false,
 }: GetGatheringDetailStateParams) {
   // 참가 여부 확인
-  const joined = isJoinedGathering(joinedGatherings, Number(gatheringId));
+  const joinedFromParticipants =
+    !!userId && participantsData?.some(p => p.userId === userId) === true;
+
+  const joinedFromJoinedList = isJoinedGathering(joinedGatherings, Number(gatheringId));
+
+  const joined = joinedFromParticipants || joinedFromJoinedList;
 
   // 참가자 수 계산
   const currentParticipantCount = participantsData?.length ?? gathering?.participantCount ?? 0;
