@@ -6,7 +6,7 @@ import Badge from '@/components/ui/Badge';
 import { cn } from '@/utils/cn';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
 import { useUserStore } from '@/stores/useUserStore';
-import { useMounted } from '@/hooks/useMounted';
+import { useMounted } from '@/hooks/ui/useMounted';
 
 const NAV_ITEMS = [
   { label: '모임 찾기', href: '/gathering' },

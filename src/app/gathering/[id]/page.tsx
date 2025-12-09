@@ -12,13 +12,13 @@ import GroupDetailCardSkeleton from '@/components/ui/Skeleton/GroupDetailCardSke
 import GroupDetailParticipationSkeleton from '@/components/ui/Skeleton/GroupDetailParticipationSkeleton';
 import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailReviewListSkeleton';
 
-import { useGatheringDetail } from '@/hooks/useGatheringDetail';
-import { useGatheringParticipants } from '@/hooks/useGatheringParticipants';
-import { useJoinedGatherings } from '@/hooks/useJoinedGatherings';
-import { useGatheringButtonState } from '@/hooks/useGatheringButtonState';
-import { useGatheringHandlers } from '@/hooks/useGatheringHandler';
-import { useGatheringRedirect } from '@/hooks/useGatheringRedirect';
-import { useGatheringReview } from '@/hooks/useGatheringReview';
+import { useGatheringDetail } from '@/hooks/queries/gatherings/useGatheringDetail';
+import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
+import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
+import { getGatheringDetailState } from '@/utils/gatheringState';
+import { useGatheringHandlers } from '@/hooks/mutations/useGatheringHandler';
+import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
+import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
 
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useUserStore } from '@/stores/useUserStore';
@@ -32,7 +32,7 @@ export default function GroupDetailPage() {
 
   const { gathering, uiData, isLoading, isError } = useGatheringDetail(id, userId);
   const { data: participantsData, participants } = useGatheringParticipants(id);
-  const { data: joinedGatherings } = useJoinedGatherings(userId, isAuthenticated);
+  const { data: joinedGatherings } = useJoinedGatherings();
 
   const {
     myReviews,
@@ -58,7 +58,7 @@ export default function GroupDetailPage() {
     isRegistrationClosed,
     isFull,
     isCanceled,
-  } = useGatheringButtonState({
+  } = getGatheringDetailState({
     gathering,
     participantsData,
     joinedGatherings,

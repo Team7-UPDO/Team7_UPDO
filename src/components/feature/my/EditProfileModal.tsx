@@ -3,6 +3,10 @@
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { EditProfileFormSchema, type EditProfileFormType } from '@/schemas/profileSchema';
+
 import Icon from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -24,55 +28,63 @@ export default function EditProfileModal({
   const DEFAULT_AVATAR_SRC = '/images/avatar_default.webp';
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [previewDataUrl, setPreviewDataUrl] = useState<string | null>(null);
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [newCompanyName, setNewCompanyName] = useState(companyName || '');
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { isSubmitting, isValid, errors },
+  } = useForm<EditProfileFormType>({
+    resolver: zodResolver(EditProfileFormSchema),
+    defaultValues: {
+      companyName: companyName || '',
+    },
+    mode: 'onChange',
+  });
+
+  const [previewDataUrl, setPreviewDataUrl] = useState<string | null>(null);
 
   const handlePickImage = () => fileInputRef.current?.click();
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setSelectedFile(file);
+
+    setValue('image', file, { shouldValidate: true });
+
     const reader = new FileReader();
+
     reader.onload = () => {
-      const result = reader.result as string;
-      setPreviewDataUrl(result);
+      setPreviewDataUrl(reader.result as string);
     };
     reader.readAsDataURL(file);
   };
 
   const handleCancel = () => {
     setPreviewDataUrl(null);
-    setSelectedFile(null);
-    setNewCompanyName(companyName || '');
+    reset();
     onOpenChange(false);
   };
 
-  const handleSave = async () => {
+  const onSubmit = async (data: EditProfileFormType) => {
     try {
-      setIsSaving(true);
-
       const updatedUser = await authService.updateUser({
-        companyName: newCompanyName || undefined,
-        image: selectedFile ?? undefined,
+        companyName: data.companyName || undefined,
+        image: data.image ?? undefined,
       });
 
       onSaved?.({
-        companyName: newCompanyName,
+        companyName: data.companyName,
         image: updatedUser.image ?? image ?? undefined,
       });
 
       showToast('프로필 저장에 성공했습니다.', 'success');
       onOpenChange(false);
       setPreviewDataUrl(null);
-      setSelectedFile(null);
+      reset();
     } catch (e) {
       console.error(e);
       showToast('프로필 저장에 실패했습니다. 다시 시도해주세요.', 'error');
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -85,7 +97,7 @@ export default function EditProfileModal({
       open={open}
       onOpenChange={onOpenChange}
       className="rounded-xl p-6 pt-8 md:rounded-3xl md:p-12 md:pb-11"
-      ResponsiveClassName="w-[342px] h-[579px] md:w-[616px] md:h-[758px]">
+      responsiveClassName="w-[342px] h-[579px] md:w-[616px] md:h-[758px]">
       <Modal.Header
         title="프로필 수정하기"
         onClose={() => onOpenChange(false)}
@@ -126,7 +138,10 @@ export default function EditProfileModal({
 
           <div className={inputformClassname}>
             <label className={labelClassname}>직업</label>
-            <Input value={newCompanyName} onChange={e => setNewCompanyName(e.target.value)} />
+            <Input {...register('companyName')} />
+            {errors.companyName && (
+              <span className="text-sm text-red-500">{errors.companyName.message}</span>
+            )}
           </div>
         </div>
       </Modal.Body>
@@ -137,16 +152,16 @@ export default function EditProfileModal({
             variant={'calendarOutline'}
             className={btnClassname}
             onClick={handleCancel}
-            disabled={isSaving}>
+            disabled={isSubmitting}>
             취소
           </Button>
           <Button
             size="responsive_full"
             variant={'calendarSolid'}
             className={btnClassname}
-            onClick={handleSave}
-            disabled={isSaving}>
-            {isSaving ? '저장 중…' : '수정'}
+            onClick={handleSubmit(onSubmit)}
+            disabled={!isValid || isSubmitting}>
+            {isSubmitting ? '저장 중…' : '수정'}
           </Button>
         </div>
       </Modal.Footer>

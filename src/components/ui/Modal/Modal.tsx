@@ -1,27 +1,26 @@
 'use client';
 
-import { useEffect } from 'react';
-import * as React from 'react';
+import { ReactNode, RefObject, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/utils/cn';
 
-import { useBodyScrollLock, useEscape, useFocusTrap } from './useModal';
+import { useBodyScrollLock, useEscape, useFocusTrap } from './useModalEffects';
 import Icon from '../Icon';
 
 export interface ModalProps {
   id?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void; // ESC 키, 바깥 클릭 등의 이벤트로 Modal 닫기 구현용
-  initialFocusRef?: React.RefObject<HTMLElement>; // Modal이 열릴 때 초기에 포커스가 적용될 HTMLElement
+  initialFocusRef?: RefObject<HTMLElement>; // Modal이 열릴 때 초기에 포커스가 적용될 HTMLElement
   className?: string;
-  ResponsiveClassName?: string;
+  responsiveClassName?: string;
   modalClassName?: string; // 모달 전체 컨테이너 (화면 중앙 정렬 등)
-  children?: React.ReactNode; // Modal 내부 실제 내용
+  children?: ReactNode; // Modal 내부 실제 내용
 }
 
 function Portal({ children }: { children: React.ReactNode }) {
   // [state] 클라이언트 렌더링이 완료된 후에만 true로 변경되어 Portal 생성 가능하도록
-  const [mounted, setMounted] = React.useState(false);
+  const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
   return createPortal(children, document.body);
@@ -89,10 +88,10 @@ function ModalRoot({
   initialFocusRef,
   className,
   children,
-  ResponsiveClassName,
+  responsiveClassName,
   modalClassName,
 }: ModalProps) {
-  const contentRef = React.useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
+  const contentRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
 
   useBodyScrollLock(open);
   useEscape(open, () => onOpenChange(false));
@@ -114,7 +113,8 @@ function ModalRoot({
             modalClassName,
           )}>
           <div
-            className={cn('pointer-events-auto', ResponsiveClassName)}
+            className={cn('pointer-events-auto', responsiveClassName)}
+            onClick={e => e.stopPropagation()}
             aria-modal="true"
             role="dialog"
             aria-labelledby="modal-title"

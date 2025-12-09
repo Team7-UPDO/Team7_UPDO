@@ -1,5 +1,4 @@
-// utils/normalizeFilters.ts
-import { FilterState } from '../utils/mapping';
+import { FilterState } from '@/utils/mapping';
 
 export function normalizeFilters(filters: Partial<FilterState>): FilterState {
   return {
@@ -13,12 +12,7 @@ export function normalizeFilters(filters: Partial<FilterState>): FilterState {
   };
 }
 
-export function prefetchInfiniteQueryKey(filters: Partial<FilterState>) {
+export function getCleanFilters(filters: Partial<FilterState>): Record<string, unknown> {
   const normalized = normalizeFilters(filters);
-
-  const cleanFilters = Object.fromEntries(
-    Object.entries(normalized).filter(([_, value]) => value !== undefined),
-  );
-
-  return ['gatherings', cleanFilters];
+  return Object.fromEntries(Object.entries(normalized).filter(([_, value]) => value !== undefined));
 }

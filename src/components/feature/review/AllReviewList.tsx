@@ -1,8 +1,8 @@
 'use client';
 
 import ReviewCardList from '@/components/feature/review/ReviewCardList';
-import { useAllReviewQuery } from '@/hooks/useAllReviewQuery';
-import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
+import { useAllReviewQuery } from '@/hooks/queries/reviews/useAllReviewQuery';
+import { useInfiniteScrollObserver } from '@/hooks/ui/useInfiniteScrollObserver';
 
 type AllReviewListProps = {
   params?: Record<string, string>;

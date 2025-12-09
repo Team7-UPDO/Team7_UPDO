@@ -36,16 +36,20 @@ export default function CreateGatheringButton() {
         }`}
         onClick={handleClick}
       />
-      <CreateGroupModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
-      <ConfirmModal
-        open={isLoginModalOpen}
-        onOpenChange={setIsLoginModalOpen}
-        content="로그인 페이지로 이동할까요?"
-        onConfirm={() => {
-          setIsLoginModalOpen(false);
-          router.push('/login');
-        }}
-      />
+      {isCreateModalOpen && (
+        <CreateGroupModal open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen} />
+      )}
+      {isLoginModalOpen && (
+        <ConfirmModal
+          open={isLoginModalOpen}
+          onOpenChange={setIsLoginModalOpen}
+          content="로그인 페이지로 이동할까요?"
+          onConfirm={() => {
+            setIsLoginModalOpen(false);
+            router.push('/login');
+          }}
+        />
+      )}
     </>
   );
 }

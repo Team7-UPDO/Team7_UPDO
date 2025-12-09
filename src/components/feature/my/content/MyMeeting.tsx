@@ -1,7 +1,7 @@
 'use client';
 
-import { useMyMeetingsQuery } from '@/hooks/useMyMeetingsQuery';
-import { useInfiniteScrollObserver } from '@/hooks/useInfiniteScrollObserver';
+import { useMyMeetingsQuery } from '@/hooks/queries/gatherings/useMyMeetingsQuery';
+import { useInfiniteScrollObserver } from '@/hooks/ui/useInfiniteScrollObserver';
 
 import MyGroupCardList from '@/components/feature/my/ui/MyGroupCardList';
 

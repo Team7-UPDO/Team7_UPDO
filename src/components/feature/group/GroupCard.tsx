@@ -13,10 +13,10 @@ import { formatTime, formatDate, formatDeadline } from '@/utils/date';
 import { ConfirmModal } from '@/components/ui/Modal';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useRouter } from 'next/navigation';
-import { useJoinLeaveGathering } from '@/hooks/useJoinLeaveGathering';
-import { useGatheringStatus } from '@/hooks/useGatheringStatus';
-import { useIsJoinedGathering } from '@/hooks/useIsJoinedGathering';
-import { useParticipants } from '@/hooks/useParticipants';
+import { useGatheringMutations } from '@/hooks/mutations/useGatheringMutations';
+import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
+import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
+import { isJoinedGathering, getGatheringCardState } from '@/utils/gatheringState';
 import { useState } from 'react';
 import { useToast } from '@/components/ui/Toast';
 import { isClosed } from '@/utils/date';
@@ -27,11 +27,12 @@ interface GroupCardProps {
 
 export default function GroupCard({ data, isPriority }: GroupCardProps) {
   const { name, location, dateTime, registrationEnd, capacity, image } = data;
-  const { isJoined } = useIsJoinedGathering(data.id);
-  const { participantCount } = useParticipants(data.id);
+  const { data: joinedGatherings } = useJoinedGatherings();
+  const isJoined = isJoinedGathering(joinedGatherings, data.id);
+  const { count: participantCount } = useGatheringParticipants(data.id);
   const [modalOpen, setModalOpen] = useState(false);
-  const { joinMutation, leaveMutation } = useJoinLeaveGathering(data.id);
-  const { isAllClosed, topic, safeCapacity, category } = useGatheringStatus(
+  const { joinMutation, leaveMutation } = useGatheringMutations({ gatheringId: data.id });
+  const { isAllClosed, topic, safeCapacity, category } = getGatheringCardState(
     location,
     capacity,
     participantCount,
@@ -54,11 +55,9 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
 
     try {
       if (isJoined) {
-        await leaveMutation.mutateAsync(data.id);
-        showToast('모임 참여를 취소했습니다.', 'info');
+        await leaveMutation.mutateAsync();
       } else {
-        await joinMutation.mutateAsync(data.id);
-        showToast('모임에 참여했습니다.', 'success');
+        await joinMutation.mutateAsync();
       }
     } catch (error) {
       showToast('참여 상태 변경에 실패했습니다.', 'error');
@@ -205,16 +204,18 @@ export default function GroupCard({ data, isPriority }: GroupCardProps) {
           </div>
         </article>
       </Link>
-      <ConfirmModal
-        open={modalOpen}
-        onOpenChange={setModalOpen}
-        content="로그인 페이지로 이동할까요?"
-        onConfirm={() => {
-          setModalOpen(false);
-          router.push('/login');
-        }}
-        onCancel={() => setModalOpen(false)}
-      />
+      {modalOpen && (
+        <ConfirmModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          content="로그인 페이지로 이동할까요?"
+          onConfirm={() => {
+            setModalOpen(false);
+            router.push('/login');
+          }}
+          onCancel={() => setModalOpen(false)}
+        />
+      )}
     </>
   );
 }

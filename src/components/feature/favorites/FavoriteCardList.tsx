@@ -10,8 +10,9 @@ import { useFavoriteStore } from '@/stores/useFavoriteStore';
 import { useUserStore } from '@/stores/useUserStore';
 import { getFavoriteList } from '@/services/gatherings/anonGatheringService';
 import { IGathering } from '@/types/gatherings';
-import { useMounted } from '@/hooks/useMounted';
+import { useMounted } from '@/hooks/ui/useMounted';
 import { useEffect, useState } from 'react';
+import { queryKeys } from '@/constants/queryKeys';
 
 interface GroupCardListProps {
   filters: FilterState;
@@ -37,7 +38,7 @@ export default function FavoriteCardList({ filters }: GroupCardListProps) {
     isError,
     refetch,
   } = useQuery<IGathering[]>({
-    queryKey: ['favoriteGatherings', userId, queryParams],
+    queryKey: queryKeys.gatherings.favorites(userId, favoriteIds),
     queryFn: () => getFavoriteList(queryParams!),
     enabled: hasFavorites,
   });

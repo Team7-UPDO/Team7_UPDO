@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { gatheringService } from '@/services/gatherings/gatheringService';
+import { queryKeys } from '@/constants/queryKeys';
 import { mapGatheringToUI } from '@/utils/mapping';
 
 export function useGatheringDetail(gatheringId: string | number, userId: number | null) {
@@ -8,7 +9,7 @@ export function useGatheringDetail(gatheringId: string | number, userId: number 
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['gatheringDetail', gatheringId],
+    queryKey: queryKeys.gatherings.detail(gatheringId),
     queryFn: async () => {
       const res = await gatheringService.getGatheringDetail(Number(gatheringId));
       return res;
