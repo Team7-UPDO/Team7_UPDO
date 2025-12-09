@@ -212,6 +212,7 @@ export function toGetGatheringsParams(
 export const mapGatheringToUI = (data: IGathering, userId: number | null) => ({
   id: data.id,
   name: data.name,
+  dateTime: data.dateTime,
   dateText: formatDate(data.dateTime),
   timeText: formatTime(data.dateTime),
   deadlineText: formatDeadline(data.registrationEnd ?? data.dateTime),

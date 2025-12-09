@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/Toast';
 import { gatheringService } from '@/services/gatherings/gatheringService';
 import { copyToClipboard } from '@/utils/clipboard';
-import { queryKey } from '@/constants/queryKeys';
+import { queryKeys } from '@/constants/queryKeys';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
 
 interface useGatheringHandlersParams {
@@ -26,7 +26,6 @@ export function useGatheringHandlers({
   const [isJoining, setIsJoining] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
   const [isCanceling, setIsCanceling] = useState(false);
-  const participantsKey = queryKey.participants(gatheringId);
 
   // 참여하기
   const handleJoin = async () => {
@@ -41,9 +40,26 @@ export function useGatheringHandlers({
     try {
       await gatheringService.joinGathering(Number(gatheringId));
       showToast('모임에 참여했습니다!', 'success');
-      queryClient.invalidateQueries({ queryKey: participantsKey });
-      queryClient.invalidateQueries({ queryKey: queryKey.joinedGatherings(userId) });
-      queryClient.invalidateQueries({ queryKey: queryKey.myMeetings() });
+
+      // 모든 관련 쿼리 무효화
+      await Promise.all([
+        // 모임 상세 정보 갱신 (버튼 상태 변경을 위해)
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.detail(gatheringId),
+        }),
+        // 참가자 목록 갱신
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.participants(Number(gatheringId)),
+        }),
+        // 내가 참여한 모임 목록 갱신
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.my.joinedGatherings(userId),
+        }),
+        // 내가 참여한 모임 무한스크롤 갱신
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.my.joinedGatheringsInfinite(userId),
+        }),
+      ]);
     } catch {
       showToast('모임 참여 요청에 실패했습니다.', 'error');
     } finally {
@@ -57,9 +73,26 @@ export function useGatheringHandlers({
     try {
       await gatheringService.leaveGathering(Number(gatheringId));
       showToast('모임 참여를 취소했습니다.', 'info');
-      queryClient.invalidateQueries({ queryKey: participantsKey });
-      queryClient.invalidateQueries({ queryKey: queryKey.joinedGatherings(userId) });
-      queryClient.invalidateQueries({ queryKey: queryKey.myMeetings() });
+
+      // 모든 관련 쿼리 무효화
+      await Promise.all([
+        // 모임 상세 정보 갱신
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.detail(gatheringId),
+        }),
+        // 참가자 목록 갱신
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.participants(Number(gatheringId)),
+        }),
+        // 내가 참여한 모임 목록 갱신
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.my.joinedGatherings(userId),
+        }),
+        // 내가 참여한 모임 무한스크롤 갱신
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.my.joinedGatheringsInfinite(userId),
+        }),
+      ]);
     } catch {
       showToast('모임 참여 취소가 실패했습니다.', 'error');
     } finally {
@@ -79,8 +112,12 @@ export function useGatheringHandlers({
       showToast('모임이 삭제되었습니다.', 'success');
 
       // 삭제 후: 관련 캐시 무효화
-      queryClient.invalidateQueries({ queryKey: queryKey.gatherings() });
-      if (userId) queryClient.invalidateQueries({ queryKey: queryKey.myCreatedGroups(userId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.all() });
+      if (userId) {
+        queryClient.invalidateQueries({
+          queryKey: queryKeys.gatherings.my.createdGatherings(userId),
+        });
+      }
       setTimeout(() => router.replace('/gathering'), 1000);
     } catch {
       showToast('모임이 삭제되지 않았습니다.', 'error');

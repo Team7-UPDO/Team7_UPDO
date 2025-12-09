@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import GroupDetailCard from '@/components/feature/gathering/detail/GroupDetailCard';
 import GroupDetailParticipation from '@/components/feature/gathering/detail/GroupDetailParticipationCard';
@@ -12,10 +13,11 @@ import GroupDetailCardSkeleton from '@/components/ui/Skeleton/GroupDetailCardSke
 import GroupDetailParticipationSkeleton from '@/components/ui/Skeleton/GroupDetailParticipationSkeleton';
 import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailReviewListSkeleton';
 
+import { ConfirmModal } from '@/components/ui/Modal';
+
 import { useGatheringDetail } from '@/hooks/queries/gatherings/useGatheringDetail';
 import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
 import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
-import { getGatheringDetailState } from '@/utils/gatheringState';
 import { useGatheringHandlers } from '@/hooks/mutations/useGatheringHandler';
 import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
 import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
@@ -25,10 +27,14 @@ import { useUserStore } from '@/stores/useUserStore';
 
 export default function GroupDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
 
   const { isAuthenticated } = useAuthStore();
   const { user } = useUserStore();
   const userId = user?.id ?? null;
+
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const { gathering, uiData, isLoading, isError } = useGatheringDetail(id, userId);
   const { data: participantsData, participants } = useGatheringParticipants(id);
@@ -36,7 +42,6 @@ export default function GroupDetailPage() {
 
   const {
     myReviews,
-    isReviewed,
     isReviewModalOpen,
     handleOpenReviewModal,
     handleReviewSuccess,
@@ -50,23 +55,19 @@ export default function GroupDetailPage() {
       isAuthenticated,
     });
 
-  const {
-    joined,
-    currentParticipantCount,
-    isOpenConfirmed,
-    isCompleted,
-    isRegistrationClosed,
-    isFull,
-    isCanceled,
-  } = getGatheringDetailState({
-    gathering,
-    participantsData,
-    joinedGatherings,
-    myReviews,
-    gatheringId: id,
-    userId,
-    minParticipants: uiData?.minParticipants,
-  });
+  const handleRequireLogin = () => {
+    setLoginModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setIsDeleteModalOpen(false);
+    handleCancel();
+  };
+  // 여기서 isCanceled, currentParticipantCount만 직접 계산
+  const isCanceled = !!gathering?.canceledAt;
+
+  const currentParticipantCount =
+    participantsData?.length ?? gathering?.participantCount ?? uiData?.participantCount ?? 0;
 
   // 삭제된 모임 리다이렉트
   useGatheringRedirect(isCanceled, isLoading);
@@ -124,23 +125,20 @@ export default function GroupDetailPage() {
           />
         </div>
 
-        {/* 상세 헤더 */}
         <div className="flex flex-col justify-between gap-4">
           <GroupDetailCard
             data={uiData}
             isHost={uiData.isHost}
-            joined={joined}
-            isCompleted={isCompleted}
-            isReviewed={isReviewed}
-            isRegistrationClosed={isRegistrationClosed}
-            isOpenConfirmed={isOpenConfirmed}
-            isFull={isFull}
-            isCanceled={isCanceled}
+            userId={userId}
+            participantsData={participantsData}
+            joinedGatherings={joinedGatherings}
+            myReviews={myReviews}
             onJoin={handleJoin}
             onLeave={handleLeave}
-            onCancel={handleCancel}
+            onCancel={() => setIsDeleteModalOpen(true)}
             onShare={handleShare}
             onWriteReview={handleOpenReviewModal}
+            onRequireLogin={handleRequireLogin}
             isJoining={isJoining}
             isLeaving={isLeaving}
             isCanceling={isCanceling}
@@ -168,6 +166,30 @@ export default function GroupDetailPage() {
           onOpenChange={setIsReviewModalOpen}
           ApiRequestProps={{ gatheringId: Number(id) }}
           onSuccess={handleReviewSuccess}
+        />
+      )}
+
+      {/* 로그인 유도 모달 */}
+      {loginModalOpen && (
+        <ConfirmModal
+          open={loginModalOpen}
+          onOpenChange={setLoginModalOpen}
+          content={`로그인이 필요한 서비스입니다.
+            로그인 페이지로 이동할까요?`}
+          onConfirm={() => {
+            setLoginModalOpen(false);
+            router.push('/login');
+          }}
+        />
+      )}
+      {/* 삭제 확인 모달 */}
+      {isDeleteModalOpen && (
+        <ConfirmModal
+          open={isDeleteModalOpen}
+          onOpenChange={setIsDeleteModalOpen}
+          content={`모임을 삭제하시겠습니까?
+            삭제 후에는 되돌릴 수 없습니다.`}
+          onConfirm={handleConfirmDelete}
         />
       )}
     </main>
