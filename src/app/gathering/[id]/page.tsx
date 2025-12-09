@@ -188,7 +188,7 @@ export default function GroupDetailPage() {
           open={isDeleteModalOpen}
           onOpenChange={setIsDeleteModalOpen}
           content={`모임을 삭제하시겠습니까?
-삭제 후에는 되돌릴 수 없습니다.`}
+            삭제 후에는 되돌릴 수 없습니다.`}
           onConfirm={handleConfirmDelete}
         />
       )}
