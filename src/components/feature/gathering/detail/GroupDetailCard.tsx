@@ -35,6 +35,7 @@ interface GroupDetailCardProps {
   onCancel?: () => void;
   onShare?: () => void;
   onWriteReview?: () => void;
+  onRequireLogin?: () => void;
   isJoining?: boolean;
   isLeaving?: boolean;
   isCanceling?: boolean;
@@ -52,6 +53,7 @@ export default function GroupDetailCard({
   onCancel,
   onShare,
   onWriteReview,
+  onRequireLogin,
   isJoining = false,
   isLeaving = false,
   isCanceling = false,
@@ -76,17 +78,22 @@ export default function GroupDetailCard({
       gatheringId: data.id,
       userId,
       isAuthenticated,
-      handlers: { onJoin, onLeave, onWriteReview },
+      handlers: {
+        onJoin,
+        onLeave,
+        onWriteReview,
+        onRequireLogin,
+      },
       isJoining,
       isLeaving,
     });
 
-  const isClosed = isRegistrationClosed || isFull || isCompleted || isCanceled;
+  const isClosed = isCompleted || isRegistrationClosed || isFull || isCanceled;
 
   return (
     <section
       className={cn(
-        'bg-surface isolate flex flex-col gap-6 rounded-md p-5 shadow-md sm:rounded-md md:rounded-2xl md:p-10 lg:p-10',
+        'bg-surface isolate flex flex-col gap-6 rounded-md p-5 shadow-md md:rounded-2xl md:p-10',
       )}>
       <GroupDetailCardHeader
         deadlineText={data.deadlineText}

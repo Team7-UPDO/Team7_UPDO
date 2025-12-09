@@ -73,7 +73,7 @@ export default function ConfirmModal({
           'card-title md:page-title flex flex-col items-center p-0 pt-6 text-center text-gray-700',
           bodyClassName,
         )}>
-        <p>{content}</p>
+        <p className="whitespace-pre-line">{content}</p>
       </Modal.Body>
 
       <Modal.Footer className={cn('h-12 gap-3 p-0 md:h-15', footerClassName)}>

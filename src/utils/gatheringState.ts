@@ -8,6 +8,7 @@ export interface UseButtonStateHandlers {
   onJoin?: () => void;
   onLeave?: () => void;
   onWriteReview?: () => void;
+  onRequireLogin?: () => void;
 }
 
 export interface ButtonState {
@@ -24,7 +25,7 @@ export function isJoinedGathering(
   joinedGatherings: IJoinedGathering[] | undefined,
   gatheringId: number,
 ): boolean {
-  return (joinedGatherings ?? []).some(g => g.id === gatheringId);
+  return (joinedGatherings ?? []).some(g => Number(g.id) === gatheringId);
 }
 
 interface GetGatheringDetailStateParams {
@@ -93,9 +94,6 @@ export function getGatheringDetailState({
     if (isCanceled) {
       text = '삭제된 모임';
       disabled = true;
-    } else if (isRegistrationClosed && !isOpenConfirmed) {
-      text = '개설 취소';
-      disabled = true;
     } else if (isCompleted) {
       if (joined) {
         if (isReviewed) {
@@ -109,6 +107,9 @@ export function getGatheringDetailState({
         text = '참여 기간 만료';
         disabled = true;
       }
+    } else if (isRegistrationClosed && !isOpenConfirmed) {
+      text = '개설 취소';
+      disabled = true;
     } else if (isRegistrationClosed) {
       text = '참여 기간 만료';
       disabled = true;
@@ -116,8 +117,13 @@ export function getGatheringDetailState({
       text = '정원 마감';
       disabled = true;
     } else if (!isAuthenticated) {
-      text = '참여하기';
-      action = 'join';
+      return {
+        text: '참여하기',
+        disabled: false,
+        variant: 'primary',
+        action: null,
+        onClick: handlers.onRequireLogin,
+      };
     } else if (joined) {
       text = '참여 취소하기';
       action = 'leave';
@@ -129,21 +135,14 @@ export function getGatheringDetailState({
       disabled = isJoining;
     }
 
-    const onClick = action
-      ? () => {
-          switch (action) {
-            case 'join':
-              handlers.onJoin?.();
-              break;
-            case 'leave':
-              handlers.onLeave?.();
-              break;
-            case 'review':
-              handlers.onWriteReview?.();
-              break;
-          }
-        }
-      : undefined;
+    const onClick =
+      action === 'join'
+        ? handlers.onJoin
+        : action === 'leave'
+          ? handlers.onLeave
+          : action === 'review'
+            ? handlers.onWriteReview
+            : undefined;
 
     return { text, disabled, variant, action, onClick };
   };
