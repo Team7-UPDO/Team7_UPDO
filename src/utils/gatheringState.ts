@@ -28,6 +28,7 @@ export function isJoinedGathering(
   return (joinedGatherings ?? []).some(g => Number(g.id) === gatheringId);
 }
 
+// 모임 상세 상태
 interface GetGatheringDetailStateParams {
   gathering?: Partial<IGathering> | null;
   participantsData?: IParticipant[];
@@ -83,40 +84,76 @@ export function getGatheringDetailState({
   // 모집 마감 여부
   const isRegistrationClosed = isClosed(gathering?.registrationEnd);
 
+  // 버튼 상태 결정
   const getButtonState = (): ButtonState | null => {
     if (!handlers) return null;
-
-    let action: 'join' | 'leave' | 'review' | null = null;
-    let text = '';
-    let disabled = false;
-    let variant: 'primary' | 'secondary' = 'primary';
-
+    // 삭제 여부
     if (isCanceled) {
-      text = '삭제된 모임';
-      disabled = true;
-    } else if (isCompleted) {
+      return {
+        text: '삭제된 모임',
+        disabled: true,
+        variant: 'primary',
+        action: null,
+      };
+    }
+
+    if (isCompleted && !isOpenConfirmed) {
+      return {
+        text: '개설 취소',
+        disabled: true,
+        variant: 'primary',
+        action: null,
+      };
+    }
+
+    if (isCompleted) {
       if (joined) {
         if (isReviewed) {
-          text = '참여 완료';
-          disabled = true;
-        } else {
-          text = '리뷰 작성하기';
-          action = 'review';
+          return {
+            text: '참여 완료',
+            disabled: true,
+            variant: 'primary',
+            action: null,
+          };
         }
-      } else {
-        text = '참여 기간 만료';
-        disabled = true;
+
+        return {
+          text: '리뷰 작성하기',
+          disabled: false,
+          variant: 'primary',
+          action: 'review',
+          onClick: handlers.onWriteReview,
+        };
       }
-    } else if (isRegistrationClosed && !isOpenConfirmed) {
-      text = '개설 취소';
-      disabled = true;
-    } else if (isRegistrationClosed) {
-      text = '참여 기간 만료';
-      disabled = true;
-    } else if (isFull && !joined) {
-      text = '정원 마감';
-      disabled = true;
-    } else if (!isAuthenticated) {
+
+      return {
+        text: '참여 기간 만료',
+        disabled: true,
+        variant: 'primary',
+        action: null,
+      };
+    }
+
+    if (isRegistrationClosed) {
+      return {
+        text: '참여 기간 만료',
+        disabled: true,
+        variant: 'primary',
+        action: null,
+      };
+    }
+
+    if (isFull && !joined) {
+      return {
+        text: '정원 마감',
+        disabled: true,
+        variant: 'primary',
+        action: null,
+      };
+    }
+
+    // 비로그인
+    if (!isAuthenticated) {
       return {
         text: '참여하기',
         disabled: false,
@@ -124,27 +161,25 @@ export function getGatheringDetailState({
         action: null,
         onClick: handlers.onRequireLogin,
       };
-    } else if (joined) {
-      text = '참여 취소하기';
-      action = 'leave';
-      variant = 'secondary';
-      disabled = isLeaving;
-    } else {
-      text = '참여하기';
-      action = 'join';
-      disabled = isJoining;
     }
 
-    const onClick =
-      action === 'join'
-        ? handlers.onJoin
-        : action === 'leave'
-          ? handlers.onLeave
-          : action === 'review'
-            ? handlers.onWriteReview
-            : undefined;
+    if (joined) {
+      return {
+        text: '참여 취소하기',
+        disabled: isLeaving,
+        variant: 'secondary',
+        action: 'leave',
+        onClick: handlers.onLeave,
+      };
+    }
 
-    return { text, disabled, variant, action, onClick };
+    return {
+      text: '참여하기',
+      disabled: isJoining,
+      variant: 'primary',
+      action: 'join',
+      onClick: handlers.onJoin,
+    };
   };
 
   return {
