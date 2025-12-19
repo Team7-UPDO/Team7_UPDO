@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { cn } from '@/utils/cn';
 import ReviewCard from './GroupDetailReview';
 import { Pagination } from '@/components/ui/Pagination';
+import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailReviewListSkeleton';
 import { useReviewsQuery } from '@/hooks/queries/reviews/useReviewsQuery';
 
 interface GroupDetailReviewListProps {
@@ -19,12 +20,9 @@ export default function GroupDetailReviewList({ gatheringId }: GroupDetailReview
 
   if (isLoading) {
     return (
-      <div
-        className="flex h-48 items-center justify-center text-gray-500"
-        aria-busy="true"
-        aria-live="polite">
+      <div aria-busy="true" aria-live="polite">
         <span className="sr-only">리뷰 목록을 불러오는 중입니다</span>
-        로딩 중...
+        <GroupDetailReviewListSkeleton />
       </div>
     );
   }

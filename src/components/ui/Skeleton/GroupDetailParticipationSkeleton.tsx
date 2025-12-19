@@ -20,12 +20,11 @@ export default function GroupDetailParticipationSkeleton() {
             <div className="caption-bold relative z-[5] -ml-[10px] flex h-[29px] w-[29px] shrink-0 items-center justify-center rounded-full bg-gray-50" />
           </div>
         </div>
-        <div className="h-5 w-14 rounded bg-gray-50" />
       </div>
 
       {/* progress bar */}
-      <div className="flex flex-col gap-1.5">
-        <div className="flex justify-between text-xs">
+      <div className="relative flex flex-col gap-1.5">
+        <div className="flex items-start justify-between text-xs">
           <div className="h-4 w-16 rounded bg-gray-50" />
           <div className="h-4 w-16 rounded bg-gray-50" />
         </div>
