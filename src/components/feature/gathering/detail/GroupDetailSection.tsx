@@ -15,8 +15,9 @@ import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailR
 import { useGatheringDetail } from '@/hooks/queries/gatherings/useGatheringDetail';
 import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
 import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
-import { useGatheringHandlers } from '@/hooks/mutations/useGatheringHandler';
+import { useGatheringMutations } from '@/hooks/mutations/useGatheringMutations';
 import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
+import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
 
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useUserStore } from '@/stores/useUserStore';
@@ -46,10 +47,8 @@ export default function GroupDetailSection({ gatheringId }: GroupDetailSectionPr
   const { myReviews, handleReviewSuccess } = useGatheringReview({ gatheringId, userId });
 
   const { handleJoin, handleLeave, handleCancel, handleShare, isJoining, isLeaving, isCanceling } =
-    useGatheringHandlers({
-      gatheringId,
-      userId,
-      isAuthenticated,
+    useGatheringMutations({
+      gatheringId: Number(gatheringId),
     });
 
   const { requestLogin, requestCancel, requestReview, modals } = useGroupDetailModals({
@@ -59,6 +58,7 @@ export default function GroupDetailSection({ gatheringId }: GroupDetailSectionPr
   });
 
   const isCanceled = !!gathering?.canceledAt;
+  useGatheringRedirect(isCanceled, detailLoading);
 
   const currentParticipantCount = useMemo(
     () => participantsData?.length ?? gathering?.participantCount ?? uiData?.participantCount ?? 0,
