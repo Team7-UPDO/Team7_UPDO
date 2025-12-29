@@ -52,11 +52,14 @@ export default function GroupDetailCardHeader({
         </IconText>
       </div>
 
-      {isHost && (
-        <div className="text-[var(--color-purple-600)]">
-          <Icon name="crown" size={32} />
-        </div>
-      )}
+      <div className="flex h-8 w-8 items-center justify-center">
+        <Icon
+          name="crown"
+          size={32}
+          className={isHost ? 'text-[var(--color-purple-600)]' : 'invisible'}
+          aria-hidden={true}
+        />
+      </div>
     </div>
   );
 }

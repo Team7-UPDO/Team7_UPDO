@@ -6,15 +6,15 @@ export default function GroupDetailCardSkeleton() {
       {/* 상단 */}
       <div className="flex items-start justify-between">
         <div className="flex flex-wrap items-center gap-2">
-          <div className="h-[26px] w-[72px] rounded bg-gray-50" />
-          <div className="h-[26px] w-[58px] rounded bg-gray-50" />
-          <div className="h-[26px] w-[58px] rounded bg-gray-50" />
+          <div className="h-5 w-[72px] rounded bg-gray-50" />
+          <div className="h-5 w-[58px] rounded bg-gray-50" />
+          <div className="h-5 w-[58px] rounded bg-gray-50" />
         </div>
         <div className="h-8 w-8 rounded-full bg-gray-50" />
       </div>
       <div>
-        <div className="mb-3 h-[32px] w-3/4 rounded bg-gray-50" />
-        <div className="h-[26px] w-[90px] rounded bg-gray-50" />
+        <div className="mb-4 h-[32px] w-3/4 rounded bg-gray-50" />
+        <div className="h-5 w-[90px] rounded bg-gray-50" />
       </div>
 
       {/* 하단 */}
