@@ -57,7 +57,7 @@ export default function GroupDetailCardHeader({
           name="crown"
           size={32}
           className={isHost ? 'text-[var(--color-purple-600)]' : 'invisible'}
-          aria-hidden={!isHost}
+          aria-hidden={true}
         />
       </div>
     </div>
