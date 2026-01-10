@@ -12,6 +12,7 @@ import {
   CreateGatheringFormSchema,
   type CreateGatheringFormType,
 } from '@/schemas/gatheringsSchema';
+import { toUTCFromKST } from '@/utils/date';
 
 import { createGathering } from '@/services/gatherings/gatheringService';
 import { useQueryClient } from '@tanstack/react-query';
@@ -54,7 +55,7 @@ export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
     date.setFullYear(parseInt(yy, 10), parseInt(mm, 10) - 1, parseInt(dd, 10));
     date.setHours(h, parseInt(mi, 10), 0, 0);
 
-    return date.toISOString();
+    return toUTCFromKST(date);
   };
 
   const onSubmit = async (data: CreateGatheringFormType) => {
