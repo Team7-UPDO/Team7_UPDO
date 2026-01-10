@@ -76,14 +76,20 @@ export default function CreateGroupModalForm({
         <Controller
           control={control}
           name="location"
-          render={({ field: { onChange, value } }) => (
-            <SelectInput
-              items={TAG_OPTIONS}
-              value={value}
-              onChange={onChange}
-              placeholder="태그를 선택해주세요"
-            />
-          )}
+          render={({ field: { onChange, value } }) => {
+            const selectedValue = TAG_OPTIONS.find(opt => opt.location === value)?.value;
+            return (
+              <SelectInput
+                items={TAG_OPTIONS}
+                value={selectedValue ?? null}
+                onChange={val => {
+                  const selectedLocation = TAG_OPTIONS.find(opt => opt.value === val)?.location;
+                  onChange(selectedLocation);
+                }}
+                placeholder="태그를 선택해주세요"
+              />
+            );
+          }}
         />
       </div>
 
@@ -155,18 +161,22 @@ export default function CreateGroupModalForm({
       <div>
         <label className={labelClassName}>선택 서비스</label>
         <div className="flex gap-3">
-          {TAB_OPTIONS.filter(o => o.value !== '성장').map(({ title, subtitle, value }, idx) => (
-            <Selectbox
-              key={idx}
-              title={title}
-              subtitle={subtitle ?? ''}
-              isSelected={selectedIdx === idx}
-              onSelect={() => {
-                setSelectedIdx(idx);
-                setValue('type', value as CreateGatheringFormType['type']); // ✅ setValue 사용
-              }}
-            />
-          ))}
+          {TAB_OPTIONS.filter(o => o.value !== '성장').map(
+            ({ title, subtitle, value, type }, idx) => (
+              <Selectbox
+                key={idx}
+                title={title}
+                subtitle={subtitle ?? ''}
+                isSelected={selectedIdx === idx}
+                onSelect={() => {
+                  setSelectedIdx(idx);
+                  setValue('type', type as CreateGatheringFormType['type'], {
+                    shouldValidate: true,
+                  });
+                }}
+              />
+            ),
+          )}
         </div>
       </div>
 
