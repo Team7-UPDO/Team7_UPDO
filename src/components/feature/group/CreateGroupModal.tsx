@@ -42,13 +42,34 @@ export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
     mode: 'onChange',
   });
 
+  const toISOString = (dateStr: string) => {
+    const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{1,2}):(\d{2}) (AM|PM)$/);
+    if (!match) return dateStr;
+
+    const [, yy, mm, dd, hh, mi, ap] = match;
+    let h = parseInt(hh, 10) % 12;
+    if (ap === 'PM') h += 12;
+
+    const date = new Date();
+    date.setFullYear(parseInt(yy, 10), parseInt(mm, 10) - 1, parseInt(dd, 10));
+    date.setHours(h, parseInt(mi, 10), 0, 0);
+
+    return date.toISOString();
+  };
+
   const onSubmit = async (data: CreateGatheringFormType) => {
     try {
-      await createGathering(data);
+      const requestData = {
+        ...data,
+        dateTime: toISOString(data.dateTime),
+        registrationEnd: toISOString(data.registrationEnd),
+      };
+
+      await createGathering(requestData);
       toast.showToast('모임이 생성되었습니다.', 'success');
       onOpenChange(false); // 모달 닫기
       queryClient.invalidateQueries({ queryKey: queryKeys.gatherings.all() });
-      reset(); // 폼 초기하ㅘ
+      reset(); // 폼 초기화
     } catch (error) {
       const msg =
         error &&
