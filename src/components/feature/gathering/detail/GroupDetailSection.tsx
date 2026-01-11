@@ -54,7 +54,7 @@ export default function GroupDetailSection({ gatheringId }: GroupDetailSectionPr
   });
 
   const isCanceled = !!gathering?.canceledAt;
-  useGatheringRedirect(isCanceled, detailLoading);
+  useGatheringRedirect({ isCanceled, isError, isLoading: detailLoading });
 
   const currentParticipantCount = useMemo(
     () => participantsData?.length ?? gathering?.participantCount ?? uiData?.participantCount ?? 0,
