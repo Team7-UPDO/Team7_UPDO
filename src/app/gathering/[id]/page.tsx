@@ -1,175 +1,80 @@
-'use client';
+import { Metadata } from 'next';
+import GroupDetailSection from '@/components/feature/gathering/detail/GroupDetailSection';
 
-import Image from 'next/image';
-import { useParams } from 'next/navigation';
+export const dynamic = 'force-dynamic';
 
-import GroupDetailCard from '@/components/feature/gathering/detail/GroupDetailCard';
-import GroupDetailParticipation from '@/components/feature/gathering/detail/GroupDetailParticipationCard';
-import GroupDetailReviewList from '@/components/feature/gathering/detail/GroupDetailReviewList';
-import WriteReviewModal from '@/components/feature/review/WriteReviewModal';
+const baseUrl = 'https://updo.site';
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const teamId = process.env.NEXT_PUBLIC_TEAM_ID;
 
-import GroupDetailCardSkeleton from '@/components/ui/Skeleton/GroupDetailCardSkeleton';
-import GroupDetailParticipationSkeleton from '@/components/ui/Skeleton/GroupDetailParticipationSkeleton';
-import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailReviewListSkeleton';
+interface GatheringDetail {
+  id: number;
+  name: string;
+  type: string;
+  location: string;
+  image?: string;
+}
 
-import { useGatheringDetail } from '@/hooks/queries/gatherings/useGatheringDetail';
-import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
-import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
-import { getGatheringDetailState } from '@/utils/gatheringState';
-import { useGatheringHandlers } from '@/hooks/mutations/useGatheringHandler';
-import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
-import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
+interface GroupDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
-import { useAuthStore } from '@/stores/useAuthStore';
-import { useUserStore } from '@/stores/useUserStore';
+export async function generateMetadata({ params }: GroupDetailPageProps): Promise<Metadata> {
+  const { id } = await params;
 
-export default function GroupDetailPage() {
-  const { id } = useParams<{ id: string }>();
-
-  const { isAuthenticated } = useAuthStore();
-  const { user } = useUserStore();
-  const userId = user?.id ?? null;
-
-  const { gathering, uiData, isLoading, isError } = useGatheringDetail(id, userId);
-  const { data: participantsData, participants } = useGatheringParticipants(id);
-  const { data: joinedGatherings } = useJoinedGatherings();
-
-  const {
-    myReviews,
-    isReviewed,
-    isReviewModalOpen,
-    handleOpenReviewModal,
-    handleReviewSuccess,
-    setIsReviewModalOpen,
-  } = useGatheringReview({ gatheringId: id, userId });
-
-  const { handleJoin, handleLeave, handleCancel, handleShare, isJoining, isLeaving, isCanceling } =
-    useGatheringHandlers({
-      gatheringId: id,
-      userId,
-      isAuthenticated,
-    });
-
-  const {
-    joined,
-    currentParticipantCount,
-    isOpenConfirmed,
-    isCompleted,
-    isRegistrationClosed,
-    isFull,
-    isCanceled,
-  } = getGatheringDetailState({
-    gathering,
-    participantsData,
-    joinedGatherings,
-    myReviews,
-    gatheringId: id,
-    userId,
-    minParticipants: uiData?.minParticipants,
-  });
-
-  // 삭제된 모임 리다이렉트
-  useGatheringRedirect(isCanceled, isLoading);
-
-  // 로딩/에러 처리
-  if (isLoading)
-    return (
-      <main aria-busy="true">
-        <span className="sr-only">모임 정보 로딩 중</span>
-        <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
-          <div className="relative h-60 w-full overflow-hidden rounded-md bg-gray-100 shadow-sm sm:h-auto sm:rounded-md md:rounded-2xl" />
-          <div className="flex flex-col justify-between gap-4">
-            <GroupDetailCardSkeleton />
-            <GroupDetailParticipationSkeleton />
-          </div>
-        </section>
-
-        <section className="mt-6 sm:mt-12 md:mt-16">
-          <GroupDetailReviewListSkeleton />
-        </section>
-      </main>
-    );
-
-  if (isError || !uiData)
-    return (
-      <div className="p-10 text-red-500" role="alert">
-        모임 정보를 불러올 수 없습니다.
-      </div>
-    );
-
-  // 삭제된 모임
-  if (isCanceled) {
-    return (
-      <main className="flex min-h-screen items-center justify-center">
-        <div className="flex flex-col items-center justify-center gap-3 py-12" role="alert">
-          <Image src="/images/empty.webp" alt="" width={171} height={115} className="opacity-70" />
-          <p className="text-sm text-gray-400 md:text-base">
-            삭제된 모임입니다. 모임 찾기 페이지로 이동합니다.
-          </p>
-        </div>
-      </main>
-    );
+  if (!apiBaseUrl || !teamId) {
+    return {
+      title: '모임 상세',
+      description: 'UPDO에서 다양한 성장 모임을 만나보세요.',
+    };
   }
 
-  return (
-    <main className="px-0 py-10">
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
-        <div className="relative h-60 w-full overflow-hidden rounded-md bg-white shadow-sm sm:h-auto sm:rounded-md md:rounded-2xl">
-          <Image
-            src={uiData?.image || '/images/detail_empty.webp'}
-            alt={uiData?.name ? `${uiData.name} 모임 대표 이미지` : '모임 대표 이미지'}
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
+  try {
+    const res = await fetch(`${apiBaseUrl}/${teamId}/gatherings/${id}`, {
+      next: { revalidate: 60 },
+    });
 
-        {/* 상세 헤더 */}
-        <div className="flex flex-col justify-between gap-4">
-          <GroupDetailCard
-            data={uiData}
-            isHost={uiData.isHost}
-            joined={joined}
-            isCompleted={isCompleted}
-            isReviewed={isReviewed}
-            isRegistrationClosed={isRegistrationClosed}
-            isOpenConfirmed={isOpenConfirmed}
-            isFull={isFull}
-            isCanceled={isCanceled}
-            onJoin={handleJoin}
-            onLeave={handleLeave}
-            onCancel={handleCancel}
-            onShare={handleShare}
-            onWriteReview={handleOpenReviewModal}
-            isJoining={isJoining}
-            isLeaving={isLeaving}
-            isCanceling={isCanceling}
-          />
+    if (!res.ok) {
+      return {
+        title: '모임 상세',
+        description: 'UPDO에서 다양한 성장 모임을 만나보세요.',
+      };
+    }
 
-          <GroupDetailParticipation
-            current={currentParticipantCount}
-            max={uiData.capacity}
-            min={uiData.minParticipants}
-            participants={participants}
-            showConfirm
-          />
-        </div>
-      </section>
+    const gathering: GatheringDetail = await res.json();
+    const title = `${gathering.name} | UPDO`;
+    const description = `${gathering.location}에서 진행되는 ${gathering.type} 모임. UPDO에서 함께 성장하세요.`;
 
-      {/* 리뷰 섹션 */}
-      <section className="mt-6 sm:mt-12 md:mt-16">
-        {uiData && <GroupDetailReviewList gatheringId={uiData.id} />}
-      </section>
+    return {
+      title: gathering.name,
+      description,
+      openGraph: {
+        title,
+        description,
+        url: `${baseUrl}/gathering/${id}`,
+        siteName: 'UPDO',
+        images: gathering.image
+          ? [{ url: gathering.image, width: 600, height: 315, alt: gathering.name }]
+          : [{ url: '/images/og_default.webp', width: 600, height: 315, alt: 'UPDO' }],
+        locale: 'ko_KR',
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: gathering.image ? [gathering.image] : ['/images/og_default.webp'],
+      },
+    };
+  } catch {
+    return {
+      title: '모임 상세',
+      description: 'UPDO에서 다양한 성장 모임을 만나보세요.',
+    };
+  }
+}
 
-      {/* 리뷰 작성 모달 */}
-      {isReviewModalOpen && (
-        <WriteReviewModal
-          open={isReviewModalOpen}
-          onOpenChange={setIsReviewModalOpen}
-          ApiRequestProps={{ gatheringId: Number(id) }}
-          onSuccess={handleReviewSuccess}
-        />
-      )}
-    </main>
-  );
+export default async function GroupDetailPage({ params }: GroupDetailPageProps) {
+  const { id } = await params;
+  return <GroupDetailSection gatheringId={id} />;
 }

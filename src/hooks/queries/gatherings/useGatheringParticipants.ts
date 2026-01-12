@@ -16,7 +16,7 @@ export function useGatheringParticipants(gatheringId: string | number) {
     queryKey: queryKeys.gatherings.participants(numericId),
     queryFn: () => gatheringService.getParticipants(numericId),
     enabled: Number.isFinite(numericId),
-    staleTime: 1000 * 60 * 3,
+    staleTime: 1000 * 30,
   });
 
   // UI용 데이터 변환

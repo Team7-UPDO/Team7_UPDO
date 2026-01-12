@@ -23,7 +23,7 @@ jobs:
         with:
           source-directory: .
           destination-github-username: seomsoo
-          destination-repository-name: Team7_UPDO
+          destination-repository-name: UPDO
           user-name: 'seomsoo'
           user-email: ${{ secrets.EMAIL }}
           target-branch: main

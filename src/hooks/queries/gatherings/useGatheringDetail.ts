@@ -15,7 +15,7 @@ export function useGatheringDetail(gatheringId: string | number, userId: number 
       return res;
     },
     enabled: !!gatheringId,
-    staleTime: 1000 * 60 * 3,
+    staleTime: 1000 * 30,
   });
   const uiData = gathering ? mapGatheringToUI(gathering, userId) : null;
 
