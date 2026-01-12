@@ -22,6 +22,13 @@ interface GroupDetailPageProps {
 export async function generateMetadata({ params }: GroupDetailPageProps): Promise<Metadata> {
   const { id } = await params;
 
+  if (!apiBaseUrl || !teamId) {
+    return {
+      title: '모임 상세',
+      description: 'UPDO에서 다양한 성장 모임을 만나보세요.',
+    };
+  }
+
   try {
     const res = await fetch(`${apiBaseUrl}/${teamId}/gatherings/${id}`, {
       next: { revalidate: 60 },
