@@ -1,5 +1,11 @@
-import { Metadata } from 'next';
+﻿import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import type { Metadata } from 'next';
 import GroupDetailSection from '@/components/feature/gathering/detail/GroupDetailSection';
+import { queryKeys } from '@/constants/queryKeys';
+import {
+  getGatheringDetail,
+  getGatheringParticipants,
+} from '@/services/gatherings/anonGatheringService';
 
 export const dynamic = 'force-dynamic';
 
@@ -76,5 +82,32 @@ export async function generateMetadata({ params }: GroupDetailPageProps): Promis
 
 export default async function GroupDetailPage({ params }: GroupDetailPageProps) {
   const { id } = await params;
-  return <GroupDetailSection gatheringId={id} />;
+  const numericId = Number(id);
+
+  const queryClient = new QueryClient();
+
+  if (Number.isFinite(numericId)) {
+    try {
+      await Promise.all([
+        queryClient.prefetchQuery({
+          queryKey: queryKeys.gatherings.detail(numericId),
+          queryFn: () => getGatheringDetail(id),
+        }),
+        queryClient.prefetchQuery({
+          queryKey: queryKeys.gatherings.participants(numericId),
+          queryFn: () => getGatheringParticipants(id),
+        }),
+      ]);
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('[Prefetch Error]', error);
+      }
+    }
+  }
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <GroupDetailSection gatheringId={id} />
+    </HydrationBoundary>
+  );
 }
