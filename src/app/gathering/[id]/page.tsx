@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-import { Metadata } from 'next';
-=======
 ﻿import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
->>>>>>> 8aa0122 (♻️ [REFACTOR] #300 GroupDetailPage Prefetch 및 Hydrate 적용)
+import type { Metadata } from 'next';
 import GroupDetailSection from '@/components/feature/gathering/detail/GroupDetailSection';
 import { queryKeys } from '@/constants/queryKeys';
 import {
