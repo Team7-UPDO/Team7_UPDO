@@ -2,8 +2,7 @@
 
 import { m } from 'framer-motion';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
-import Icon from '@/components/ui/Icon/Icon';
+import { buttonVariants } from '@/components/ui/Button';
 
 export default function CTASection() {
   return (
@@ -39,10 +38,8 @@ export default function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}>
-          <Link href="/gathering">
-            <Button size="large" variant="primary" className="flex items-center gap-2">
-              함께 성장하러 가기
-            </Button>
+          <Link href="/gathering" className={buttonVariants({ size: 'large', variant: 'primary' })}>
+            함께 성장하러 가기
           </Link>
         </m.div>
       </div>

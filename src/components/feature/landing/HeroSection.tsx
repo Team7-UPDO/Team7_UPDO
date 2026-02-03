@@ -3,7 +3,7 @@
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
+import { buttonVariants } from '@/components/ui/Button';
 
 export default function HeroSection() {
   return (
@@ -56,10 +56,10 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.8 }}>
-            <Link href="/gathering">
-              <Button size="large" variant="primary">
-                모임 둘러보기
-              </Button>
+            <Link
+              href="/gathering"
+              className={buttonVariants({ size: 'large', variant: 'primary' })}>
+              모임 둘러보기
             </Link>
           </m.div>
 
