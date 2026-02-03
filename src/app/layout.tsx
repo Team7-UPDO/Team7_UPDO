@@ -10,7 +10,7 @@ import { LazyMotion, domAnimation } from 'framer-motion';
 
 export const metadata: Metadata = {
   title: {
-    default: 'UPDO - 성장 커뮤니티',
+    default: 'UPDO - 함께 성장하는 커뮤니티',
     template: '%s | UPDO',
   },
   description: '함께 배우고 성장하는 사람들의 커뮤니티, UPDO.',
