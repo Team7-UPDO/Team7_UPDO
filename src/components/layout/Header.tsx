@@ -19,7 +19,7 @@ export default function Header({ className }: HeaderProps) {
           <div className="flex items-center md:gap-8 lg:gap-10">
             {/* Logo */}
             <Link
-              href="/gathering"
+              href="/"
               className="relative h-[44px] w-[50px] sm:mr-2 md:h-[50px] md:w-[57px] lg:h-[70px] lg:w-[80px]">
               <Image
                 src="/images/header_logo.webp"

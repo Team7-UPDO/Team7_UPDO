@@ -11,11 +11,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/',
-        destination: '/gathering',
-        permanent: true,
-      },
-      {
         source: '/mypage',
         destination: '/mypage/myMeeting',
         permanent: false,

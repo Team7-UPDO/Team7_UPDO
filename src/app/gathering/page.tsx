@@ -77,11 +77,11 @@ export default async function GatheringPage() {
         </div>
       </header>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <main>
+        <div>
           <Suspense fallback={<GatheringSkeleton />}>
             <GatheringSection defaultFilters={defaultFilters} />
           </Suspense>
-        </main>
+        </div>
       </HydrationBoundary>
     </>
   );

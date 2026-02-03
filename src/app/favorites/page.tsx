@@ -11,9 +11,9 @@ export default function FavoritesPage() {
           imageSrc="/images/favorites_banner.webp"
         />
       </header>
-      <main>
+      <div>
         <FavoriteSection />
-      </main>
+      </div>
     </>
   );
 }
