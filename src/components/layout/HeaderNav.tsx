@@ -21,7 +21,7 @@ export default function HeaderNav() {
   const pathname = usePathname();
   const mounted = useMounted();
   const isActive = (href: string) => {
-    if (href === '/gathering') return pathname === '/' || pathname?.startsWith('/gathering');
+    if (href === '/gathering') return pathname?.startsWith('/gathering');
     return pathname?.startsWith(href);
   };
   const favoriteCount = mounted && hasHydrated ? favoriteStore.getFavoriteCount(userId) : 0;
