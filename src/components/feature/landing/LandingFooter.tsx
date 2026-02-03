@@ -12,7 +12,7 @@ const footerLinks = {
     { label: '공지사항', href: '#' },
     { label: '이용약관', href: '#' },
   ],
-  Contact: [{ label: 'help@updo.site', href: 'usnimoes@gmail.com' }],
+  Contact: [{ label: 'help@updo.site', href: 'mailto:usnimoes@gmail.com' }],
 };
 
 export default function LandingFooter() {
