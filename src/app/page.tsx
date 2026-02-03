@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <main className="relative right-[50%] left-[50%] -mr-[50vw] -ml-[50vw] min-h-screen w-screen overflow-hidden">
+    <div className="relative right-[50%] left-[50%] -mr-[50vw] -ml-[50vw] min-h-screen w-screen overflow-hidden">
       <div className="relative z-10">
         <FloatingShapes />
         <HeroSection />
@@ -45,6 +45,6 @@ export default function HomePage() {
         <CTASection />
       </div>
       <LandingFooter />
-    </main>
+    </div>
   );
 }
