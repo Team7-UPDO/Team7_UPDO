@@ -9,13 +9,11 @@ export default function HeroSection() {
   return (
     <section className="relative overflow-hidden pt-8 pb-12 sm:pt-14" aria-labelledby="hero-title">
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-12 px-4 sm:flex-row sm:items-center sm:gap-16 sm:px-6">
-        {/* 좌측: 텍스트 콘텐츠 */}
         <m.div
           className="flex flex-col items-start sm:w-[60%]"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}>
-          {/* 상단 태그 */}
           <m.span
             className="mb-6 inline-block rounded-full bg-purple-50 px-4 py-1.5 text-sm font-bold tracking-wide text-purple-600"
             initial={{ opacity: 0, y: -10 }}
@@ -24,7 +22,6 @@ export default function HeroSection() {
             성장하고 싶은 사람들의 모임, UPDO
           </m.span>
 
-          {/* 제목 */}
           <h1
             id="hero-title"
             className="text-4xl leading-[1.1] font-bold text-gray-900 sm:text-5xl md:text-[72px]">
@@ -37,7 +34,6 @@ export default function HeroSection() {
             우리들의 특별한 모임
           </h1>
 
-          {/* 부제목 */}
           <m.p
             className="mt-8 max-w-xl text-sm leading-relaxed text-gray-500 sm:text-lg md:text-xl"
             initial={{ opacity: 0 }}
@@ -50,7 +46,6 @@ export default function HeroSection() {
             내일을 준비하세요.
           </m.p>
 
-          {/* CTA 버튼 */}
           <m.div
             className="mt-10 flex flex-wrap gap-4"
             initial={{ opacity: 0 }}
@@ -63,7 +58,6 @@ export default function HeroSection() {
             </Link>
           </m.div>
 
-          {/* 하단 통계 */}
           <m.div
             className="mt-12 flex items-center gap-4"
             initial={{ opacity: 0 }}
@@ -96,7 +90,6 @@ export default function HeroSection() {
             />
           </div>
 
-          {/* 플로팅 뱃지 - 상단 */}
           <m.div
             className="absolute -top-3 -right-2 z-20 rounded-xl border border-purple-50 bg-white/90 p-2 shadow-lg backdrop-blur-sm sm:-top-6 sm:-right-8 sm:rounded-2xl sm:p-4 sm:shadow-xl"
             animate={{ y: [0, -15, 0] }}
@@ -114,7 +107,6 @@ export default function HeroSection() {
             </div>
           </m.div>
 
-          {/* 플로팅 뱃지 - 하단 */}
           <m.div
             className="absolute -bottom-3 -left-2 z-20 rounded-xl border border-purple-50 bg-white/90 p-2 shadow-lg backdrop-blur-sm sm:-bottom-6 sm:-left-10 sm:rounded-2xl sm:p-5 sm:shadow-xl"
             animate={{ y: [0, 20, 0] }}
