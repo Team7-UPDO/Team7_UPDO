@@ -1,3 +1,7 @@
+// 테스트 환경에서 필요한 환경변수 기본값 설정 (CI 등 .env 없는 환경 대응)
+process.env.NEXT_PUBLIC_API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000/api';
+
 // DOM 요소를 테스트할 때 매우 유용한 커스텀 매처(matcher)들을 제공
 // toBeInTheDocument(), toHaveTextContent(), toBeVisible() 등
 // 1. 전역 설정: 모든 테스트 파일에서 이 매처들을 별도로 import 하지 않고도 사용할 수 있습니다.
