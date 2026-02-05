@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { Calendar } from '../Calendar';
 import { useState } from 'react';
+
+import { Calendar } from '../Calendar';
 
 const meta = {
   title: 'components/ui/Calendar',

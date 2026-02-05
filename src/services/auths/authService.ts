@@ -1,13 +1,14 @@
 import {
-  SignupRequest,
-  SignupResponse,
+  GetUserResponse,
   SigninRequest,
   SigninResponse,
   SignoutResponse,
-  GetUserResponse,
+  SignupRequest,
+  SignupResponse,
   UpdateUserRequest,
   UpdateUserResponse,
 } from '@/types/auths';
+
 import HttpClient from '../httpClient';
 
 class AuthService {

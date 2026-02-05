@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { cn } from '@/utils/cn';
+
 import Icon from '@/components/ui/Icon';
+import { cn } from '@/utils/cn';
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   label?: string;

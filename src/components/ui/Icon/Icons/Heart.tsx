@@ -3,8 +3,8 @@
 //  ㄴ size: 24
 //  ㄴ fill: 'full' | 'lined'
 
-import * as React from 'react';
 import type { SVGProps } from 'react';
+import * as React from 'react';
 export type IconProps = SVGProps<SVGSVGElement> & {
   size?: number | string;
   fill: 'full' | 'lined';

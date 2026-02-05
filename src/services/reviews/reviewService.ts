@@ -1,12 +1,13 @@
-import HttpClient from '../httpClient';
 import {
   CreateReviewRequest,
   CreateReviewResponse,
-  GetReviewsParams,
-  GetReviewsResponse,
   GetReviewScoresParams,
   GetReviewScoresResponse,
+  GetReviewsParams,
+  GetReviewsResponse,
 } from '@/types/reviews';
+
+import HttpClient from '../httpClient';
 
 export class ReviewService {
   private http = HttpClient.getInstance();

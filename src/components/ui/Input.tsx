@@ -1,7 +1,8 @@
 'use client';
-import { forwardRef, useEffect, useRef, useState, type ComponentPropsWithoutRef } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { type ComponentPropsWithoutRef, forwardRef, useEffect, useRef, useState } from 'react';
+
 import { cn } from '@/utils/cn';
-import { type VariantProps, cva } from 'class-variance-authority';
 
 import Icon from './Icon';
 

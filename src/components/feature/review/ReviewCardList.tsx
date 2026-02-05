@@ -1,15 +1,12 @@
 'use client';
 import Image from 'next/image';
-
 import React, { useEffect, useRef } from 'react';
 
 import ReviewCard from '@/components/feature/review/ReviewCard';
 import ReviewCardSkeleton from '@/components/ui/Skeleton/ReviewCardSkeleton';
-
-import { cn } from '@/utils/cn';
-import { IReviewWithRelations } from '@/types/reviews';
-
 import { useInfiniteScrollObserver } from '@/hooks/ui/useInfiniteScrollObserver';
+import { IReviewWithRelations } from '@/types/reviews';
+import { cn } from '@/utils/cn';
 
 interface ReviewCardListProps {
   variants: 'my' | 'all';

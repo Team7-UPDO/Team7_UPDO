@@ -2,12 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import ReviewScore from '@/components/ui/ReviewScore';
-
+import { IReviewWithRelations } from '@/types/reviews';
 import { formatReviewDate } from '@/utils/date';
 import { LocationToTag, TypeToTab } from '@/utils/mapping';
 import { tagEngToKr } from '@/utils/mapping';
-
-import { IReviewWithRelations } from '@/types/reviews';
 
 interface ReviewCardProps {
   variant: 'my' | 'all';

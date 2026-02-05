@@ -1,8 +1,8 @@
-import Dropdown from '@/components/ui/Dropdown';
 import { Calendar } from '@/components/ui/Calendar';
-import { SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
-import IconText from '@/components/ui/IconText';
 import Category from '@/components/ui/Category';
+import Dropdown from '@/components/ui/Dropdown';
+import IconText from '@/components/ui/IconText';
+import { SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
 
 type GroupFiltersProps = {
   isTagOpen: boolean;

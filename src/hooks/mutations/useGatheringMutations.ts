@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import { gatheringService } from '@/services/gatherings/gatheringService';
-import { useUserStore } from '@/stores/useUserStore';
-import { useFavoriteStore } from '@/stores/useFavoriteStore';
+
 import { useToast } from '@/components/ui/Toast';
-import { copyToClipboard } from '@/utils/clipboard';
 import { queryKeys } from '@/constants/queryKeys';
+import { gatheringService } from '@/services/gatherings/gatheringService';
+import { useFavoriteStore } from '@/stores/useFavoriteStore';
+import { useUserStore } from '@/stores/useUserStore';
 import type { GetJoinedGatheringsResponse } from '@/types/gatherings';
+import { copyToClipboard } from '@/utils/clipboard';
 
 interface UseGatheringMutationsParams {
   gatheringId: number;

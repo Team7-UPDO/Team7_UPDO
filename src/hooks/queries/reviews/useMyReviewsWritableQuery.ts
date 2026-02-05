@@ -2,12 +2,11 @@
 
 import { useMemo } from 'react';
 
+import { queryKeys } from '@/constants/queryKeys';
 import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuery';
-
-import type { IJoinedGathering } from '@/types/gatherings';
 import { getJoinedGatherings } from '@/services/gatherings/anonGatheringService';
 import { useUserStore } from '@/stores/useUserStore';
-import { queryKeys } from '@/constants/queryKeys';
+import type { IJoinedGathering } from '@/types/gatherings';
 
 export type ReviewablePage = {
   data: IJoinedGathering[];

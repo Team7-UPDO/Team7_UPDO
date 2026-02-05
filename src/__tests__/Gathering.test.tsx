@@ -1,12 +1,12 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithProviders } from './setup/renderWithProviders';
-import { createGathering } from './factories/gathering';
-
 import GatheringSection from '@/components/feature/gathering/GatheringSection';
-import { normalizeFilters } from '@/utils/filters';
 import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
+import { normalizeFilters } from '@/utils/filters';
+
+import { createGathering } from './factories/gathering';
+import { renderWithProviders } from './setup/renderWithProviders';
 
 jest.mock('react-intersection-observer', () => ({
   useInView: () => ({

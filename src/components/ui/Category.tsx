@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/utils/cn';
+
 import { MainCategory, TAB_OPTIONS } from '@/constants/tabs';
+import { cn } from '@/utils/cn';
 
 export interface CategoryItem {
   id: string;

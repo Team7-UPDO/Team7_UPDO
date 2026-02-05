@@ -3,7 +3,8 @@
 // TARGET: RHF+Zod 유효성 검증 + 회원가입 성공 시 자동 로그인/토큰 저장/토스트/라우팅
 // -----------------------------------------------------------------------------
 
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+
 import SignupForm from '@/components/feature/auth/SignupForm';
 import { authService } from '@/services/auths/authService';
 

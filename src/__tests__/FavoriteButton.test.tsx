@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { act } from '@testing-library/react';
-
-import { renderWithProviders } from './setup/renderWithProviders';
+import userEvent from '@testing-library/user-event';
 
 import FavoriteButton from '@/components/feature/favorites/FavoriteButton';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
 import { useUserStore } from '@/stores/useUserStore';
 import type { IUser } from '@/types/auths';
+
+import { renderWithProviders } from './setup/renderWithProviders';
 
 type MotionButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   whileTap?: unknown;

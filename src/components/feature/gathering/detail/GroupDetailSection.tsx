@@ -7,14 +7,12 @@ import GroupDetailContent from '@/components/feature/gathering/detail/GroupDetai
 import GroupDetailError from '@/components/feature/gathering/detail/GroupDetailError';
 import GroupDetailLoading from '@/components/feature/gathering/detail/GroupDetailLoading';
 import { useGroupDetailModals } from '@/components/feature/gathering/detail/useGroupDetailModals';
-
+import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
+import { useGatheringMutations } from '@/hooks/mutations/useGatheringMutations';
+import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
 import { useGatheringDetail } from '@/hooks/queries/gatherings/useGatheringDetail';
 import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
 import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
-import { useGatheringMutations } from '@/hooks/mutations/useGatheringMutations';
-import { useGatheringReview } from '@/hooks/mutations/useGatheringReview';
-import { useGatheringRedirect } from '@/hooks/domain/useGatheringRedirect';
-
 import { useUserStore } from '@/stores/useUserStore';
 
 interface GroupDetailSectionProps {

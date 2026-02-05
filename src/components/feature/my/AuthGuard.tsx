@@ -1,8 +1,9 @@
 'use client';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUserStore } from '@/stores/useUserStore';
+import { useEffect } from 'react';
+
 import { useToast } from '@/components/ui/Toast';
+import { useUserStore } from '@/stores/useUserStore';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();

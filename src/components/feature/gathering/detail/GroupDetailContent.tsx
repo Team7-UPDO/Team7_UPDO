@@ -1,10 +1,9 @@
-﻿import type { ReactNode } from 'react';
-import Image from 'next/image';
+﻿import Image from 'next/image';
+import type { ReactNode } from 'react';
 
 import GroupDetailCard from '@/components/feature/gathering/detail/GroupDetailCard';
 import GroupDetailParticipation from '@/components/feature/gathering/detail/GroupDetailParticipationCard';
 import GroupDetailReviewList from '@/components/feature/gathering/detail/GroupDetailReviewList';
-
 import type { IJoinedGathering, IParticipant } from '@/types/gatherings';
 import type { IReviewWithRelations } from '@/types/reviews';
 import type { mapGatheringToUI } from '@/utils/mapping';

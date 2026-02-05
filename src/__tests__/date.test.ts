@@ -1,9 +1,9 @@
 import {
-  formatDeadline,
-  isClosed,
-  formatDateToLocalISO,
   formatDate,
+  formatDateToLocalISO,
+  formatDeadline,
   formatTime,
+  isClosed,
 } from '@/utils/date';
 
 // 현재 시간을 고정해서 결정적 테스트를 보장

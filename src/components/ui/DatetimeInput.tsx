@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import Icon from './Icon';
 import { Calendar } from './Calendar';
+import Icon from './Icon';
 import { Input } from './Input';
 
 interface DatetimeInputProps {

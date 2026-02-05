@@ -2,11 +2,11 @@
 
 import { useMemo } from 'react';
 
-import type { IJoinedGathering } from '@/types/gatherings';
-import { getJoinedGatherings } from '@/services/gatherings/anonGatheringService';
-import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuery';
-import { useUserStore } from '@/stores/useUserStore';
 import { queryKeys } from '@/constants/queryKeys';
+import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuery';
+import { getJoinedGatherings } from '@/services/gatherings/anonGatheringService';
+import { useUserStore } from '@/stores/useUserStore';
+import type { IJoinedGathering } from '@/types/gatherings';
 
 export type JoinedPage = { data: IJoinedGathering[]; page?: number; nextPage?: number | null };
 

@@ -1,13 +1,14 @@
 import {
   buildFilters,
   buildReviewFilters,
+  LocationToTag,
+  mapGatheringToUI,
   sortLabelToParams,
   sortReviewLabelToParams,
-  mapGatheringToUI,
-  toGetGatheringsParams,
-  LocationToTag,
   TagToLocation,
+  toGetGatheringsParams,
 } from '@/utils/mapping';
+
 import { createGathering } from './factories/gathering';
 
 // buildFilters

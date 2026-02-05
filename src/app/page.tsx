@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
+
+import CTASection from '@/components/feature/landing/CTASection';
+import FeaturesSection from '@/components/feature/landing/FeaturesSection';
+import FloatingShapes from '@/components/feature/landing/FloatingShapes';
 import HeroSection from '@/components/feature/landing/HeroSection';
 import HowItWorksSection from '@/components/feature/landing/HowItWorksSection';
-import FeaturesSection from '@/components/feature/landing/FeaturesSection';
-import TestimonialsSection from '@/components/feature/landing/TestimonialsSection';
-import CTASection from '@/components/feature/landing/CTASection';
 import LandingFooter from '@/components/feature/landing/LandingFooter';
-import FloatingShapes from '@/components/feature/landing/FloatingShapes';
+import TestimonialsSection from '@/components/feature/landing/TestimonialsSection';
 
 export const metadata: Metadata = {
   title: 'UPDO - 함께 성장하는 커뮤니티',

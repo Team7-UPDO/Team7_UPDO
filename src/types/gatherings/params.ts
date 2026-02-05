@@ -1,5 +1,5 @@
 // 공통 Path/Query Params 정의
-import { Type, Location } from '@/utils/mapping';
+import { Location, Type } from '@/utils/mapping';
 
 // GET /gatherings/{id}
 export interface GetGatheringDetailParams {

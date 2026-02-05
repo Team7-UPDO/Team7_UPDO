@@ -1,9 +1,8 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 import EditProfileControl from '@/components/feature/my/controls/EditProfileControl';
-
 import { useUserStore } from '@/stores/useUserStore';
 
 const DEFAULT_AVATAR_SRC = '/images/profile.webp';

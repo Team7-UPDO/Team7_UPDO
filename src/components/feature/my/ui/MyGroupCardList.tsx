@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useMemo } from 'react';
 import Image from 'next/image';
+import React, { useMemo } from 'react';
 
 import MyGroupCard from '@/components/feature/my/ui/MyGroupCard';
 import MyGroupCardSkeleton from '@/components/ui/Skeleton/MyGroupCardSkeleton';
-
 import type { IJoinedGathering } from '@/types/gatherings';
 import { isClosed } from '@/utils/date';
 

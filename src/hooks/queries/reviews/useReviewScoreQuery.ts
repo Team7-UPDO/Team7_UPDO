@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { reviewService } from '@/services/reviews/reviewService';
+
 import { queryKeys } from '@/constants/queryKeys';
-import { GetReviewScoresResponse, GetReviewScoresParams } from '@/types/reviews';
+import { reviewService } from '@/services/reviews/reviewService';
+import { GetReviewScoresParams, GetReviewScoresResponse } from '@/types/reviews';
 
 export const useReviewScoresQuery = (params?: GetReviewScoresParams) => {
   return useQuery<GetReviewScoresResponse>({

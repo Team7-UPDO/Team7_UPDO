@@ -1,10 +1,11 @@
 'use client';
 
-import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/Button';
 import Icon from '@/components/ui/Icon';
-import FavoriteButton from '../../favorites/FavoriteButton';
+import { cn } from '@/utils/cn';
 import { ButtonState } from '@/utils/gatheringState';
+
+import FavoriteButton from '../../favorites/FavoriteButton';
 
 interface ActionProps {
   isHost?: boolean;

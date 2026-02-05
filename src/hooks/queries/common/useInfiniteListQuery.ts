@@ -1,11 +1,12 @@
 'use client';
 
 import {
-  useInfiniteQuery,
   type InfiniteData,
   type QueryKey,
+  useInfiniteQuery,
   type UseInfiniteQueryResult,
 } from '@tanstack/react-query';
+
 import { useMounted } from '@/hooks/ui/useMounted';
 
 export interface InfinitePage<TData> {
@@ -45,6 +46,7 @@ export function useInfiniteListQuery<TPage>(
   } = opts;
 
   // useInfiniteQuery + getNextPageParam, enabled, useMounted 옵션 자동화
+  /* eslint-disable @tanstack/query/exhaustive-deps -- initialPageParam은 기본값으로만 사용됨 */
   return useInfiniteQuery<TPage, Error, InfiniteData<TPage>, QueryKey>({
     queryKey,
     queryFn: ({ pageParam = initialPageParam }) => queryFn(pageParam as number),
@@ -62,6 +64,7 @@ export function useInfiniteListQuery<TPage>(
     gcTime,
     retry,
     refetchOnWindowFocus,
+    /* eslint-enable @tanstack/query/exhaustive-deps */
     select,
   });
 }

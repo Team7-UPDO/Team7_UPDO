@@ -1,10 +1,11 @@
 import {
+  getGatheringCardState,
   getGatheringDetailState,
   isJoinedGathering,
-  getGatheringCardState,
   type UseButtonStateHandlers,
 } from '@/utils/gatheringState';
-import { createGathering, createParticipant, createJoinedGathering } from './factories/gathering';
+
+import { createGathering, createJoinedGathering, createParticipant } from './factories/gathering';
 import { createReview } from './factories/review';
 
 // 기본 핸들러 (handlers가 있어야 buttonState가 반환됨)
