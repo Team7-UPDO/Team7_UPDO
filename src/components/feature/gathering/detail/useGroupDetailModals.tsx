@@ -2,9 +2,9 @@
 
 import { useCallback, useState } from 'react';
 
-import GroupDetailReviewModal from './GroupDetailReviewModal';
-import GroupDetailLoginModal from './GroupDetailLoginModal';
 import GroupDetailCancelModal from './GroupDetailCancelModal';
+import GroupDetailLoginModal from './GroupDetailLoginModal';
+import GroupDetailReviewModal from './GroupDetailReviewModal';
 
 interface UseGroupDetailModalsParams {
   gatheringId: number;

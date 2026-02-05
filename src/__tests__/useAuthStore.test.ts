@@ -1,5 +1,6 @@
-import { useAuthStore, LOCK_THRESHOLD, LOCK_MS } from '@/stores/useAuthStore';
 import { act } from '@testing-library/react';
+
+import { LOCK_MS, LOCK_THRESHOLD, useAuthStore } from '@/stores/useAuthStore';
 
 beforeEach(() => {
   jest.useFakeTimers();

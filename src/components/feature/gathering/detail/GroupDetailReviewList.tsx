@@ -2,11 +2,13 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { cn } from '@/utils/cn';
-import ReviewCard from './GroupDetailReview';
+
 import { Pagination } from '@/components/ui/Pagination';
 import GroupDetailReviewListSkeleton from '@/components/ui/Skeleton/GroupDetailReviewListSkeleton';
 import { useReviewsQuery } from '@/hooks/queries/reviews/useReviewsQuery';
+import { cn } from '@/utils/cn';
+
+import ReviewCard from './GroupDetailReview';
 
 interface GroupDetailReviewListProps {
   gatheringId: number;

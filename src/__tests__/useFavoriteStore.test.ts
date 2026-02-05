@@ -1,6 +1,7 @@
+import { act } from '@testing-library/react';
+
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
 import { useUserStore } from '@/stores/useUserStore';
-import { act } from '@testing-library/react';
 import type { IUser } from '@/types/auths';
 
 // useUserStore의 user 상태를 제어하기 위한 헬퍼

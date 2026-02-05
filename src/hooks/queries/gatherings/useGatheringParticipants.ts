@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { gatheringService } from '@/services/gatherings/gatheringService';
+import { useMemo } from 'react';
+
 import { queryKeys } from '@/constants/queryKeys';
+import { gatheringService } from '@/services/gatherings/gatheringService';
 import type { IParticipant } from '@/types/gatherings';
 
 interface ParticipantUI {

@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from '@storybook/nextjs-vite';
-import Icon from '../Icon';
 
+import DatetimeInput from '../DatetimeInput';
+import Icon from '../Icon';
 import { Input } from '../Input';
 import SelectInput from '../SelectInput';
-import DatetimeInput from '../DatetimeInput';
 
 const meta: Meta<typeof Input> = {
   title: 'components/ui/Input',

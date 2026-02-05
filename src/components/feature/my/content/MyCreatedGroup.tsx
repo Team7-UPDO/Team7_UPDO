@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 
 import MyGroupCardList from '@/components/feature/my/ui/MyGroupCardList';
-
 import { useMyCreatedGroupsQuery } from '@/hooks/queries/gatherings/useMyCreatedGroupsQuery';
 import { useInfiniteScrollObserver } from '@/hooks/ui/useInfiniteScrollObserver';
 

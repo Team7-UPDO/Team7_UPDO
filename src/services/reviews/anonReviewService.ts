@@ -1,5 +1,6 @@
+import { GetReviewScoresResponse, GetReviewsResponse, IReviewWithRelations } from '@/types/reviews';
+
 import Service from '../service';
-import { GetReviewsResponse, GetReviewScoresResponse, IReviewWithRelations } from '@/types/reviews';
 
 class AnonReviewService extends Service {
   getReviewInfiniteList(

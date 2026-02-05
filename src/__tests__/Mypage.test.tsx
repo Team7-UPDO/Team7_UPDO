@@ -10,21 +10,19 @@ jest.mock('@/services/httpClient', () => ({
   },
 }));
 
-import React from 'react';
-
-import { renderWithProviders } from './setup/renderWithProviders';
 import { fireEvent } from '@testing-library/react';
 import { screen, waitFor } from '@testing-library/react';
+import React from 'react';
 
-import MyMeeting from '@/components/feature/my/content/MyMeeting';
-import MyCreatedGroup from '@/components/feature/my/content/MyCreatedGroup';
 import AuthGuard from '@/components/feature/my/AuthGuard';
-
-import { useUserStore } from '@/stores/useUserStore';
+import MyCreatedGroup from '@/components/feature/my/content/MyCreatedGroup';
+import MyMeeting from '@/components/feature/my/content/MyMeeting';
+import gatheringService from '@/services/gatherings/anonGatheringService';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { UserState } from '@/stores/useUserStore';
+import { useUserStore } from '@/stores/useUserStore';
 
-import gatheringService from '@/services/gatherings/anonGatheringService';
+import { renderWithProviders } from './setup/renderWithProviders';
 
 const MYPAGE_SKELETON = 'mypage-skeleton';
 

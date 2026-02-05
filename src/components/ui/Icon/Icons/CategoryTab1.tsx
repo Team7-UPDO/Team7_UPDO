@@ -2,8 +2,8 @@
 //  ㄴ name: category_tab1
 //  ㄴ size: 32, 45, 64
 
-import * as React from 'react';
 import type { SVGProps } from 'react';
+import * as React from 'react';
 export type IconProps = SVGProps<SVGSVGElement> & {
   size?: number | string;
 };

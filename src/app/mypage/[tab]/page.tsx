@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
-import MyMeeting from '@/components/feature/my/content/MyMeeting';
 import MyCreatedGroup from '@/components/feature/my/content/MyCreatedGroup';
+import MyMeeting from '@/components/feature/my/content/MyMeeting';
 import MyReview from '@/components/feature/my/content/MyReview';
 
 const TAB_VALUES = ['myMeeting', 'myCreated', 'myReview'] as const;

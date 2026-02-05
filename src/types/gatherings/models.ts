@@ -1,4 +1,4 @@
-import { Type, Location } from '@/utils/mapping';
+import { Location, Type } from '@/utils/mapping';
 
 export interface IGathering {
   id: number;

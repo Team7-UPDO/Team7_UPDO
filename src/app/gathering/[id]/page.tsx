@@ -1,5 +1,6 @@
-﻿import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+﻿import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import type { Metadata } from 'next';
+
 import GroupDetailSection from '@/components/feature/gathering/detail/GroupDetailSection';
 import { queryKeys } from '@/constants/queryKeys';
 import {
@@ -91,11 +92,11 @@ export default async function GroupDetailPage({ params }: GroupDetailPageProps) 
       await Promise.all([
         queryClient.prefetchQuery({
           queryKey: queryKeys.gatherings.detail(numericId),
-          queryFn: () => getGatheringDetail(id),
+          queryFn: () => getGatheringDetail(String(numericId)),
         }),
         queryClient.prefetchQuery({
           queryKey: queryKeys.gatherings.participants(numericId),
-          queryFn: () => getGatheringParticipants(id),
+          queryFn: () => getGatheringParticipants(String(numericId)),
         }),
       ]);
     } catch (error) {

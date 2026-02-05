@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+
 import { Tag } from '../Tag';
 
 const meta: Meta<typeof Tag> = {

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+
 import Icon from '../Icon/Icon';
 import { IconName } from '../Icon/Icon';
 

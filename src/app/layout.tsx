@@ -1,12 +1,15 @@
-import type { Metadata } from 'next';
 import './globals.css';
-import { Toast } from '@/components/ui/Toast';
-import Header from '@/components/layout/Header';
-import ScrollWrapper from '@/components/ui/ScrollVisibility';
-import QueryProvider from '@/components/providers/QueryProvider';
+
+import { domAnimation, LazyMotion } from 'framer-motion';
+import type { Metadata } from 'next';
+
 import AuthSessionWatcher from '@/components/feature/auth/AuthSessionWatcher';
+import Header from '@/components/layout/Header';
+import QueryProvider from '@/components/providers/QueryProvider';
+import ScrollWrapper from '@/components/ui/ScrollVisibility';
+import { Toast } from '@/components/ui/Toast';
+
 import AuthProvider from './AuthProvider';
-import { LazyMotion, domAnimation } from 'framer-motion';
 
 export const metadata: Metadata = {
   title: {

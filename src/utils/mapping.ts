@@ -1,7 +1,8 @@
-import { tags, locations, TAG_OPTIONS, SORT_OPTIONS, REVIEW_SORT_OPTIONS } from '@/constants/tags';
-import { tabs, types, TAB_OPTIONS } from '@/constants/tabs';
-import { formatDate, formatDateToLocalISO, formatDeadline, formatTime } from './date';
+import { TAB_OPTIONS, tabs, types } from '@/constants/tabs';
+import { locations, REVIEW_SORT_OPTIONS, SORT_OPTIONS, TAG_OPTIONS, tags } from '@/constants/tags';
 import { IGathering } from '@/types/gatherings';
+
+import { formatDate, formatDateToLocalISO, formatDeadline, formatTime } from './date';
 
 export type FilterState = {
   main: '성장' | '네트워킹';

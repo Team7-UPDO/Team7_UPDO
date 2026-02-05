@@ -1,25 +1,27 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import { Button } from '@/components/ui/Button';
-import FavoriteButton from '../favorites/FavoriteButton';
-import Tag from '@/components/ui/Tag';
 import Icon from '@/components/ui/Icon';
 import IconText from '@/components/ui/IconText';
-import { ProgressBar } from '@/components/ui/ProgressBar';
-import { IGathering } from '@/types/gatherings/models';
-import { formatTime, formatDate, formatDeadline } from '@/utils/date';
 import { ConfirmModal } from '@/components/ui/Modal';
-import { useAuthStore } from '@/stores/useAuthStore';
-import { useRouter } from 'next/navigation';
-import { useGatheringMutations } from '@/hooks/mutations/useGatheringMutations';
-import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
-import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
-import { isJoinedGathering, getGatheringCardState } from '@/utils/gatheringState';
-import { useState } from 'react';
+import { ProgressBar } from '@/components/ui/ProgressBar';
+import Tag from '@/components/ui/Tag';
 import { useToast } from '@/components/ui/Toast';
+import { useGatheringMutations } from '@/hooks/mutations/useGatheringMutations';
+import { useGatheringParticipants } from '@/hooks/queries/gatherings/useGatheringParticipants';
+import { useJoinedGatherings } from '@/hooks/queries/gatherings/useJoinedGatherings';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { IGathering } from '@/types/gatherings/models';
+import { formatDate, formatDeadline, formatTime } from '@/utils/date';
 import { isClosed } from '@/utils/date';
+import { getGatheringCardState, isJoinedGathering } from '@/utils/gatheringState';
+
+import FavoriteButton from '../favorites/FavoriteButton';
 interface GroupCardProps {
   data: IGathering;
   isPriority?: boolean;

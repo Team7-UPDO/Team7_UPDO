@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 
-import Category from '@/components/ui/Category';
-
 import MyReviewWritableList from '@/components/feature/my/ui/MyReviewWritableList';
 import MyReviewWrittenList from '@/components/feature/my/ui/MyReviewWrittenList';
+import Category from '@/components/ui/Category';
 
 export default function MyReview() {
   const [reviewFilter, setReviewFilter] = useState<'writable' | 'written'>('writable');

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+
 import GroupCardSkeleton from '@/components/ui/Skeleton/GroupCardSkeleton';
 
 export default function GatheringSkeleton() {

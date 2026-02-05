@@ -5,8 +5,9 @@ if (typeof process !== 'undefined') {
   process.env.NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost';
 }
 
-import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { render } from '@testing-library/react';
+
 import AuthProvider from '@/app/AuthProvider';
 
 function createTestQueryClient() {

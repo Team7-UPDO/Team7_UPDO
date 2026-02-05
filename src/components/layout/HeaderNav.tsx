@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import Badge from '@/components/ui/Badge';
-import { cn } from '@/utils/cn';
+import { useMounted } from '@/hooks/ui/useMounted';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
 import { useUserStore } from '@/stores/useUserStore';
-import { useMounted } from '@/hooks/ui/useMounted';
+import { cn } from '@/utils/cn';
 
 const NAV_ITEMS = [
   { label: '모임 찾기', href: '/gathering' },

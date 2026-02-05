@@ -1,13 +1,14 @@
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import type { Metadata } from 'next';
-import GatheringSection from '@/components/feature/gathering/GatheringSection';
-import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
-import { toGetGatheringsParams } from '@/utils/mapping';
-import { normalizeFilters } from '@/utils/filters';
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
-import { queryKeys } from '@/constants/queryKeys';
 import Image from 'next/image';
 import { Suspense } from 'react';
+
+import GatheringSection from '@/components/feature/gathering/GatheringSection';
 import GatheringSkeleton from '@/components/ui/Skeleton/GatheringSkeleton';
+import { queryKeys } from '@/constants/queryKeys';
+import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
+import { normalizeFilters } from '@/utils/filters';
+import { toGetGatheringsParams } from '@/utils/mapping';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,13 +41,9 @@ export default async function GatheringPage() {
 
   // normalizeFilters로 정규화 (GatheringSection에 전달용)
   const defaultFilters = normalizeFilters({ main: '성장', subType: '전체' });
-  // undefined 제거 (queryKey용)
-  const cleanFilters = Object.fromEntries(
-    Object.entries(defaultFilters).filter(([_, value]) => value !== undefined),
-  );
 
   await queryClient.prefetchInfiniteQuery({
-    queryKey: queryKeys.gatherings.infiniteList(cleanFilters),
+    queryKey: queryKeys.gatherings.infiniteList(defaultFilters),
     queryFn: ({ pageParam = 1 }) =>
       getGatheringInfiniteList(pageParam, toGetGatheringsParams(defaultFilters)),
     initialPageParam: 1,

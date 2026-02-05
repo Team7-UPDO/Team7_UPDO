@@ -3,8 +3,8 @@
 //  ㄴ size: 24
 //  ㄴ direction: 'down' | 'up'
 
-import * as React from 'react';
 import type { SVGProps } from 'react';
+import * as React from 'react';
 export type IconProps = SVGProps<SVGSVGElement> & {
   size?: number | string;
   direction?: 'down' | 'up';

@@ -1,11 +1,11 @@
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithProviders } from './setup/renderWithProviders';
-
 import WriteReviewModal from '@/components/feature/review/WriteReviewModal';
-import { createReview } from '@/services/reviews/reviewService';
 import { useToast } from '@/components/ui/Toast';
+import { createReview } from '@/services/reviews/reviewService';
+
+import { renderWithProviders } from './setup/renderWithProviders';
 
 // framer-motion mock — 버튼과 div를 순수 HTML로 렌더링
 type MotionButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {

@@ -1,4 +1,4 @@
-import Modal from './Modal';
 import ConfirmModal from './ConfirmModal';
+import Modal from './Modal';
 
-export { Modal, ConfirmModal };
+export { ConfirmModal, Modal };

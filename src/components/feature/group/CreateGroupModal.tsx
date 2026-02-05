@@ -1,22 +1,22 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { useForm } from 'react-hook-form';
+
+import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { ModalProps } from '@/components/ui/Modal/Modal';
-import { Button } from '@/components/ui/Button';
 import { useToast } from '@/components/ui/Toast';
-import CreateGroupModalForm from './CreateGroupModalForm';
-
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { queryKeys } from '@/constants/queryKeys';
 import {
   CreateGatheringFormSchema,
   type CreateGatheringFormType,
 } from '@/schemas/gatheringsSchema';
+import { createGathering } from '@/services/gatherings/gatheringService';
 import { toUTCFromKST } from '@/utils/date';
 
-import { createGathering } from '@/services/gatherings/gatheringService';
-import { useQueryClient } from '@tanstack/react-query';
-import { queryKeys } from '@/constants/queryKeys';
+import CreateGroupModalForm from './CreateGroupModalForm';
 
 export default function CreateGroupModal({ open, onOpenChange }: ModalProps) {
   const toast = useToast();

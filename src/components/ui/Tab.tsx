@@ -1,10 +1,12 @@
 'use client';
 
-import * as React from 'react';
-import { m } from 'framer-motion';
-import { twMerge } from 'tailwind-merge';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { m } from 'framer-motion';
+import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
+
 import { cn } from '@/utils/cn';
+
 import Icon from './Icon';
 
 const tabItem = cva(

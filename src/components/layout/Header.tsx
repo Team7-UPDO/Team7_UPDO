@@ -1,10 +1,10 @@
-import Link from 'next/link';
 import Image from 'next/image';
-
-import HeaderProfile from './HeaderProfile';
-import HeaderNav from './HeaderNav';
+import Link from 'next/link';
 
 import { cn } from '@/utils/cn';
+
+import HeaderNav from './HeaderNav';
+import HeaderProfile from './HeaderProfile';
 
 interface HeaderProps {
   className?: string;

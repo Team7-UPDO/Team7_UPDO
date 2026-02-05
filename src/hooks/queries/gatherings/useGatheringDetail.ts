@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { gatheringService } from '@/services/gatherings/gatheringService';
+
 import { queryKeys } from '@/constants/queryKeys';
+import { gatheringService } from '@/services/gatherings/gatheringService';
 import { mapGatheringToUI } from '@/utils/mapping';
 
 export function useGatheringDetail(gatheringId: string | number, userId: number | null) {

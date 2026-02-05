@@ -1,4 +1,4 @@
-import { normalizeFilters, getCleanFilters } from '@/utils/filters';
+import { getCleanFilters, normalizeFilters } from '@/utils/filters';
 
 // normalizeFilters
 describe('normalizeFilters', () => {

@@ -1,17 +1,19 @@
 'use client';
 
-import GroupCard from './GroupCard';
-import { m } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useEffect, useMemo } from 'react';
+import { m } from 'framer-motion';
 import Image from 'next/image';
-import { FilterState } from '@/utils/mapping';
-import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
-import { toGetGatheringsParams } from '@/utils/mapping';
+import { useEffect, useMemo } from 'react';
+import { useInView } from 'react-intersection-observer';
+
 import GroupCardSkeleton from '@/components/ui/Skeleton/GroupCardSkeleton';
-import { getCleanFilters } from '@/utils/filters';
 import { queryKeys } from '@/constants/queryKeys';
+import { getGatheringInfiniteList } from '@/services/gatherings/anonGatheringService';
+import { getCleanFilters } from '@/utils/filters';
+import { FilterState } from '@/utils/mapping';
+import { toGetGatheringsParams } from '@/utils/mapping';
+
+import GroupCard from './GroupCard';
 
 interface GroupCardListProps {
   filters: FilterState;
@@ -27,7 +29,7 @@ export default function GroupCardList({ filters }: GroupCardListProps) {
     useInfiniteQuery({
       queryKey: queryKeys.gatherings.infiniteList(cleanFilters),
       queryFn: async ({ pageParam = 1 }) => {
-        return getGatheringInfiniteList(pageParam, toGetGatheringsParams(filters));
+        return getGatheringInfiniteList(pageParam, toGetGatheringsParams(cleanFilters));
       },
       initialPageParam: 1,
       getNextPageParam: lastPage => lastPage.nextPage,

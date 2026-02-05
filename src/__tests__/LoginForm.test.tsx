@@ -3,7 +3,8 @@
 // TARGET: RHF + Zod 검증, Debounce, 서버 통신(Mock), Toast 및 Router 동작 검증
 // -----------------------------------------------------------------------------
 
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+
 import LoginForm from '@/components/feature/auth/LoginForm';
 import { authService } from '@/services/auths/authService';
 

@@ -1,16 +1,17 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 import { z } from 'zod';
-import { Input } from '@/components/ui/Input';
+
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { authService } from '@/services/auths/authService';
-import { LoginFormSchema } from '@/schemas/authsSchema';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/Toast';
+import { LoginFormSchema } from '@/schemas/authsSchema';
+import { authService } from '@/services/auths/authService';
 import { useAuthStore } from '@/stores/useAuthStore';
 
 export type LoginFormType = z.infer<typeof LoginFormSchema>;

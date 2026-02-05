@@ -1,4 +1,5 @@
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
+
 import ReviewsPage from '@/components/feature/review/ReviewsPage';
 import { ENV } from '@/constants/env';
 import type { GetReviewScoresResponse } from '@/types/reviews';

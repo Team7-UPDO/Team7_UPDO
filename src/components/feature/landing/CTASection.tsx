@@ -2,6 +2,7 @@
 
 import { m } from 'framer-motion';
 import Link from 'next/link';
+
 import { buttonVariants } from '@/components/ui/Button';
 
 export default function CTASection() {

@@ -1,10 +1,10 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { renderWithProviders } from './setup/renderWithProviders';
-
 import GroupFilters from '@/components/feature/group/GroupFilters';
 import { useGroupFilters } from '@/hooks/domain/useGroupFilters';
+
+import { renderWithProviders } from './setup/renderWithProviders';
 
 jest.mock('@/services/httpClient', () => ({
   __esModule: true,

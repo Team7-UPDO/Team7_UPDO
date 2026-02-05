@@ -2,8 +2,8 @@
 //  ㄴ name: arrow
 //  ㄴ size: 16
 
-import * as React from 'react';
 import type { SVGProps } from 'react';
+import * as React from 'react';
 export type IconProps = SVGProps<SVGSVGElement> & {
   size?: number | string;
 };
