@@ -41,6 +41,8 @@ const eslintConfig = [
       '.turbo/**',
       // 테스트 결과
       'coverage/**',
+      // E2E 테스트 (Playwright — React 규칙 적용 대상 아님)
+      'e2e/**',
       // 설정 파일
       'prettier.config.mjs',
       'next-env.d.ts',
