@@ -63,11 +63,11 @@
 | **Data Fetching** | TanStack Query |
 | **Style** | Tailwind CSS / CVA / Custom Tokens |
 | **Animation** | Framer Motion (LazyMotion 기반) |
-| **Testing** | React Testing Library / Jest |
+| **Testing** | Jest / React Testing Library / Playwright |
 | **Testing (Design)** | Storybook / Chromatic |
 | **Lint & Format** | ESLint / Prettier / Husky / Lint-Staged |
 | **Version Control** | Git / GitHub Flow |
-| **CI/CD** | Vercel Deployment / github Action |
+| **CI/CD** | Vercel / GitHub Actions (PR Checks · E2E · Chromatic) |
 
 
 ---
@@ -109,6 +109,11 @@ UPDO
 |    ├─ stores/        # zustand를 사용한 저장소 파일
 |    ├─ types/         # 타입 지정
 |    └─ utils/         # 보조 함수, 보조 UI
+├─ e2e/
+|    ├─ tests/          # Playwright E2E 테스트
+|    ├─ fixtures/       # 인증 상태 등 테스트 픽스처
+|    └─ mocks/          # API Mock 핸들러
+├─ docs/                # 테스트 전략 등 프로젝트 문서
 ├─ public/
 ├─ .github/
 ├─ .storybook/
@@ -142,13 +147,20 @@ UPDO
 - 메타 데이터 및 사이트맵 구성을 통해 검색 엔진 인덱싱 최적화  
 - 이미지 최적화, 코드 스플리팅, React.memo를 활용해 LCP 점수 개선
 
-### 🧠 테스트 코드
+### 🧠 테스트 전략
 
-- **Jest + React Testing Library**를 사용해 주요 사용자 흐름 테스트
-    - MyPage 진입 → Card 데이터 렌더링 검증
-    - 리뷰 목록 렌더링 및 필터링 로직 검증
-    - 데이터 Mocking을 통한 Query 흐름 검증
-- “테스팅을 통한 **데이터 흐름 검증** 및 **리팩토링 시 회귀 오류 방지**” 확보
+> 상세 설계 근거와 도구 선택 이유는 [테스트 전략 문서](docs/TEST_STRATEGY.md) 참고
+
+**Frontend Test Trophy** 전략을 채택하여 Integration 테스트 중심으로 회귀 방지 체계를 구축했다.
+
+- **Jest + React Testing Library** (138개)
+    - 사용자 행동 중심 Integration 테스트: 폼 검증, 탭 전환, 모달, 찜 토글
+    - 순수 함수 Unit 테스트: 날짜 포맷팅, 필터 정규화, 모임 상태 판단 로직
+    - Factory 패턴으로 테스트 데이터 표준화
+- **Playwright E2E** (17개 × 3 브라우저)
+    - 핵심 사용자 플로우 검증: 인증, 모임 탐색, 찜, 마이페이지, 리뷰 작성
+    - 크로스 브라우저: Chromium · WebKit · Mobile Chrome (Pixel 5)
+    - CI에서 브랜치별 차등 실행 (dev: Chromium만, main: +WebKit)
 
 ### 🪄 Storybook 도입
 
@@ -166,7 +178,7 @@ UPDO
 | --- | --- |
 | **Git 전략** | Gitflow 기반 (`dev` 중심, `Feature/#번호-설명` 브랜치 네이밍) |
 | **코드 리뷰** | PR Template / Reviewer 지정 / Label 관리 |
-| **CI/CD** | Vercel 자동 배포 및 Chromatic Storybook 자동 빌드 |
+| **CI/CD** | Vercel 자동 배포 / GitHub Actions (PR Checks · E2E · Chromatic) |
 | **Issue 관리** | GitHub Projects + Issue Template로 업무 트래킹 |
 | **커밋 규칙** | Conventional Commits / Commitlint로 일관성 유지 |
 
