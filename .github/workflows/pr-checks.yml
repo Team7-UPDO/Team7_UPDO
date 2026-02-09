@@ -39,7 +39,7 @@ jobs:
 
       # 의존성 설치
       - name: Install deps
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
 
       # 정적 검사
       - name: ESLint
@@ -128,7 +128,7 @@ jobs:
 
       # 의존성 설치
       - name: Install deps
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
 
       # Chromatic 업로드
       - name: Publish to Chromatic
