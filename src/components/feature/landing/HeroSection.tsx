@@ -3,6 +3,7 @@
 import { m } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { buttonVariants } from '@/components/ui/Button';
 
 export default function HeroSection() {

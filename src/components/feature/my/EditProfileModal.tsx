@@ -1,20 +1,18 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import Image from 'next/image';
-
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { EditProfileFormSchema, type EditProfileFormType } from '@/schemas/profileSchema';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
+import { Button } from '@/components/ui/Button';
 import Icon from '@/components/ui/Icon';
 import { Input } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
 import { Modal, ModalProps } from '@/components/ui/Modal/Modal';
 import { useToast } from '@/components/ui/Toast';
-
-import { IUser } from '@/types/auths';
+import { EditProfileFormSchema, type EditProfileFormType } from '@/schemas/profileSchema';
 import { authService } from '@/services/auths/authService';
+import { IUser } from '@/types/auths';
 
 export default function EditProfileModal({
   open,

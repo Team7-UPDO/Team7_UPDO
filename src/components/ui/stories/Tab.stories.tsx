@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import React, { useState } from 'react';
+
 import Tab, { type TabItem } from '../Tab';
 
 const meta: Meta<typeof Tab> = {

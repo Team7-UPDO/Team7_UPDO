@@ -1,17 +1,16 @@
 'use client';
 
-import { cn } from '@/utils/cn';
-import { LocationToTag } from '@/utils/mapping';
 import { TAG_OPTIONS } from '@/constants/tags';
 import { useAuthStore } from '@/stores/useAuthStore';
-
-import GroupDetailCardHeader from './GroupDetailCardHeader';
-import GroupDetailCardTopic from './GroupDetailCardTopic';
-import GroupDetailCardAction from './GroupDetailCardAction';
-
 import type { IGathering, IJoinedGathering, IParticipant } from '@/types/gatherings';
 import type { IReviewWithRelations } from '@/types/reviews';
+import { cn } from '@/utils/cn';
 import { getGatheringDetailState } from '@/utils/gatheringState';
+import { LocationToTag } from '@/utils/mapping';
+
+import GroupDetailCardAction from './GroupDetailCardAction';
+import GroupDetailCardHeader from './GroupDetailCardHeader';
+import GroupDetailCardTopic from './GroupDetailCardTopic';
 
 interface HeaderData {
   id: number;

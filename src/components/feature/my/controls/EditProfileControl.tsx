@@ -2,11 +2,10 @@
 
 import { useState } from 'react';
 
-import Icon from '@/components/ui/Icon';
 import EditProfileModal from '@/components/feature/my/EditProfileModal';
-
-import { IUser } from '@/types/auths';
+import Icon from '@/components/ui/Icon';
 import { useUserStore } from '@/stores/useUserStore';
+import { IUser } from '@/types/auths';
 
 interface Props {
   user: IUser;

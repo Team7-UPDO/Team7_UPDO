@@ -7,7 +7,8 @@
 
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
+
 import { useAuthStore } from '@/stores/useAuthStore';
 
 export function useTokenExpiryEffect(onExpired?: () => void) {

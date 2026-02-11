@@ -1,4 +1,4 @@
-import { Type, Location } from '@/utils/mapping';
+import { Location, Type } from '@/utils/mapping';
 
 // Review 공통 모델
 export interface IReview {

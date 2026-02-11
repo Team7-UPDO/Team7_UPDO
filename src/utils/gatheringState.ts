@@ -1,8 +1,8 @@
-import { isClosed } from '@/utils/date';
 import { TAG_OPTIONS } from '@/constants';
-import { LocationToTag } from '@/utils/mapping';
 import type { IGathering, IJoinedGathering, IParticipant } from '@/types/gatherings';
 import type { IReviewWithRelations } from '@/types/reviews';
+import { isClosed } from '@/utils/date';
+import { LocationToTag } from '@/utils/mapping';
 
 export interface UseButtonStateHandlers {
   onJoin?: () => void;

@@ -1,24 +1,22 @@
 'use client';
 
-import { useState, useRef } from 'react';
-
-import { Input } from '@/components/ui/Input';
-import Selectbox from '@/components/ui/Selectbox';
-import SelectInput from '@/components/ui/SelectInput';
-import DatetimeInput from '@/components/ui/DatetimeInput';
-import { Button } from '@/components/ui/Button';
-
-import { TAG_OPTIONS } from '@/constants/tags';
-import { TAB_OPTIONS } from '@/constants/tabs';
-
+import { useRef, useState } from 'react';
 import {
   Control,
+  Controller,
+  FieldErrors,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
-  FieldErrors,
-  Controller,
 } from 'react-hook-form';
+
+import { Button } from '@/components/ui/Button';
+import DatetimeInput from '@/components/ui/DatetimeInput';
+import { Input } from '@/components/ui/Input';
+import Selectbox from '@/components/ui/Selectbox';
+import SelectInput from '@/components/ui/SelectInput';
+import { TAB_OPTIONS } from '@/constants/tabs';
+import { TAG_OPTIONS } from '@/constants/tags';
 import { CreateGatheringFormType } from '@/schemas/gatheringsSchema';
 
 type CreateGroupModalFormProps = {

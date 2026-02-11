@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/stores/useAuthStore';
-import { IconButton } from '@/components/ui/IconButton';
-import CreateGroupModal from '@/components/feature/group/CreateGroupModal';
-import { ConfirmModal } from '@/components/ui/Modal';
+import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+
+import CreateGroupModal from '@/components/feature/group/CreateGroupModal';
+import { IconButton } from '@/components/ui/IconButton';
+import { ConfirmModal } from '@/components/ui/Modal';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export default function CreateGatheringButton() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

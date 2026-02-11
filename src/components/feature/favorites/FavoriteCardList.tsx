@@ -1,18 +1,20 @@
 'use client';
 
-import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
-import { FilterState } from '@/utils/mapping';
-import GroupCard from '../group/GroupCard';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+
 import GroupCardSkeleton from '@/components/ui/Skeleton/GroupCardSkeleton';
+import { queryKeys } from '@/constants/queryKeys';
+import { useMounted } from '@/hooks/ui/useMounted';
+import { getFavoriteList } from '@/services/gatherings/anonGatheringService';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
 import { useUserStore } from '@/stores/useUserStore';
-import { getFavoriteList } from '@/services/gatherings/anonGatheringService';
 import { IGathering } from '@/types/gatherings';
-import { useMounted } from '@/hooks/ui/useMounted';
-import { useEffect, useState } from 'react';
-import { queryKeys } from '@/constants/queryKeys';
+import { FilterState } from '@/utils/mapping';
+
+import GroupCard from '../group/GroupCard';
 
 interface GroupCardListProps {
   filters: FilterState;
@@ -31,7 +33,6 @@ export default function FavoriteCardList({ filters }: GroupCardListProps) {
 
   const hasFavorites = favoriteIds.length > 0;
 
-  const queryParams = hasFavorites ? { id: favoriteIds } : null;
   const {
     data: favoriteGatherings = [],
     isLoading,
@@ -39,7 +40,7 @@ export default function FavoriteCardList({ filters }: GroupCardListProps) {
     refetch,
   } = useQuery<IGathering[]>({
     queryKey: queryKeys.gatherings.favorites(userId, favoriteIds),
-    queryFn: () => getFavoriteList(queryParams!),
+    queryFn: () => getFavoriteList({ id: favoriteIds }),
     enabled: hasFavorites,
   });
   if (!mounted) return null;

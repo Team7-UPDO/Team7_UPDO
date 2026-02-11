@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+
+import { Button } from '@/components/ui/Button';
+import ConfirmModal from '@/components/ui/Modal/ConfirmModal';
 import { useToast } from '@/components/ui/Toast';
 import { queryKeys } from '@/constants/queryKeys';
 import { leaveGathering } from '@/services/gatherings/gatheringService';
-import { Button } from '@/components/ui/Button';
-import ConfirmModal from '@/components/ui/Modal/ConfirmModal';
 import { useUserStore } from '@/stores/useUserStore';
 
 type LeaveControlProps = {

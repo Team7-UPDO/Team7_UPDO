@@ -2,12 +2,11 @@
 
 import { useMemo } from 'react';
 
+import { queryKeys } from '@/constants/queryKeys';
 import { useInfiniteListQuery } from '@/hooks/queries/common/useInfiniteListQuery';
 import anonReviewService from '@/services/reviews/anonReviewService';
-import type { IReviewWithRelations } from '@/types/reviews';
-
-import { queryKeys } from '@/constants/queryKeys';
 import { useUserStore } from '@/stores/useUserStore';
+import type { IReviewWithRelations } from '@/types/reviews';
 
 export type MyWrittenReviewPage = {
   data: IReviewWithRelations[];

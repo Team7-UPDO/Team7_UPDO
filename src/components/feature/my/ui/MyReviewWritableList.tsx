@@ -1,9 +1,8 @@
 'use client';
 
 import MyGroupCardList from '@/components/feature/my/ui/MyGroupCardList';
-
-import { useInfiniteScrollObserver } from '@/hooks/ui/useInfiniteScrollObserver';
 import { useMyReviewsWritableQuery } from '@/hooks/queries/reviews/useMyReviewsWritableQuery';
+import { useInfiniteScrollObserver } from '@/hooks/ui/useInfiniteScrollObserver';
 
 export default function MyReviewWritableList() {
   const { items, isLoading, isError, fetchNextPage, hasNextPage, isFetchingNextPage, refetch } =

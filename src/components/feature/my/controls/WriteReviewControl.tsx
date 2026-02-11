@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 
-import { Button } from '@/components/ui/Button';
-
 import WriteReviewModal from '@/components/feature/review/WriteReviewModal';
+import { Button } from '@/components/ui/Button';
 
 type WriteReviewControlProps = {
   gatheringId: number;

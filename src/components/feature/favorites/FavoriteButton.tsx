@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import SaveButton from '@/components/ui/SaveButton';
 import { useFavoriteStore } from '@/stores/useFavoriteStore';
 

@@ -1,7 +1,9 @@
-import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { topicBgSoft, topicBgSolid, topicText } from '@/styles/variants';
 import { cn } from '@/utils/cn';
-import { topicText, topicBgSoft, topicBgSolid } from '@/styles/variants';
+
 import Icon from './Icon';
 
 /* ─────────────── Icon Meta ─────────────── */

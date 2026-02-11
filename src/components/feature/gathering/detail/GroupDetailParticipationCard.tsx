@@ -1,7 +1,8 @@
 import Image from 'next/image';
-import { cn } from '@/utils/cn';
+
 import IconText from '@/components/ui/IconText';
 import { ProgressBar } from '@/components/ui/ProgressBar';
+import { cn } from '@/utils/cn';
 
 interface Participant {
   id: number;

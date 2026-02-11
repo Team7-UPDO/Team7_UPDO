@@ -1,10 +1,10 @@
 'use client';
 
-import { useGroupFilters } from '@/hooks/domain/useGroupFilters';
-import GroupTab from '@/components/feature/group/GroupTab';
-import GroupFilters from '@/components/feature/group/GroupFilters';
-import GroupCardList from '@/components/feature/group/GroupCardList';
 import CreateGatheringButton from '@/components/feature/gathering/CreateGatheringButton';
+import GroupCardList from '@/components/feature/group/GroupCardList';
+import GroupFilters from '@/components/feature/group/GroupFilters';
+import GroupTab from '@/components/feature/group/GroupTab';
+import { useGroupFilters } from '@/hooks/domain/useGroupFilters';
 import { FilterState } from '@/utils/mapping';
 
 interface GatheringSectionProps {

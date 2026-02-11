@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { useOutsideClick } from '@/hooks/ui/useOutsideClick';
+import { useRef, useState } from 'react';
+
 import { REVIEW_SORT_OPTIONS, SORT_OPTIONS, TAG_OPTIONS } from '@/constants';
-import { buildFilters, buildReviewFilters, type FilterState } from '@/utils/mapping';
+import { useOutsideClick } from '@/hooks/ui/useOutsideClick';
 import { normalizeFilters } from '@/utils/filters';
+import { buildFilters, buildReviewFilters, type FilterState } from '@/utils/mapping';
 
 type FilterMode = 'gathering' | 'review';
 

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { reviewService } from '@/services/reviews/reviewService';
+import { useState } from 'react';
+
 import { queryKeys } from '@/constants/queryKeys';
+import { reviewService } from '@/services/reviews/reviewService';
 import { IReviewWithRelations } from '@/types/reviews/models';
 
 interface UseGatheringReviewParams {

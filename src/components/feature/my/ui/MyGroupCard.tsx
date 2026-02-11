@@ -1,22 +1,19 @@
 'use client';
 
 import Image from 'next/image';
-import { useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-
-import Icon from '@/components/ui/Icon';
-import { Button } from '@/components/ui/Button';
-import IconText from '@/components/ui/IconText';
+import { useMemo } from 'react';
 
 import FavoriteButton from '@/components/feature/favorites/FavoriteButton';
-import { WriteReviewControl } from '@/components/feature/my/controls/WriteReviewControl';
 import { LeaveControl } from '@/components/feature/my/controls/LeaveControl';
-
+import { WriteReviewControl } from '@/components/feature/my/controls/WriteReviewControl';
+import { Button } from '@/components/ui/Button';
+import Icon from '@/components/ui/Icon';
+import IconText from '@/components/ui/IconText';
 import { IJoinedGathering } from '@/types/gatherings';
 import { IGathering } from '@/types/gatherings';
-
-import { LocationToTag, tagEngToKr } from '@/utils/mapping';
 import { formatDate, formatTime, isClosed } from '@/utils/date';
+import { LocationToTag, tagEngToKr } from '@/utils/mapping';
 
 type Item = IJoinedGathering | IGathering;
 type BtnState = 'leave' | 'reviewWrite' | 'reviewDone' | null;

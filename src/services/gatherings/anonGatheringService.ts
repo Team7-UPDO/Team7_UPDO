@@ -1,5 +1,6 @@
+import { IGathering, IJoinedGathering, IParticipant } from '@/types/gatherings';
+
 import Service from '../service';
-import { IGathering, IParticipant, IJoinedGathering } from '@/types/gatherings';
 
 class AnonGatheringService extends Service {
   getGatheringList(params?: Record<string, string | number | boolean>) {

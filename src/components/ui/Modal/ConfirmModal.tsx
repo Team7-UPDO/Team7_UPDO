@@ -1,10 +1,10 @@
 'use client';
-import { useRef, useState, RefObject } from 'react';
+import { RefObject, useRef, useState } from 'react';
+
+import { Button } from '@/components/ui/Button';
+import { cn } from '@/utils/cn';
 
 import Modal from './Modal';
-import { Button } from '@/components/ui/Button';
-
-import { cn } from '@/utils/cn';
 
 type ConfirmTone = 'neutral' | 'brand' | 'danger';
 

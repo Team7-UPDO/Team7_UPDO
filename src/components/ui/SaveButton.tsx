@@ -1,8 +1,10 @@
 'use client';
 
+import { AnimatePresence, m } from 'framer-motion';
 import React from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+
 import { cn } from '@/utils/cn';
+
 import SaveFilled from './Icon/Icons/SaveFilled';
 import SaveOutline from './Icon/Icons/SaveOutline';
 

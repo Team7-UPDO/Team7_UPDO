@@ -12,7 +12,9 @@ export function normalizeFilters(filters: Partial<FilterState>): FilterState {
   };
 }
 
-export function getCleanFilters(filters: Partial<FilterState>): Record<string, unknown> {
+export function getCleanFilters(filters: Partial<FilterState>): FilterState {
   const normalized = normalizeFilters(filters);
-  return Object.fromEntries(Object.entries(normalized).filter(([_, value]) => value !== undefined));
+  return Object.fromEntries(
+    Object.entries(normalized).filter(([_, value]) => value !== undefined),
+  ) as FilterState;
 }

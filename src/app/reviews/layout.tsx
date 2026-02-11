@@ -1,5 +1,6 @@
-import { Banner } from '@/components/ui/common/Banner';
 import type { Metadata } from 'next';
+
+import { Banner } from '@/components/ui/common/Banner';
 
 export const metadata: Metadata = {
   title: '모든 리뷰',

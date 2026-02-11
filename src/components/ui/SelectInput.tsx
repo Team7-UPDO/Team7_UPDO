@@ -1,12 +1,12 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { Input } from './Input';
-import Dropdown from './Dropdown';
-
-import Icon from './Icon';
 
 import type { Option } from '@/constants/tags';
+
+import Dropdown from './Dropdown';
+import Icon from './Icon';
+import { Input } from './Input';
 
 export interface SelectInputProps {
   items: ReadonlyArray<Option>;

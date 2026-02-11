@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
+import React, { useCallback, useState } from 'react';
+
 import Heart from '@/components/ui/Icon/Icons/Heart';
 
 interface AnimatedHeartProps {

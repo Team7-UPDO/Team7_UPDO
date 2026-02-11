@@ -1,8 +1,9 @@
 'use client';
 
 import { create } from 'zustand';
-import type { IUser } from '@/types/auths';
+
 import { authService } from '@/services/auths/authService';
+import type { IUser } from '@/types/auths';
 
 export interface UserState {
   user: IUser | null;

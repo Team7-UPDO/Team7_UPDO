@@ -1,18 +1,19 @@
-import HttpClient from '../httpClient';
 import {
-  GetGatheringsParams,
-  GetGatheringsResponse,
+  CancelGatheringResponse,
   CreateGatheringRequest,
   CreateGatheringResponse,
+  GetGatheringDetailResponse,
+  GetGatheringsParams,
+  GetGatheringsResponse,
   GetJoinedGatheringsParams,
   GetJoinedGatheringsResponse,
-  GetGatheringDetailResponse,
   GetParticipantsParams,
   GetParticipantsResponse,
-  CancelGatheringResponse,
   JoinGatheringResponse,
   LeaveGatheringResponse,
 } from '@/types/gatherings';
+
+import HttpClient from '../httpClient';
 
 export class GatheringService {
   private http = HttpClient.getInstance();

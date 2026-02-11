@@ -1,8 +1,7 @@
 import AuthGuard from '@/components/feature/my/AuthGuard';
+import LogoutControl from '@/components/feature/my/controls/LogoutControl';
 import MyPageContentPane from '@/components/feature/my/MyPageContentPane';
 import UserProfileCard from '@/components/feature/my/UserProfileCard';
-
-import LogoutControl from '@/components/feature/my/controls/LogoutControl';
 
 export default function MyPageLayout({ children }: { children: React.ReactNode }) {
   return (

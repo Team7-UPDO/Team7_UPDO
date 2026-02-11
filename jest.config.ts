@@ -38,6 +38,7 @@ const config = {
 
   testPathIgnorePatterns: [
     '<rootDir>/src/__tests__/setup/', // 헬퍼 폴더 무시
+    '<rootDir>/src/__tests__/factories/', // 팩토리 폴더 무시
   ],
 };
 
