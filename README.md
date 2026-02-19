@@ -8,10 +8,16 @@
 
 ## 🗂️ 목차
 
-1. [프로젝트 개요]()
+1. [프로젝트 개요](#project-overview)
+2. [주요 기능](#key-features)
+3. [기술 스택](#tech-stack)
+4. [시스템 다이어그램](#system-diagrams)
+5. [폴더 구조](#folder-structure)
 
 
 ---
+
+<a id="project-overview"></a>
 
 ## 🧭 프로젝트 개요
 
@@ -33,10 +39,12 @@
 | --- | --- | --- |
 | 김채원 | 팀장 | [링크]() |
 | 김선기 |  | [링크]() |
-| 서민수 |  | [링크]() |
+| 서민수 |  | [링크](https://github.com/seomsoo) |
 | 홍성현 |  | [링크]() |
 
 ---
+
+<a id="key-features"></a>
 
 ## 🌟 주요 기능
 
@@ -52,6 +60,8 @@
 
 
 ---
+
+<a id="tech-stack"></a>
 
 ## 🧰 기술 스택
 
@@ -71,6 +81,91 @@
 
 
 ---
+
+<a id="system-diagrams"></a>
+
+## 📊 시스템 다이어그램
+
+### 1. 서비스 아키텍처 다이어그램
+
+```mermaid
+flowchart TB
+  subgraph Runtime["Runtime Layer: Next.js App Router"]
+    L["Root Layout\nQueryProvider + AuthProvider + AuthSessionWatcher"]
+    R["Route Pages\n/, /gathering, /gathering/[id], /reviews, /mypage/[tab], /favorites, /login, /signup"]
+    F["Feature Components\ngathering, group, review, my, auth, favorites, landing"]
+  end
+
+  subgraph Domain["Domain and Data Layer"]
+    Q["Query Hooks\nuseQuery/useInfiniteQuery 기반 (+ 일부 공통 훅)"]
+    M["Mutation Hooks\nuseGatheringMutations, useGatheringReview 등"]
+    S["Services\nauthService, gatheringService, anonGatheringService,\nreviewService, anonReviewService"]
+    H["HttpClient Singleton\nENV.API_BASE_URL + ENV.TEAM_ID,\nAuthorization header, error normalize"]
+    A["Backend API"]
+  end
+
+  subgraph State["Client State Layer: Zustand"]
+    AS["useAuthStore\ntoken, tokenExpiry, lock state"]
+    US["useUserStore\nme profile"]
+    FS["useFavoriteStore\npersisted favorites"]
+  end
+
+  L --> R --> F
+  F --> Q
+  F --> M
+  Q --> S
+  M --> S
+  S --> H --> A
+
+  AS --> H
+  AS --> L
+  US --> L
+  FS --> F
+```
+
+### 2. 페이지 시퀀스 다이어그램
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant P as GatheringDetailPage (server)
+  participant SQC as Server QueryClient (prefetch)
+  participant CQC as Client QueryClient (hydrated cache)
+  participant AG as anonGatheringService
+  participant C as GroupDetailSection (client)
+  participant Q as Query Hooks
+  participant MU as useGatheringMutations
+  participant GS as gatheringService
+  participant API as Backend API
+
+  U->>P: GET /gathering/[id]
+  P->>SQC: prefetchQuery(detail, participants)
+  SQC->>AG: getGatheringDetail(id), getGatheringParticipants(id)
+  AG->>API: GET /{teamId}/gatherings/{id}, /participants
+  API-->>AG: data
+  AG-->>SQC: prefetched data
+  P-->>C: HydrationBoundary(dehydrate state)
+
+  C->>Q: useGatheringDetail/useGatheringParticipants/useJoinedGatherings
+  Q->>CQC: 캐시 조회/갱신
+  CQC-->>Q: cached data or stale state
+  Q-->>C: detail/participants는 캐시 즉시 사용, 필요 시 refetch
+
+  U->>C: 참여/취소 클릭
+  C->>MU: handleJoin / handleLeave
+  MU->>GS: joinGathering / leaveGathering
+  GS->>API: POST /gatherings/{id}/join or DELETE /gatherings/{id}/leave
+  API-->>GS: success
+  GS-->>MU: success
+
+  MU->>CQC: invalidate(participants, gatherings.all, gatherings.my.all(userId))
+  CQC->>Q: invalidated query refetch
+  Q-->>C: 최신 상태 반영
+```
+
+---
+
+<a id="folder-structure"></a>
 
 ## 📂 폴더 구조
 
@@ -127,7 +222,7 @@ UPDO
 ---
 
 ## 🔧 기술 사용
-[기술 사용 README]()
+[기술 사용 문서](docs/TECH_USAGE.md)
 
 ---
 
@@ -151,7 +246,7 @@ UPDO
 
 > 상세 설계 근거와 도구 선택 이유는 [테스트 전략 문서](docs/TEST_STRATEGY.md) 참고
 
-**Frontend Test Trophy** 전략을 채택하여 Integration 테스트 중심으로 회귀 방지 체계를 구축했다.
+**Frontend Test Trophy** 전략을 채택하여 Integration 테스트 중심으로 회귀 방지 체계를 구축
 
 - **Jest + React Testing Library** (138개)
     - 사용자 행동 중심 Integration 테스트: 폼 검증, 탭 전환, 모달, 찜 토글
@@ -201,4 +296,3 @@ UPDO
 - 성능 개선과 디자인 시스템의 일관성을 통해 ‘사용자 중심의 개발’**을** 실현
 - GitHub 이슈/PR 자동화, Chromatic 리뷰 등 협업 효율화 경험
 - Lighthouse와 Jest로 **데이터 흐름 검증 기반의 안정성 확보**
-
